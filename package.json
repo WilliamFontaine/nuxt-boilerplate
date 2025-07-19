@@ -3,6 +3,16 @@
   "private": true,
   "type": "module",
   "version": "0.0.0",
+  "author": "William Fontaine",
+  "license": "MIT",
+  "homepage": "https://github.com/WilliamFontaine/nuxt-boilerplate",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WilliamFontaine/nuxt-boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WilliamFontaine/nuxt-boilerplate/issues"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -12,6 +22,14 @@
     "lint:prettier": "prettier --write --list-different .",
     "postinstall": "nuxt prepare",
     "prepare": "husky",
+    "test": "pnpm run test:unit && pnpm run test:e2e",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest --watch",
+    "test:unit:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:coverage": "vitest run --coverage",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
@@ -26,21 +44,28 @@
     "@iconify-json/lucide": "^1.2.57",
     "@nuxt/image": "1.10.0",
     "@nuxt/ui": "3.2.0",
-    "@nuxtjs/i18n": "9.5.6",
+    "@nuxtjs/i18n": "10.0.0",
     "@prisma/nuxt": "^0.3.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
-    "@nuxt/eslint": "1.5.2",
+    "@nuxt/eslint": "1.6.0",
+    "@nuxt/test-utils": "3.19.2",
+    "@playwright/test": "1.54.1",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vue/test-utils": "2.4.6",
     "conventional-changelog-cli": "5.0.0",
     "conventional-changelog-writer": "8.2.0",
     "eslint": "^9.31.0",
+    "happy-dom": "18.0.1",
     "husky": "^9.1.7",
     "nuxt": "4.0.0",
+    "playwright-core": "1.54.1",
     "prettier": "^3.6.2",
     "prisma": "^6.12.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "3.2.4"
   }
 }
