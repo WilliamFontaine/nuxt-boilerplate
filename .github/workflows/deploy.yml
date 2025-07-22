@@ -51,7 +51,7 @@ jobs:
 
       # Step 6: Build and push the Docker image
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6.13.0
+        uses: docker/build-push-action@v6.18.0
         with:
           context: . # Use the current directory as build context
           push: true # Push the image after building
