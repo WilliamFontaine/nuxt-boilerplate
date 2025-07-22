@@ -36,9 +36,9 @@
     "changelog:generate": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
     "changelog:preview": "conventional-changelog -p conventionalcommits -u",
     "version:check": "echo \"Current version: $(node -p \"require('./package.json').version\")\" && git status --porcelain",
-    "tag:patch": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version patch && git push --follow-tags",
-    "tag:minor": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version minor && git push --follow-tags",
-    "tag:major": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version major && git push --follow-tags"
+    "tag:patch": "npm version patch && npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && git push --follow-tags",
+    "tag:minor": "npm version minor && npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && git push --follow-tags",
+    "tag:major": "npm version major && npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && git push --follow-tags"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.57",
