@@ -78,7 +78,7 @@ jobs:
     steps:
       # Connect to the server and deploy the new Docker container
       - name: Connect to server and deploy
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1.2.2
         with:
           # SSH connection details (configured in repository secrets)
           host: ${{ secrets.SERVER_HOST }}
