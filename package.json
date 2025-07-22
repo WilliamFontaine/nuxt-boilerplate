@@ -44,7 +44,7 @@
     "@iconify-json/lucide": "^1.2.57",
     "@nuxt/image": "1.10.0",
     "@nuxt/ui": "3.2.0",
-    "@nuxtjs/i18n": "10.0.0",
+    "@nuxtjs/i18n": "10.0.1",
     "@prisma/nuxt": "^0.3.0",
     "yup": "^1.6.1"
   },
