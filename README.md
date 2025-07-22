@@ -53,6 +53,7 @@ A modern **Nuxt 4** boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL
 ├── server/api/            # API routes
 ├── prisma/                # Database schema and migrations
 ├── tests/                 # Unit and E2E tests
+├── .server-config/        # Server deployment configuration (HAProxy, Docker)
 └── i18n/locales/          # Language files
 ```
 
@@ -142,6 +143,16 @@ pnpm test:e2e:debug               # Debug mode
 - Coverage reports with V8 provider
 
 ## 🚀 Deployment
+
+### Server Configuration
+
+The `.server-config/` directory contains production deployment files:
+
+- **HAProxy Configuration**: Load balancer and reverse proxy setup
+- **Docker Compose**: PostgreSQL database service configuration
+- **Installation Guide**: Step-by-step server setup instructions
+
+> ⚠️ **Security Notice**: These are basic configurations for testing. Production deployments require SSL certificates, secure passwords, firewalls, and monitoring.
 
 ### Versioning
 
