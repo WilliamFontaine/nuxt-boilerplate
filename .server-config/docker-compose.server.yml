@@ -1,0 +1,32 @@
+services:
+  haproxy:
+    image: haproxy:2.8-alpine
+    container_name: nuxt-haproxy
+    ports:
+      - '80:80'
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    networks:
+      - nuxt-boilerplate_webnet
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: nuxt-postgres
+    environment:
+      POSTGRES_DB: nuxt_app
+      POSTGRES_USER: nuxt_user
+      POSTGRES_PASSWORD: nuxt_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nuxt-boilerplate_webnet
+    restart: unless-stopped
+
+networks:
+  nuxt-boilerplate_webnet:
+    name: nuxt-boilerplate_webnet
+    driver: bridge
+
+volumes:
+  postgres_data:

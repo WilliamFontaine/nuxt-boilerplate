@@ -17,12 +17,12 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "preview": "nuxt preview",
-    "lint": "pnpm run lint:prettier && pnpm run lint:eslint",
+    "lint": "npm run lint:prettier && npm run lint:eslint",
     "lint:eslint": "eslint . --fix --ignore-pattern volumes/",
     "lint:prettier": "prettier --write --list-different .",
     "postinstall": "nuxt prepare",
     "prepare": "husky",
-    "test": "pnpm run test:unit && pnpm run test:e2e",
+    "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest --watch",
     "test:unit:coverage": "vitest run --coverage",
@@ -36,24 +36,26 @@
     "changelog:generate": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
     "changelog:preview": "conventional-changelog -p conventionalcommits -u",
     "version:check": "echo \"Current version: $(node -p \"require('./package.json').version\")\" && git status --porcelain",
-    "tag:patch": "pnpm run changelog:generate && git add CHANGELOG.md && git commit -m \"chore(release): update changelog\" && pnpm version patch && git push --follow-tags",
-    "tag:minor": "pnpm run changelog:generate && git add CHANGELOG.md && git commit -m \"chore(release): update changelog\" && pnpm version minor && git push --follow-tags",
-    "tag:major": "pnpm run changelog:generate && git add CHANGELOG.md && git commit -m \"chore(release): update changelog\" && pnpm version major && git push --follow-tags"
+    "tag:patch": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version patch && git push --follow-tags",
+    "tag:minor": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version minor && git push --follow-tags",
+    "tag:major": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version major && git push --follow-tags"
   },
   "dependencies": {
-    "@iconify-json/lucide": "^1.2.57",
+    "@iconify-json/lucide": "^1.2.58",
     "@nuxt/image": "1.10.0",
     "@nuxt/ui": "3.2.0",
-    "@nuxtjs/i18n": "10.0.0",
+    "@nuxtjs/i18n": "10.0.2",
     "@prisma/nuxt": "^0.3.0",
+    "nuxt": "4.0.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
-    "@nuxt/eslint": "1.6.0",
+    "@nuxt/eslint": "1.7.0",
     "@nuxt/test-utils": "3.19.2",
     "@playwright/test": "1.54.1",
+    "@types/node": "^24.1.0",
     "@vitest/coverage-v8": "3.2.4",
     "@vue/test-utils": "2.4.6",
     "conventional-changelog-cli": "5.0.0",
@@ -61,11 +63,15 @@
     "eslint": "^9.31.0",
     "happy-dom": "18.0.1",
     "husky": "^9.1.7",
-    "nuxt": "4.0.1",
     "playwright-core": "1.54.1",
     "prettier": "^3.6.2",
     "prisma": "^6.12.0",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "vitest": "3.2.4"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
   }
 }

@@ -106,18 +106,8 @@ fi
 
 # 5. Reinstall dependencies to update lock file
 echo "📦 Reinstalling dependencies..."
-if command -v pnpm &> /dev/null; then
-    echo "🔧 Using pnpm..."
-    pnpm install
-elif command -v yarn &> /dev/null; then
-    echo "🔧 Using yarn..."
-    yarn install
-elif command -v npm &> /dev/null; then
-    echo "🔧 Using npm..."
-    npm install
-else
-    echo "⚠️  No package manager found, please reinstall dependencies manually"
-fi
+echo "🔧 Using npm..."
+npm install
 
 # 6. Clean up the script itself
 echo "🧹 Cleaning up..."
@@ -135,7 +125,7 @@ echo "🎉 Project successfully renamed!"
 echo "📂 Your project is now called: $NEW_PROJECT_NAME"
 echo ""
 echo "📋 Next recommended steps:"
-echo "   1. Test that everything works: pnpm dev"
+echo "   1. Test that everything works: npm dev"
 echo "   2. Commit the changes: git add . && git commit -m 'Rename project to $NEW_PROJECT_NAME'"
 echo "   3. Update the remote repository URL if needed"
 echo "   4. Update any deployment configurations"

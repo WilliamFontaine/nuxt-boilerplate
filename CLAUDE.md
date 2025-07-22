@@ -11,9 +11,9 @@ This is a Nuxt 4 boilerplate featuring TypeScript, Nuxt UI, Prisma ORM, PostgreS
 ### Development
 
 ```bash
-pnpm dev                    # Start development server
-pnpm build                  # Build for production
-pnpm preview                # Preview production build
+npm dev                    # Start development server
+npm build                  # Build for production
+npm preview                # Preview production build
 ```
 
 ### Database Operations
@@ -21,42 +21,42 @@ pnpm preview                # Preview production build
 ```bash
 docker compose up -d        # Start PostgreSQL database (includes Adminer at :8000)
 npx prisma migrate dev      # Run database migrations
-pnpm db:generate           # Generate Prisma client
-pnpm db:push               # Push schema changes to database
-pnpm db:studio             # Open Prisma Studio
+npm db:generate           # Generate Prisma client
+npm db:push               # Push schema changes to database
+npm db:studio             # Open Prisma Studio
 ```
 
 ### Code Quality
 
 ```bash
-pnpm lint                  # Run both ESLint and Prettier
-pnpm lint:eslint           # Run ESLint only
-pnpm lint:prettier         # Run Prettier only
+npm lint                  # Run both ESLint and Prettier
+npm lint:eslint           # Run ESLint only
+npm lint:prettier         # Run Prettier only
 ```
 
 ### Testing
 
 ```bash
-pnpm test                  # Run all tests (unit + E2E)
-pnpm test:unit             # Run unit tests only (Vitest)
-pnpm test:unit:watch       # Run unit tests in watch mode
-pnpm test:unit:coverage    # Run unit tests with coverage
-pnpm test:e2e              # Run E2E tests (all browsers)
-pnpm test:e2e:ui           # Run E2E tests with Playwright UI
-pnpm test:e2e:debug        # Run E2E tests in debug mode
-pnpm test:coverage         # Run unit tests with coverage report
+npm test                  # Run all tests (unit + E2E)
+npm test:unit             # Run unit tests only (Vitest)
+npm test:unit:watch       # Run unit tests in watch mode
+npm test:unit:coverage    # Run unit tests with coverage
+npm test:e2e              # Run E2E tests (all browsers)
+npm test:e2e:ui           # Run E2E tests with Playwright UI
+npm test:e2e:debug        # Run E2E tests in debug mode
+npm test:coverage         # Run unit tests with coverage report
 npx playwright install     # Install Playwright browsers (one-time)
 ```
 
 ### Deployment
 
 ```bash
-pnpm tag:patch             # Version bump and deploy (patch)
-pnpm tag:minor             # Version bump and deploy (minor)
-pnpm tag:major             # Version bump and deploy (major)
-pnpm changelog:generate    # Generate conventional changelog
-pnpm changelog:preview     # Preview changelog changes
-pnpm version:check         # Check for available updates
+npm tag:patch             # Version bump and deploy (patch)
+npm tag:minor             # Version bump and deploy (minor)
+npm tag:major             # Version bump and deploy (major)
+npm changelog:generate    # Generate conventional changelog
+npm changelog:preview     # Preview changelog changes
+npm version:check         # Check for available updates
 ```
 
 ## Architecture
@@ -85,7 +85,7 @@ pnpm version:check         # Check for available updates
 - **i18n**: French default, English support, prefix strategy except default
 - **Validation**: Yup for form validation
 - **Testing**: Vitest (unit tests) + Playwright (E2E tests, multi-browser)
-- **Package Manager**: pnpm
+- **Package Manager**: npm
 
 ### Environment Setup
 
@@ -126,7 +126,7 @@ pnpm version:check         # Check for available updates
 
 - **Unit Tests**: Vitest with Nuxt environment, auto-imports enabled
 - **E2E Tests**: Playwright with Chromium/Firefox/WebKit support
-- **Coverage**: Available via `pnpm test:coverage` or `pnpm test:unit:coverage`
+- **Coverage**: Available via `npm test:coverage` or `npm test:unit:coverage`
 - **Test Structure**:
   - `tests/setup/` - Global test setup files (vitest.ts, playwright.ts)
   - `tests/unit/components/` - Component unit tests
@@ -136,9 +136,9 @@ pnpm version:check         # Check for available updates
 - **CI/CD**: GitHub Actions with parallel execution (lint, unit tests, E2E tests)
 - **Multi-Browser Testing**: E2E tests run on Chromium, Firefox, and WebKit in CI
 - **Test Commands**:
-  - Local development: `pnpm test:unit:watch` for TDD
-  - Debug E2E: `pnpm test:e2e:debug` for step-by-step debugging
-  - UI Mode: `pnpm test:e2e:ui` for visual test runner
+  - Local development: `npm test:unit:watch` for TDD
+  - Debug E2E: `npm test:e2e:debug` for step-by-step debugging
+  - UI Mode: `npm test:e2e:ui` for visual test runner
 
 ### Deployment
 

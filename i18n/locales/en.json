@@ -40,6 +40,7 @@
       },
       "submit": "Create Post",
       "success": {
+        "delete": "Your post has been deleted successfully",
         "message": "Your post has been created successfully",
         "title": "Post created successfully"
       },

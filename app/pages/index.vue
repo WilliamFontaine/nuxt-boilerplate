@@ -40,7 +40,7 @@ const handleDelete = async (post: Post) => {
     })
     useNotifications().success({
       title: t('form.post.success.title'),
-      message: t('form.post.success.message')
+      message: t('form.post.success.delete')
     })
     refreshPosts()
   } catch (error) {

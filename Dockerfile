@@ -3,13 +3,11 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
-RUN corepack enable
-
 # Copy dependency files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN pnpm ci
+RUN npm ci
 
 # Copy Prisma schema and migrations
 COPY prisma ./prisma
@@ -25,7 +23,7 @@ ENV NODE_OPTIONS="--max-old-space-size=4096"
 ENV NODE_ENV=production
 
 # Build the project
-RUN pnpm run build
+RUN npm run build
 
 # Build Stage 2
 
@@ -39,7 +37,7 @@ COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/.output/ ./
 
 # Install prisma and tsx globally
-RUN pnpm install -g prisma
+RUN npm install -g prisma
 
 EXPOSE 3000
 
