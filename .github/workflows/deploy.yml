@@ -45,9 +45,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 5: Extract the tag name to use as Docker image version
-      - name: Extract tag name
-        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      # Step 5: Extract the tag name and repository owner (lowercase)
+      - name: Extract tag name and repository owner
+        run: |
+          echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "REPO_OWNER_LOWER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       # Step 6: Build and push the Docker image
       - name: Build and push Docker image
@@ -56,17 +58,15 @@ jobs:
           context: . # Use the current directory as build context
           push: true # Push the image after building
           tags: |
-            ghcr.io/${{ github.repository_owner }}/nuxt-boilerplate:${{ env.TAG_NAME }}
-            ghcr.io/${{ github.repository_owner }}/nuxt-boilerplate:latest
+            ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:${{ env.TAG_NAME }}
+            ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:latest
 
       # Step 7: Create GitHub Release with changelog
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2.2.0
         with:
           tag_name: ${{ env.TAG_NAME }}
-          release_name: Release ${{ env.TAG_NAME }}
+          name: Release ${{ env.TAG_NAME }}
           body_path: CHANGELOG.md
           draft: false
           prerelease: false
@@ -76,6 +76,11 @@ jobs:
     needs: build-and-push # Only run if build succeeds
     runs-on: ubuntu-latest
     steps:
+      # Extract repository owner (lowercase) for this job
+      - name: Extract repository owner
+        run: |
+          echo "REPO_OWNER_LOWER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       # Connect to the server and deploy the new Docker container
       - name: Connect to server and deploy
         uses: appleboy/ssh-action@v1.2.2
@@ -92,7 +97,7 @@ jobs:
             echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             echo "📥 Pulling the latest Docker image..."
-            docker pull ghcr.io/${{ github.repository_owner }}/nuxt-boilerplate:latest
+            docker pull ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:latest
 
             echo "🛑 Stopping and removing the existing container..."
             docker stop nuxt-boilerplate || true
@@ -102,18 +107,15 @@ jobs:
             docker run --rm \
               --network nuxt-boilerplate_webnet \
               --env-file ~/nuxt-boilerplate/.env \
-              ghcr.io/${{ github.repository_owner }}/nuxt-boilerplate:latest \
+              ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:latest \
               npx prisma migrate deploy
 
             echo "🚀 Starting the new container..."
             docker run -d \
               --name nuxt-boilerplate \
               --restart unless-stopped \
-              -p 3000:3000 \
+              --network nuxt-boilerplate_webnet \
               --env-file ~/nuxt-boilerplate/.env \
-              ghcr.io/${{ github.repository_owner }}/nuxt-boilerplate:latest
-
-            echo "🔗 Connecting the container to the network..."
-            docker network connect nuxt-boilerplate_webnet nuxt-boilerplate
+              ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:latest
 
             echo "✅ Deployment completed successfully!"

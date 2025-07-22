@@ -5,20 +5,22 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/eslint',
     '@nuxtjs/i18n',
-    '@prisma/nuxt',
     '@nuxt/image',
-    '@nuxt/test-utils/module'
+    '@nuxt/test-utils/module',
+    '@prisma/nuxt'
   ],
 
-  css: ['/assets/css/main.css'],
-
-  imports: {
-    dirs: ['../shared/**', 'composables/**']
-  },
-
-  nitro: {
-    imports: {
-      dirs: ['shared/**']
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'fr'
+      },
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'format-detection', content: 'telephone=no' }
+      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     }
   },
 
@@ -46,17 +48,23 @@ export default defineNuxtConfig({
     }
   },
 
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'fr'
-      },
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'format-detection', content: 'telephone=no' }
-      ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+  css: ['/assets/css/main.css'],
+
+  imports: {
+    dirs: ['../shared/**', 'composables/**']
+  },
+
+  nitro: {
+    imports: {
+      dirs: ['shared/**']
+    }
+  },
+
+  vite: {
+    resolve: {
+      alias: {
+        '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js'
+      }
     }
   },
 
