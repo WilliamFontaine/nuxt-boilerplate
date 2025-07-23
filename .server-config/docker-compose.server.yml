@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     container_name: nuxt-postgres
     environment:
       POSTGRES_DB: nuxt_app
