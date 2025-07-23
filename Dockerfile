@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm run ci
 
 # Copy Prisma schema and migrations
 COPY prisma ./prisma
