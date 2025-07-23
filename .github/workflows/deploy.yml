@@ -63,7 +63,7 @@ jobs:
 
       # Step 7: Create GitHub Release with changelog
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2.2.0
+        uses: softprops/action-gh-release@v2.3.2
         with:
           tag_name: ${{ env.TAG_NAME }}
           name: Release ${{ env.TAG_NAME }}
