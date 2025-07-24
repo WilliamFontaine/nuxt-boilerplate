@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(npm :*)",
+      "Bash(npx :*)",
       "Bash(gh :*)",
       "Bash(git :*)",
       "Bash(ls :*)",

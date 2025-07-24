@@ -42,9 +42,10 @@
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.58",
+    "@iconify-json/openmoji": "^1.2.9",
     "@nuxt/image": "1.10.0",
     "@nuxt/ui": "3.3.0",
-    "@nuxtjs/i18n": "10.0.2",
+    "@nuxtjs/i18n": "10.0.3",
     "@prisma/nuxt": "^0.3.0",
     "nuxt": "4.0.1",
     "yup": "^1.6.1"

@@ -1,10 +1,15 @@
 import prisma from '@@/lib/prisma'
 
-export default defineEventHandler(async (event) => {
-  const posts = await prisma.post.findMany()
+export default defineEventHandler(async () => {
+  try {
+    const posts = await prisma.post.findMany({
+      orderBy: { createdAt: 'desc' }
+    })
 
-  return {
-    statusCode: 200,
-    data: posts
+    return createApiResponse(posts)
+  } catch (error: any) {
+    if (error.statusCode) throw error
+    console.error('Failed to fetch posts:', error)
+    throw serverError('Failed to fetch posts')
   }
 })
