@@ -1,4 +1,5 @@
 import * as yup from 'yup'
+import { ValidationError } from 'yup'
 
 interface PostFormState {
   title: string
@@ -29,13 +30,13 @@ export const usePostForm = () => {
       title: yup
         .string()
         .required(t('form.post.title.required'))
-        .min(3, t('form.post.title.minLength'))
-        .max(100, t('form.post.title.maxLength')),
+        .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('form.post.title.minLength'))
+        .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('form.post.title.maxLength')),
       content: yup
         .string()
         .required(t('form.post.content.required'))
-        .min(10, t('form.post.content.minLength'))
-        .max(1000, t('form.post.content.maxLength'))
+        .min(TEXT_FIELD_LIMITS.CONTENT.MIN, t('form.post.content.minLength'))
+        .max(TEXT_FIELD_LIMITS.CONTENT.MAX, t('form.post.content.maxLength'))
     })
   )
 
@@ -53,7 +54,7 @@ export const usePostForm = () => {
       await schema.value.validate(state, { abortEarly: false })
       return { isValid: true, errors: [] }
     } catch (error) {
-      if (error instanceof yup.ValidationError) {
+      if (error instanceof ValidationError) {
         return { isValid: false, errors: error.errors }
       }
       return { isValid: false, errors: ['Validation failed'] }

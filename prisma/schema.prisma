@@ -11,8 +11,10 @@ datasource db {
   url      = env("NUXT_DATABASE_URL")
 }
 
-model post {
-  id      Int     @id @default(autoincrement())
-  title   String
-  content String?
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

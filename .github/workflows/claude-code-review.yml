@@ -1,0 +1,88 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    # Only run on Nuxt 4 project files
+    paths:
+      - 'app/**/*.{ts,tsx,vue}'
+      - 'server/**/*.ts'
+      - 'shared/**/*.ts'
+      - 'prisma/**'
+      - 'tests/**/*.{ts,vue}'
+
+jobs:
+  claude-review:
+    # Optional: Filter by PR author
+    # if: |
+    #   github.event.pull_request.user.login == 'external-contributor' ||
+    #   github.event.pull_request.user.login == 'new-developer' ||
+    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@beta
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4)
+          # model: "claude-opus-4-20250514"
+
+          # Nuxt 4 specialized review prompt
+          direct_prompt: |
+            Review this Nuxt 4 PR focusing on:
+            - **TypeScript**: Type safety, proper interface usage, avoiding `any`
+            - **Vue 3 Composition API**: Proper patterns, reactivity best practices
+            - **Nuxt UI components**: Correct usage and accessibility
+            - **Prisma ORM**: Database queries, type safety, performance
+            - **Testing**: Vitest unit tests, Playwright E2E coverage
+            - **Performance**: Bundle size, lazy loading, optimization
+            - **Security**: Input validation, XSS prevention, authentication
+            - **Code style**: Follow CLAUDE.md guidelines (single quotes, no semicolons)
+            - **Architecture**: RESTful APIs, shared utilities usage
+
+            Be constructive and reference specific files/lines when possible.
+
+          # Use sticky comments for better UX
+          use_sticky_comment: true
+
+          # Optional: Customize review based on file types
+          # direct_prompt: |
+          #   Review this PR focusing on:
+          #   - For TypeScript files: Type safety and proper interface usage
+          #   - For API endpoints: Security, input validation, and error handling
+          #   - For React components: Performance, accessibility, and best practices
+          #   - For tests: Coverage, edge cases, and test quality
+
+          # Optional: Different prompts for different authors
+          # direct_prompt: |
+          #   ${{ github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' &&
+          #   'Welcome! Please review this PR from a first-time contributor. Be encouraging and provide detailed explanations for any suggestions.' ||
+          #   'Please provide a thorough code review focusing on our coding standards and best practices.' }}
+
+          # Project-specific tools based on CLAUDE.md
+          allowed_tools: 'Bash(npm run lint),Bash(npm run test:unit),Bash(npm run test:e2e),Bash(npm run build),Bash(npm run db:generate)'
+
+          # Optional: Skip review for certain conditions
+          # if: |
+          #   !contains(github.event.pull_request.title, '[skip-review]') &&
+          #   !contains(github.event.pull_request.title, '[WIP]')

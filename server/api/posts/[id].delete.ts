@@ -1,13 +1,20 @@
 import prisma from '@@/lib/prisma'
 
 export default defineEventHandler(async (event) => {
-  const { id } = getRouterParams(event)
+  try {
+    const { id } = await validateParams(event, deletePostSchema)
 
-  await prisma.post.delete({
-    where: { id: Number(id) }
-  })
+    await prisma.post.delete({
+      where: { id }
+    })
 
-  return {
-    statusCode: 200
+    return createDeletedResponse()
+  } catch (error: any) {
+    if (error.statusCode) throw error
+    if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {
+      throw notFoundError('Post not found')
+    }
+    console.error('Post deletion failed:', error)
+    throw serverError('Failed to delete post')
   }
 })
