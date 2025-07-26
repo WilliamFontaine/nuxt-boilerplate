@@ -34,15 +34,33 @@
         "title": "Supprimer le post",
         "tooltip": "Supprimer ce post"
       },
+      "edit": {
+        "cancel": "Annuler",
+        "save": "Enregistrer les modifications",
+        "title": "Modifier le post",
+        "tooltip": "Modifier ce post"
+      },
       "error": {
-        "message": "Une erreur est survenue lors de la création du post",
-        "title": "Échec de la création du post"
+        "create": {
+          "message": "Une erreur est survenue lors de la création du post",
+          "title": "Échec de la création du post"
+        },
+        "update": {
+          "message": "Une erreur est survenue lors de la modification du post",
+          "title": "Échec de la modification du post"
+        }
       },
       "submit": "Créer le post",
       "success": {
+        "create": {
+          "message": "Votre post a été créé avec succès",
+          "title": "Post créé avec succès"
+        },
         "delete": "Votre post a été supprimé avec succès",
-        "message": "Votre post a été créé avec succès",
-        "title": "Post créé avec succès"
+        "update": {
+          "message": "Votre post a été modifié avec succès",
+          "title": "Post modifié avec succès"
+        }
       },
       "title": {
         "label": "Titre",
