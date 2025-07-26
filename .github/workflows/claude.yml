@@ -63,6 +63,13 @@ jobs:
             **PROJECT CONTEXT**: Nuxt 4 boilerplate with TypeScript, Nuxt UI, Prisma ORM, PostgreSQL
             **ESSENTIAL COMMANDS**: npm run dev, build, test, lint, db operations via Docker
             **CODE STANDARDS**: Follow CLAUDE.md patterns - single quotes, no semicolons, 2-space indentation
+            **AUTO-IMPORTS**:
+            ⚠️ IMPORTANT: Many imports are automatic - DO NOT add explicit imports for:
+            - Vue/Nuxt built-ins: ref, computed, reactive, watch, useI18n, $fetch, defineModel, etc.
+            - Composables: usePostForm, useNotifications (from app/composables/)
+            - Shared types: Post, ApiResponse, etc. (from shared/models/, shared/types/)
+            - Server utilities: createApiResponse, validateBody, validateParams (auto-imported in API routes)
+            - Validation schemas: createPostSchema, updatePostSchema, idSchema (auto-imported in server)
             **ARCHITECTURE**:
             - Use Prisma singleton pattern (import prisma from '@@/lib/prisma')
             - RESTful APIs with consistent { statusCode, data } response format

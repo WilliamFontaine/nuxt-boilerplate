@@ -13,14 +13,20 @@
 
     <UContainer class="py-12">
       <div class="max-w-2xl mx-auto">
-        <FormPost @success="refreshPosts" />
+        <FormPost @refresh="refreshPosts" />
       </div>
     </UContainer>
 
     <UContainer class="py-12">
       <div class="max-w-2xl mx-auto">
         <div class="grid grid-cols-1 gap-4">
-          <PostCard v-for="post in posts" :key="post.id" :post="post" @delete="handleDelete" />
+          <PostCard
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
+            @delete="handleDelete"
+            @refresh="refreshPosts"
+          />
         </div>
       </div>
     </UContainer>
