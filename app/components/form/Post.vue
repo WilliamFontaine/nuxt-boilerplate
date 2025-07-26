@@ -32,26 +32,26 @@ const { state, schema, resetState } = usePostForm()
 const loading = ref(false)
 const { t } = useI18n()
 
-const emit = defineEmits<(e: 'success') => void>()
+const emit = defineEmits<(e: 'refresh') => void>()
 
 const onSubmit = async () => {
   loading.value = true
   try {
-    await $fetch<Post>('/api/posts', {
+    await $fetch<ApiResponse<Post>>('/api/posts', {
       method: 'POST',
       body: state
     })
     useNotifications().success({
-      title: t('form.post.success.title'),
-      message: t('form.post.success.message')
+      title: t('form.post.success.create.title'),
+      message: t('form.post.success.create.message')
     })
     resetState()
-    emit('success')
-  } catch (ignore) {
-    console.error('Failed to create post:', ignore)
+    emit('refresh')
+  } catch (error) {
+    console.error('Failed to create post:', error)
     useNotifications().error({
-      title: t('form.post.error.title'),
-      message: t('form.post.error.message')
+      title: t('form.post.error.create.title'),
+      message: t('form.post.error.create.message')
     })
   } finally {
     loading.value = false

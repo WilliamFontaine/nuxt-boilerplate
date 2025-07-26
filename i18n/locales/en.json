@@ -34,15 +34,33 @@
         "title": "Delete Post",
         "tooltip": "Delete this post"
       },
+      "edit": {
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "title": "Edit Post",
+        "tooltip": "Edit this post"
+      },
       "error": {
-        "message": "An error occurred while creating the post",
-        "title": "Failed to create post"
+        "create": {
+          "message": "An error occurred while creating the post",
+          "title": "Failed to create post"
+        },
+        "update": {
+          "message": "An error occurred while updating the post",
+          "title": "Failed to update post"
+        }
       },
       "submit": "Create Post",
       "success": {
+        "create": {
+          "message": "Your post has been created successfully",
+          "title": "Post created successfully"
+        },
         "delete": "Your post has been deleted successfully",
-        "message": "Your post has been created successfully",
-        "title": "Post created successfully"
+        "update": {
+          "message": "Your post has been updated successfully",
+          "title": "Post updated successfully"
+        }
       },
       "title": {
         "label": "Title",

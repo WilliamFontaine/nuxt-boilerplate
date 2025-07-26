@@ -5,21 +5,35 @@
         <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
           {{ post.title }}
         </h3>
-        <UTooltip :text="t('form.post.delete.tooltip')" :popper="{ placement: 'left' }">
-          <UButton
-            color="error"
-            variant="ghost"
-            icon="i-lucide:trash-2"
-            size="sm"
-            @click="showDeleteModal = true"
-          />
-        </UTooltip>
+        <div class="flex gap-1">
+          <UTooltip :text="t('form.post.edit.tooltip')" :popper="{ placement: 'left' }">
+            <UButton
+              color="primary"
+              variant="ghost"
+              icon="i-lucide:edit"
+              size="sm"
+              data-testid="edit-button"
+              @click="showEditModal = true"
+            />
+          </UTooltip>
+          <UTooltip :text="t('form.post.delete.tooltip')" :popper="{ placement: 'left' }">
+            <UButton
+              color="error"
+              variant="ghost"
+              icon="i-lucide:trash-2"
+              size="sm"
+              @click="showDeleteModal = true"
+            />
+          </UTooltip>
+        </div>
       </div>
     </template>
 
     <p class="text-neutral-600 dark:text-neutral-400 whitespace-pre-wrap leading-relaxed">
       {{ post.content }}
     </p>
+
+    <EditPostModal v-model:open="showEditModal" :post="post" @success="handleEditSuccess" />
 
     <UModal
       v-model:open="showDeleteModal"
@@ -57,10 +71,12 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  delete: [post: Post]
+  (e: 'delete', post: Post): void
+  (e: 'refresh'): void
 }>()
 
 const showDeleteModal = ref(false)
+const showEditModal = ref(false)
 const isDeleting = ref(false)
 
 const handleDelete = async () => {
@@ -71,5 +87,9 @@ const handleDelete = async () => {
   } finally {
     isDeleting.value = false
   }
+}
+
+const handleEditSuccess = () => {
+  emit('refresh')
 }
 </script>
