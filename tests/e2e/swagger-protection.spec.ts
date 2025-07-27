@@ -2,13 +2,13 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Swagger Protection in Production', () => {
   test('should return 403 for /api/docs endpoint in production', async ({ page }) => {
-    // Ce test nécessite que l'app soit buildée en production
-    // Pour le moment, on teste la logique avec un mock
+    // This test requires the app to be built in production
+    // For now, we test the logic with a mock
 
     const response = await page.goto('/api/docs')
 
-    // En développement, ça devrait marcher
-    // En production (si testé avec NODE_ENV=production), ça devrait échouer
+    // In development, it should work
+    // In production (if tested with NODE_ENV=production), it should fail
     if (process.env.NODE_ENV === 'production') {
       expect(response?.status()).toBe(403)
     } else {
@@ -27,22 +27,22 @@ test.describe('Swagger Protection in Production', () => {
   })
 
   test('should not show documentation endpoints in Swagger UI', async ({ page }) => {
-    // Aller sur Swagger UI (en dev)
+    // Go to Swagger UI (in dev)
     await page.goto('/api/docs/ui')
 
-    // Attendre que Swagger UI se charge
+    // Wait for Swagger UI to load
     await page.waitForSelector('.swagger-ui')
 
-    // Vérifier que les endpoints /api/docs n'apparaissent pas dans la liste
-    // Utiliser un sélecteur plus spécifique pour éviter les problèmes de regex
+    // Verify that /api/docs endpoints don't appear in the list
+    // Use a more specific selector to avoid regex issues
     const docsEndpoint = page.locator('.opblock-summary-path').filter({ hasText: '/api/docs' })
     await expect(docsEndpoint).toHaveCount(0)
 
-    // Vérifier aussi qu'on ne trouve pas le texte "/api/docs" dans les chemins d'API
+    // Also verify that we don't find the text "/api/docs" in API paths
     const operationBlocks = page.locator('.opblock')
     await expect(operationBlocks).toContainText(['/api/posts'])
 
-    // S'assurer qu'aucun opblock ne contient "/api/docs"
+    // Ensure no opblock contains "/api/docs"
     const allOperationTexts = await operationBlocks.allTextContents()
     const hasDocsEndpoint = allOperationTexts.some((text) => text.includes('/api/docs'))
     expect(hasDocsEndpoint).toBe(false)

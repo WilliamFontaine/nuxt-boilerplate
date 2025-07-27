@@ -13,7 +13,7 @@ export default defineEventHandler(async () => {
   try {
     const swaggerSpec = generateSwaggerSpec()
 
-    // Retourner directement la spec OpenAPI pour Swagger UI
+    // Return OpenAPI spec directly for Swagger UI
     return swaggerSpec
   } catch (error: any) {
     console.error('Failed to generate OpenAPI spec:', error)

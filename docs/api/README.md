@@ -1,17 +1,17 @@
 # API Documentation
 
-Documentation auto-générée via swagger-jsdoc.
+Auto-generated documentation via swagger-jsdoc.
 
-## 🚀 Accès
+## 🚀 Access
 
 ```bash
 npm run dev
 open http://localhost:3000/api/docs/ui
 ```
 
-**⚠️ Développement uniquement** (403 en production)
+**⚠️ Development only** (403 in production)
 
-## 📝 Ajouter un endpoint
+## 📝 Adding an endpoint
 
 ```typescript
 /**
@@ -25,13 +25,13 @@ open http://localhost:3000/api/docs/ui
  *         description: Success
  */
 export default defineEventHandler(async (event) => {
-  // Code ici
+  // Code here
 })
 ```
 
-## ✅ Avantages
+## ✅ Benefits
 
-- ✅ **Auto-générée** depuis le code
-- ✅ **Toujours synchronisée**
-- ✅ **Zéro maintenance**
-- ✅ **Sécurisée** (dev uniquement)
+- ✅ **Auto-generated** from code
+- ✅ **Always synchronized**
+- ✅ **Zero maintenance**
+- ✅ **Secure** (dev only)
