@@ -1,5 +1,21 @@
 import prisma from '@@/lib/prisma'
 
+/**
+ * @openapi
+ * /api/posts/{id}:
+ *   delete:
+ *     summary: Delete a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Deleted
+ */
 export default defineEventHandler(async (event) => {
   try {
     const { id } = await validateParams(event, idSchema)

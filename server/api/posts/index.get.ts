@@ -1,5 +1,15 @@
 import prisma from '@@/lib/prisma'
 
+/**
+ * @openapi
+ * /api/posts:
+ *   get:
+ *     summary: Get all posts
+ *     tags: [Posts]
+ *     responses:
+ *       200:
+ *         description: Success
+ */
 export default defineEventHandler(async () => {
   try {
     const posts = await prisma.post.findMany({

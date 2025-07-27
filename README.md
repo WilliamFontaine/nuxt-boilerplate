@@ -10,6 +10,7 @@ A modern **Nuxt 4** boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL
 - **[Nuxt UI](https://ui.nuxt.com/)** components with Tailwind CSS
 - **[Prisma ORM](https://www.prisma.io/)** with PostgreSQL and Docker setup
 - **[i18n](https://i18n.nuxtjs.org/)** support (French/English)
+- **API Documentation** with OpenAPI/Swagger (development only)
 - **Testing** with Vitest (unit) and Playwright (E2E)
 - **Code Quality** with ESLint, Prettier, and Husky hooks
 - **CI/CD** with GitHub Actions and automated deployment
@@ -35,6 +36,7 @@ A modern **Nuxt 4** boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL
 
 3. **Access your app**
    - Application: http://localhost:3000
+   - API Documentation: http://localhost:3000/api/docs/ui
    - Database Admin: http://localhost:8000
    - Prisma Studio: `npx prisma studio`
 
@@ -51,6 +53,8 @@ A modern **Nuxt 4** boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL
 │   ├── types/             # Type definitions
 │   └── utils/             # Utility functions
 ├── server/api/            # API routes
+├── lib/                   # Utility libraries (Prisma, Swagger)
+├── docs/                  # Documentation
 ├── prisma/                # Database schema and migrations
 ├── tests/                 # Unit and E2E tests
 ├── .server-config/        # Server deployment configuration (HAProxy, Docker)
@@ -68,6 +72,13 @@ A modern **Nuxt 4** boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL
 | `pnpm test:unit`     | Run unit tests only      |
 | `pnpm test:e2e`      | Run E2E tests only       |
 | `pnpm test:coverage` | Run tests with coverage  |
+
+### API Documentation
+
+```bash
+# Access Swagger UI (development only)
+open http://localhost:3000/api/docs/ui
+```
 
 ### Database Commands
 
@@ -104,6 +115,30 @@ type ApiResponse<T> = {
   data: T
 }
 ```
+
+### API Documentation
+
+Automatic OpenAPI/Swagger documentation generated from JSDoc annotations:
+
+```typescript
+/**
+ * @openapi
+ * /api/posts:
+ *   get:
+ *     summary: Get all posts
+ *     tags: [Posts]
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+export default defineEventHandler(async () => {
+  // API implementation
+})
+```
+
+- **Development**: Access Swagger UI at http://localhost:3000/api/docs/ui
+- **Production**: Documentation endpoints are disabled for security
+- **Auto-generated**: Spec updates automatically with code changes
 
 ### Built-in Components
 
