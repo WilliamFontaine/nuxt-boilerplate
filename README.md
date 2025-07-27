@@ -22,23 +22,31 @@ A modern **Nuxt 4** boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL
    ```bash
    git clone <repository-url> my-project
    cd my-project
-   ./rename-project.sh my-awesome-project  # Optional
+   ./rename-project.sh my-awesome-project  # Optional: Rename project
    ```
 
-2. **Install and run**
+2. **Setup environment**
 
    ```bash
-   pnpm install
-   docker compose up -d
-   npx prisma migrate dev
-   pnpm dev
+   npm install                   # Install dependencies
+   cp .env.example .env          # Copy environment variables
+   docker compose up -d          # Start PostgreSQL database
    ```
 
-3. **Access your app**
-   - Application: http://localhost:3000
-   - API Documentation: http://localhost:3000/api/docs/ui
-   - Database Admin: http://localhost:8000
-   - Prisma Studio: `npx prisma studio`
+3. **Initialize database and run**
+
+   ```bash
+   npx prisma migrate dev        # Initialize database with schema
+   npm run dev                   # Start development server
+   ```
+
+4. **Access your app**
+   - **Application**: http://localhost:3000
+   - **API Documentation**: http://localhost:3000/api/docs/ui
+   - **Database Admin**: http://localhost:8000 (Adminer)
+   - **Prisma Studio**: `npx prisma studio`
+
+> **💡 First time setup**: The steps above will create two databases (`database` and `test_database`) as defined in your `.env` file.
 
 ## 📁 Project Structure
 
@@ -63,15 +71,15 @@ A modern **Nuxt 4** boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL
 
 ## 🔧 Development Commands
 
-| Command              | Description              |
-| -------------------- | ------------------------ |
-| `pnpm dev`           | Start development server |
-| `pnpm build`         | Build for production     |
-| `pnpm lint`          | Run ESLint + Prettier    |
-| `pnpm test`          | Run all tests            |
-| `pnpm test:unit`     | Run unit tests only      |
-| `pnpm test:e2e`      | Run E2E tests only       |
-| `pnpm test:coverage` | Run tests with coverage  |
+| Command                 | Description              |
+| ----------------------- | ------------------------ |
+| `npm run dev`           | Start development server |
+| `npm run build`         | Build for production     |
+| `npm run lint`          | Run ESLint + Prettier    |
+| `npm test`              | Run all tests            |
+| `npm run test:unit`     | Run unit tests only      |
+| `npm run test:e2e`      | Run E2E tests only       |
+| `npm run test:coverage` | Run tests with coverage  |
 
 ### API Documentation
 
@@ -90,7 +98,7 @@ npx prisma db push               # Push schema changes
 npx prisma studio                # Open database editor
 
 # Generate Prisma client
-pnpm db:generate
+npm run db:generate
 ```
 
 ## 🏗️ Architecture
@@ -159,15 +167,15 @@ export default defineEventHandler(async () => {
 ### Unit Tests (Vitest)
 
 ```bash
-pnpm test:unit:watch              # TDD with auto-reload
-pnpm test:unit:coverage           # With coverage report
+npm run test:unit:watch           # TDD with auto-reload
+npm run test:unit:coverage        # With coverage report
 ```
 
 ### E2E Tests (Playwright)
 
 ```bash
-pnpm test:e2e:ui                  # Visual test runner
-pnpm test:e2e:debug               # Debug mode
+npm run test:e2e:ui               # Visual test runner
+npm run test:e2e:debug            # Debug mode
 ```
 
 **Test Features:**
@@ -195,13 +203,13 @@ Use conventional commits for automated changelog generation:
 
 ```bash
 # Create releases
-pnpm tag:patch                    # Bug fixes (0.0.x)
-pnpm tag:minor                    # New features (0.x.0)
-pnpm tag:major                    # Breaking changes (x.0.0)
+npm run tag:patch                 # Bug fixes (0.0.x)
+npm run tag:minor                 # New features (0.x.0)
+npm run tag:major                 # Breaking changes (x.0.0)
 
 # Preview changes
-pnpm version:check
-pnpm changelog:preview
+npm run version:check
+npm run changelog:preview
 ```
 
 ### Commit Types
@@ -277,12 +285,48 @@ Updates package.json, i18n files, Docker names, and GitHub workflows.
 
 ## 🔧 Troubleshooting
 
-### Common Issues
+### Environment Setup Issues
 
-- **Database connection**: Ensure Docker is running and `NUXT_DATABASE_URL` is set
-- **Prisma errors**: Run `npx prisma generate` after schema changes
-- **Test failures**: Check that `test_database` exists in Docker
-- **Build errors**: Clear `.nuxt` directory and reinstall dependencies
+**Missing .env file**
+
+```bash
+# Copy the example file and edit as needed
+cp .env.example .env
+```
+
+**Database connection errors**
+
+```bash
+# Ensure Docker is running
+docker compose up -d
+
+# Check if databases exist
+docker exec nuxt-boilerplate-postgres-1 psql -U postgres -l
+
+# Reset databases if needed
+docker compose down -v
+docker compose up -d
+npx prisma migrate dev
+```
+
+**Prisma client issues**
+
+```bash
+# Regenerate Prisma client after schema changes
+npx prisma generate
+
+# Reset database completely
+npx prisma migrate reset
+```
+
+### Common Development Issues
+
+- **Database connection**: Ensure Docker is running and `NUXT_DATABASE_URL` is correctly set in `.env`
+- **Prisma errors**: Run `npx prisma generate` after any schema changes
+- **Test failures**: Check that `test_database` exists and is accessible
+- **Build errors**: Clear `.nuxt` directory and reinstall dependencies with `rm -rf .nuxt node_modules && npm install`
+- **Port conflicts**: Change `PORT` in `.env` if port 3000 is already in use
+- **Missing packages**: Ensure all dependencies are installed with `npm install`
 
 ## 📚 Resources
 
@@ -296,7 +340,7 @@ Updates package.json, i18n files, Docker names, and GitHub workflows.
 1. Fork the repository
 2. Create a feature branch
 3. Make changes following conventional commits
-4. Run `pnpm lint` and `pnpm test`
+4. Run `npm run lint` and `npm run test`
 5. Submit a Pull Request
 
 ---

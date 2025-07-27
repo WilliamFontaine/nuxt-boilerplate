@@ -16,13 +16,25 @@
       "mcp__prisma",
       "mcp__playwright",
       "mcp__sequential-thinking__sequentialthinking",
+      "mcp__ide",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:nuxt.com)",
-      "WebFetch(domain:ui.nuxt.com)"
+      "WebFetch(domain:ui.nuxt.com)",
+      "WebFetch(domain:docs.github.com)",
+      "WebFetch(domain:nodejs.org)",
+      "WebFetch(domain:typescript.org)",
+      "WebFetch(domain:vitejs.dev)",
+      "WebFetch(domain:vitest.dev)",
+      "WebFetch(domain:playwright.dev)",
+      "WebFetch(domain:tailwindcss.com)",
+      "WebFetch(domain:prisma.io)",
+      "WebFetch(domain:nitro.build)",
+      "WebFetch(domain:vue.js.org)",
+      "WebFetch(domain:vuejs.org)"
     ],
     "defaultMode": "acceptEdits",
     "enableAllProjectMcpServers": true,
-    "enabledMcpJsonServers": ["context7", "nuxt", "prisma"],
+    "enabledMcpJsonServers": ["context7", "nuxt", "prisma", "playwright", "ide", "sequential-thinking"],
     "includeCoAuthoredBy": false
   }
 }

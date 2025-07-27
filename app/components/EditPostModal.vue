@@ -87,7 +87,7 @@ const onSubmit = async () => {
 
     emit('success')
     open.value = false
-  } catch (ignore) {
+  } catch {
     useNotifications().error({
       title: t('form.post.error.update.title'),
       message: t('form.post.error.update.message')
