@@ -48,6 +48,7 @@
     "@nuxtjs/i18n": "10.0.3",
     "@prisma/nuxt": "^0.3.0",
     "nuxt": "4.0.1",
+    "nuxt-security": "^2.3.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {

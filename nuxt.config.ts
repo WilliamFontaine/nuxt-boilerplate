@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/image',
     '@nuxt/test-utils/module',
-    '@prisma/nuxt'
+    '@prisma/nuxt',
+    'nuxt-security'
   ],
 
   app: {
@@ -64,6 +65,57 @@ export default defineNuxtConfig({
     resolve: {
       alias: {
         '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js'
+      }
+    }
+  },
+
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        'base-uri': ['\'self\''],
+        'font-src': ['\'self\'', 'https:', 'data:'],
+        'form-action': ['\'self\''],
+        'frame-ancestors': ['\'none\''],
+        'img-src': ['\'self\'', 'data:', 'https:'],
+        'object-src': ['\'none\''],
+        'script-src': ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\''],
+        'style-src': ['\'self\'', 'https:', '\'unsafe-inline\''],
+        'upgrade-insecure-requests': true
+      },
+      crossOriginEmbedderPolicy:
+        process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
+      referrerPolicy: 'no-referrer',
+      strictTransportSecurity: {
+        maxAge: 31536000,
+        includeSubdomains: true
+      },
+      xContentTypeOptions: 'nosniff',
+      xFrameOptions: 'DENY',
+      xXSSProtection: '1; mode=block'
+    },
+
+    corsHandler: {
+      origin:
+        process.env.NODE_ENV === 'development'
+          ? ['http://localhost:3000', 'http://127.0.0.1:3000']
+          : process.env.CORS_ORIGIN?.split(','),
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+      credentials: true
+    },
+
+    rateLimiter: {
+      tokensPerInterval: 150,
+      interval: 300000,
+      throwError: true
+    },
+
+    hidePoweredBy: true
+  },
+
+  routeRules: {
+    '/api/**': {
+      headers: {
+        'Access-Control-Max-Age': '86400'
       }
     }
   },

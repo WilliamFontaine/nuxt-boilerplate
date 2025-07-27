@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Nuxt 4 boilerplate featuring TypeScript, Nuxt UI, Prisma ORM, PostgreSQL, testing with Vitest/Playwright, and i18n support. The project uses a monorepo-like structure with shared utilities and comprehensive testing setup.
+This is a Nuxt 4 boilerplate featuring TypeScript, Nuxt UI, Prisma ORM, PostgreSQL, security hardening with nuxt-security, testing with Vitest/Playwright, and i18n support. The project uses a monorepo-like structure with shared utilities and comprehensive testing setup.
 
 ## Specialized Agents
 
@@ -61,7 +61,7 @@ npm run test:unit:coverage  # Run unit tests with coverage
 npm run test:e2e            # Run E2E tests (all browsers)
 npm run test:e2e:ui         # Run E2E tests with Playwright UI
 npm run test:e2e:debug      # Run E2E tests in debug mode
-npx playwright install     # Install Playwright browsers (one-time)
+npx playwright install      # Install Playwright browsers (one-time)
 ```
 
 ### API Documentation
@@ -87,12 +87,10 @@ npm run tag:major           # Version bump and deploy (major)
 - `/shared/` - Shared utilities, models, and types (auto-imported via nuxt.config.ts)
 - `/server/` - API routes and server middleware
 - `/lib/` - Utility libraries (Prisma client singleton, Swagger config)
-- `/docs/` - API documentation
 - `/prisma/` - Database schema and migrations
-- `/tests/` - Test files (unit and E2E tests)
-- `/.github/` - CI/CD workflows and GitHub configuration
-- `/.server-config/` - Server deployment configuration (HAProxy, Docker)
+- `/tests/` - Test files (unit and E2E tests, including security tests)
 - `/i18n/` - Internationalization configuration and locales
+- `nuxt.config.ts` - Nuxt configuration including security settings
 
 ### Key Patterns & Conventions
 
@@ -103,32 +101,20 @@ npm run tag:major           # Version bump and deploy (major)
 - **Models**: TypeScript interfaces in `shared/models/` mirroring Prisma schema
 - **API Types**: Consistent response format via `shared/types/api.ts`
 
-#### Frontend Architecture
-
-- **Composables**: Reusable logic in `app/composables/` (forms, notifications, business logic)
-- **Form Components**: Standardized form fields in `app/components/form/field/`
-- **Validation**: Yup schemas with i18n integration for error messages
-- **State Management**: Reactive composables with computed properties
-
 #### API Design
 
 - **Event Handlers**: RESTful endpoints following Nuxt 3 conventions
 - **Response Format**: Consistent `{ statusCode: number, data: T }` structure
 - **Error Handling**: Centralized error patterns with proper HTTP status codes
 - **Documentation**: Auto-generated OpenAPI/Swagger from JSDoc annotations
-
-#### Component Patterns
-
-- **Form Fields**: Reusable with props for label, placeholder, validation
-- **Event Emission**: Type-safe event definitions with `defineEmits<>`
-- **Composition API**: Preferred over Options API for all components
-- **Scoped Styling**: Component-specific styles when needed
+- **Security**: CORS, rate limiting, and security headers automatically applied
 
 ### Tech Stack
 
 - **Framework**: Nuxt 4 with Vue 3 Composition API
 - **UI Library**: Nuxt UI components with Tailwind CSS
 - **Database**: PostgreSQL + Prisma ORM (v6.12.0)
+- **Security**: nuxt-security module with CORS, CSP, HSTS, rate limiting
 - **Internationalization**: French default, English support, prefix strategy except default
 - **Validation**: Yup for form validation with i18n integration
 - **Testing**: Vitest (unit tests) + Playwright (E2E tests, multi-browser)
@@ -143,12 +129,30 @@ npm run tag:major           # Version bump and deploy (major)
 - `NUXT_DATABASE_URL` - Main database connection
 - `TEST_DATABASE_URL` - Test database (defaults to test_database)
 - Docker Compose manages PostgreSQL + Adminer (port 8000)
+- CORS: Allows localhost:3000 and 127.0.0.1:3000 for development
 
 #### Production
 
 - Automated deployment via GitHub Actions on version tags
 - Docker multi-stage build for optimized images
 - Database migrations run automatically during deployment
+- `CORS_ORIGIN` - Comma-separated list of allowed origins (required for production)
+- Security headers automatically applied with production-grade configuration
+
+## Security Configuration
+
+The project includes comprehensive security hardening via the `nuxt-security` module:
+
+- **CORS**: Configurable origins per environment
+- **CSP**: Content Security Policy with Nuxt-optimized directives
+- **Headers**: X-Frame-Options, HSTS, X-Content-Type-Options
+- **Rate Limiting**: 150 requests per 5-minute window
+- **Production**: Requires `CORS_ORIGIN` environment variable
+
+```bash
+# Production environment variable example
+CORS_ORIGIN=https://yourdomain.com,https://app.yourdomain.com
+```
 
 ## Development Guidelines
 
@@ -174,6 +178,9 @@ npm run tag:major           # Version bump and deploy (major)
 - File-based routing in `server/api/`
 - Consistent response: `{ statusCode: number, data: T }`
 - JSDoc annotations for OpenAPI documentation
+- CORS automatically enabled for all API routes
+- Rate limiting applied (150 requests per 5 minutes)
+- Security headers enforced on all endpoints
 
 ### Frontend Development
 
@@ -198,6 +205,8 @@ npm run tag:major           # Version bump and deploy (major)
 - Follow existing patterns and conventions
 - Use shared utilities and auto-imports
 - Monitor bundle size and performance
+- Set `CORS_ORIGIN` environment variable in production
+- Keep security dependencies updated
 
 ## Important Instructions
 
