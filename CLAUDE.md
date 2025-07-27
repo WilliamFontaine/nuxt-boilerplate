@@ -6,57 +6,62 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Nuxt 4 boilerplate featuring TypeScript, Nuxt UI, Prisma ORM, PostgreSQL, testing with Vitest/Playwright, and i18n support. The project uses a monorepo-like structure with shared utilities and comprehensive testing setup.
 
-## Expert Agents
+## Expert Agents avec Intégration MCP
 
-When working on this project, you can leverage specialized expert agents for different domains:
+Chaque agent expert utilise des MCP (Model Context Protocols) spécialisés pour des workflows optimisés :
 
-### **Frontend/UI Agent**
+### **1. Vue-Nuxt Expert Agent** 🎨
 
-**Expertise**: Vue.js components, Nuxt UI, Tailwind CSS, forms, i18n, themes
+**MCP Principal**: `nuxt` (search_nuxt_docs, list_nuxt_modules)  
+**MCP Secondaire**: `context7` (documentation Vue/Nuxt UI)
 
-- **Key Files**: `app/components/`, `app/composables/`, `app/layouts/`, `app/pages/`
-- **Specializes in**: Component architecture, form validation with Yup, responsive design, accessibility
-- **Tools**: Nuxt UI components, Tailwind utilities, Vue Composition API, i18n translations
+- **Key Files**: `app/components/`, `app/composables/`, `app/layouts/`, `app/pages/`, `i18n/`
+- **Spécialités**: Composants Vue 3 Composition API, Nuxt UI + Tailwind, i18n (FR/EN), Forms avec Yup, Routing
+- **Workflow**: Recherche docs Nuxt → Context7 pour libs → Implémentation avec patterns projet
 
-### **Backend/API Agent**
+### **2. Database-Prisma Expert Agent** 🗄️
 
-**Expertise**: Nuxt server API, event handlers, middleware, business logic
-
-- **Key Files**: `server/api/`, `server/middleware/`, `server/utils/`
-- **Specializes in**: RESTful APIs, request/response patterns, error handling, server-side logic
-- **Tools**: Nuxt server engine, event handlers, API validation, response formatting
-
-### **Database Agent**
-
-**Expertise**: Prisma ORM, PostgreSQL, migrations, data modeling
+**MCP Principal**: `prisma` (gestion complète database Postgres)  
+**MCP Secondaire**: `context7` (patterns Prisma avancés)
 
 - **Key Files**: `prisma/schema.prisma`, `lib/prisma.ts`, `prisma/migrations/`
-- **Specializes in**: Database design, migrations, queries, performance optimization
-- **Tools**: Prisma Client, PostgreSQL, Docker, database connections
+- **Spécialités**: Création/gestion databases, Schema design, Migrations, Queries optimisées, Backup/restore
+- **Workflow**: Introspection DB → Modification schema → Migration MCP → Tests validation
 
-### **Testing Agent**
+### **3. Testing-Playwright Expert Agent** 🧪
 
-**Expertise**: Vitest unit tests, Playwright E2E, mocking, CI/CD testing
+**MCP Principal**: `playwright` (automation browser complète)  
+**MCP Secondaire**: `ide` (diagnostics pour debug)
 
-- **Key Files**: `tests/`, `vitest.config.ts`, `playwright.config.ts`, `tests/setup/`
-- **Specializes in**: Test strategies, mocking, coverage, multi-browser testing
-- **Tools**: Vitest, Playwright, test utilities, coverage reporting
+- **Key Files**: `tests/`, `playwright.config.ts`, `tests/setup/`, `tests/e2e/`
+- **Spécialités**: E2E multi-browser, Visual testing, Debug interactif, Intégration CI/CD
+- **Workflow**: Snapshot analysis → Navigation/interactions → Diagnostics IDE → Visual validation
 
-### **DevOps/Deploy Agent**
+### **4. Backend-API Expert Agent** ⚙️
 
-**Expertise**: Docker, GitHub Actions, CI/CD, deployment, infrastructure
+**MCP Principal**: `context7` (Node.js/Nuxt server patterns)  
+**MCP Secondaire**: `ide` (validation et diagnostics)
+
+- **Key Files**: `server/api/`, `server/middleware/`, `server/utils/`, `server/validations/`
+- **Spécialités**: Event handlers RESTful, Validation Yup server-side, Error handling, Response formatting
+- **Workflow**: Context7 patterns → Implémentation validation → IDE diagnostics → Tests API
+
+### **5. DevOps-Infrastructure Expert Agent** 🚀
+
+**MCP Principal**: `context7` (Docker, GitHub Actions, CI/CD)
 
 - **Key Files**: `Dockerfile`, `.github/workflows/`, `docker-compose.yml`
-- **Specializes in**: Build pipelines, containerization, automated deployment
-- **Tools**: Docker, GitHub Actions, deployment strategies, monitoring
+- **Spécialités**: Docker multi-stage, GitHub Actions matrix testing, Déploiement automatisé, Monitoring
+- **Workflow**: Context7 best practices → Configuration pipelines → Optimisation build → Monitoring
 
-### **Architecture Agent**
+### **6. Architecture-Performance Expert Agent** 🏗️
 
-**Expertise**: Project structure, performance, patterns, best practices
+**MCP Principal**: `sequential-thinking` (décisions complexes structurées)  
+**MCP Secondaire**: `context7` (patterns architecturaux)
 
 - **Key Files**: `nuxt.config.ts`, `shared/`, `eslint.config.mts`, `tsconfig.json`
-- **Specializes in**: Code organization, import strategies, performance optimization
-- **Tools**: Module federation, composables, shared utilities, build optimization
+- **Spécialités**: Décisions architecturales, Optimisation performance, Patterns de code, Migration/refactoring
+- **Workflow**: Thinking structuré → Recherche patterns → Proposition alternatives → Plan implémentation
 
 ## Essential Commands
 
@@ -100,6 +105,13 @@ npm run test:coverage       # Run unit tests with coverage report
 npx playwright install     # Install Playwright browsers (one-time)
 ```
 
+### API Documentation
+
+```bash
+npm run docs:api            # Show API documentation URL
+npm run test:security       # Test API documentation security (production protection)
+```
+
 ### Deployment
 
 ```bash
@@ -118,11 +130,13 @@ npm run version:check       # Check for available updates
 - `/app/` - Main Nuxt application (components, pages, layouts, composables, assets)
 - `/shared/` - Shared utilities, models, and types (auto-imported via nuxt.config.ts)
 - `/server/` - API routes and server middleware
-- `/lib/` - Utility libraries (Prisma client singleton)
+- `/lib/` - Utility libraries (Prisma client, Swagger configuration)
 - `/prisma/` - Database schema and migrations
 - `/tests/` - Test files (unit and E2E tests)
 - `/.github/` - CI/CD workflows and GitHub configuration
 - `/i18n/` - Internationalization configuration and locales
+- `/docs/` - API documentation (auto-generated)
+- `/scripts/` - Utility scripts (security testing, etc.)
 
 ### Key Patterns & Conventions
 
@@ -154,6 +168,14 @@ npm run version:check       # Check for available updates
 - **Composition API**: Preferred over Options API for all components
 - **Scoped Styling**: Component-specific styles when needed
 
+#### **API Documentation**
+
+- **Auto-Generated**: Documentation generated automatically from JSDoc annotations
+- **Swagger UI**: Interactive documentation interface at `/api/docs/ui` (development only)
+- **Security**: Documentation endpoints disabled in production (NODE_ENV check)
+- **Configuration**: Auto-sync with package.json (title, version, description)
+- **Pattern**: Simple JSDoc annotations inline with endpoint code
+
 ### Tech Stack
 
 - **Framework**: Nuxt 4 with Vue 3 Composition API
@@ -161,6 +183,7 @@ npm run version:check       # Check for available updates
 - **Database**: PostgreSQL + Prisma ORM (v6.12.0)
 - **Internationalization**: French default, English support, prefix strategy except default
 - **Validation**: Yup for form validation with i18n integration
+- **API Documentation**: swagger-jsdoc for auto-generated OpenAPI specification
 - **Testing**: Vitest (unit tests) + Playwright (E2E tests, multi-browser)
 - **Package Manager**: npm
 - **Deployment**: Docker + GitHub Actions + GitHub Container Registry
@@ -203,16 +226,28 @@ npm run version:check       # Check for available updates
 
 ## Development Guidelines
 
-### Working with Agents
+### Working with MCP-Enhanced Agents
 
-To leverage the expert agents effectively:
+Pour utiliser efficacement les agents experts avec MCP :
 
-1. **Identify the domain** of your task (frontend, backend, database, etc.)
-2. **Use the appropriate agent** by invoking them with their slash commands
-3. **Reference key files** each agent specializes in
-4. **Follow domain patterns** as outlined in their expertise areas
+1. **Identifier le domaine** de votre tâche (frontend, database, testing, etc.)
+2. **Utiliser l'agent approprié** qui possède le MCP spécialisé pour ce domaine
+3. **Laisser l'agent utiliser son workflow MCP** pour recherche documentaire et validation
+4. **Suivre les patterns spécifiques** du projet découverts via MCP
 
-Example: For UI work, use `/agent-frontend` and focus on `app/components/`, `app/composables/`, and Nuxt UI patterns.
+**Exemples d'utilisation** :
+
+- **Frontend Vue/Nuxt** : L'agent utilise automatiquement `nuxt.search_nuxt_docs()` puis `context7` pour composants
+- **Database Prisma** : L'agent utilise `prisma.introspect_database_schema()` avant toute modification
+- **Testing E2E** : L'agent utilise `playwright.browser_snapshot()` pour analyser l'état avant interaction
+- **Backend API** : L'agent recherche dans `context7` les patterns Node.js puis valide avec `ide.getDiagnostics()`
+
+**Avantages MCP** :
+
+- Documentation toujours à jour via MCP
+- Workflows optimisés par domaine d'expertise
+- Réduction du contexte grâce à la spécialisation
+- Validation automatique via diagnostic tools
 
 ### Database Development
 
@@ -316,6 +351,46 @@ export default defineEventHandler(async (event) => {
 - Check `npm run version:check` before releases
 - Monitor deployment logs for issues
 
+### API Documentation Workflow
+
+#### **Adding New Endpoints**
+
+1. **Create endpoint file** in `server/api/`
+2. **Add JSDoc annotation** with OpenAPI spec:
+   ```typescript
+   /**
+    * @openapi
+    * /api/users:
+    *   post:
+    *     summary: Create user
+    *     tags: [Users]
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         application/json:
+    *           schema:
+    *             type: object
+    *             required: [name, email]
+    *             properties:
+    *               name:
+    *                 type: string
+    *               email:
+    *                 type: string
+    *     responses:
+    *       201:
+    *         description: Created
+    */
+   ```
+3. **Documentation auto-updates** - no manual maintenance required
+
+#### **Testing Documentation Security**
+
+```bash
+npm run test:security       # Test production protection
+npm run test:unit -- tests/unit/swagger-protection.test.ts
+npm run test:e2e tests/e2e/swagger-protection.spec.ts
+```
+
 ### Best Practices
 
 #### **Code Quality**
@@ -324,6 +399,14 @@ export default defineEventHandler(async (event) => {
 - Use meaningful commit messages (conventional format)
 - Write tests for new features
 - Document complex business logic
+- Add JSDoc OpenAPI annotations for new endpoints
+
+#### **API Documentation**
+
+- Keep JSDoc annotations minimal and focused
+- Use inline schemas for simple types
+- Test documentation security with `npm run test:security`
+- Access documentation only in development at `/api/docs/ui`
 
 #### **Performance**
 

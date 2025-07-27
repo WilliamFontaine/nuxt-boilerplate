@@ -1,5 +1,33 @@
 import prisma from '@@/lib/prisma'
 
+/**
+ * @openapi
+ * /api/posts/{id}:
+ *   put:
+ *     summary: Update a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [title, content]
+ *             properties:
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Updated
+ */
 export default defineEventHandler(async (event) => {
   try {
     const { id } = await validateParams(event, idSchema)
