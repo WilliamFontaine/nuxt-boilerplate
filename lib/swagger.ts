@@ -14,7 +14,7 @@ const swaggerDefinition: OAS3Definition = {
 }
 
 /**
- * Options pour swagger-jsdoc
+ * Options for swagger-jsdoc
  */
 const swaggerOptions: OAS3Options = {
   definition: swaggerDefinition,
