@@ -10,7 +10,7 @@ import type { H3Event, EventHandlerRequest } from 'h3'
  * @throws {Error} If validation fails, an error with status code 400 is thrown
  * @template T - The type of the data in the schema
  */
-export async function validateBody<T> (
+export async function validateBody<T>(
   event: H3Event<EventHandlerRequest>,
   schema: Schema<T>
 ): Promise<T> {
@@ -40,7 +40,7 @@ export async function validateBody<T> (
  * @throws {Error} If validation fails, an error with status code 400 is thrown
  * @template T - The type of the data in the schema
  */
-export async function validateParams<T> (
+export async function validateParams<T>(
   event: H3Event<EventHandlerRequest>,
   schema: Schema<T>
 ): Promise<T> {
@@ -70,7 +70,7 @@ export async function validateParams<T> (
  * @throws {Error} If validation fails, an error with status code 400 is thrown
  * @template T - The type of the data in the schema
  */
-export async function validateQuery<T> (
+export async function validateQuery<T>(
   event: H3Event<EventHandlerRequest>,
   schema: Schema<T>
 ): Promise<T> {

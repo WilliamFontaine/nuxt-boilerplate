@@ -44,7 +44,6 @@ export default defineEventHandler(async (event) => {
     if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {
       throw notFoundError('Post not found')
     }
-    console.error('Post update failed:', error)
     throw serverError('Failed to update post')
   }
 })

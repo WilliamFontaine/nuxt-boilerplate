@@ -19,7 +19,6 @@ export default defineEventHandler(async () => {
     return createApiResponse(posts)
   } catch (error: any) {
     if (error.statusCode) throw error
-    console.error('Failed to fetch posts:', error)
     throw serverError('Failed to fetch posts')
   }
 })

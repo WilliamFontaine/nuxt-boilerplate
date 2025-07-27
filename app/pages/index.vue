@@ -49,8 +49,7 @@ const handleDelete = async (post: Post) => {
       message: t('form.post.success.delete')
     })
     refreshPosts()
-  } catch (error) {
-    console.error('Failed to delete post:', error)
+  } catch {
     useNotifications().error({
       title: t('form.post.error.title'),
       message: t('form.post.error.message')

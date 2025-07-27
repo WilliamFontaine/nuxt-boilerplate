@@ -15,8 +15,7 @@ export default defineEventHandler(async () => {
 
     // Return OpenAPI spec directly for Swagger UI
     return swaggerSpec
-  } catch (error: any) {
-    console.error('Failed to generate OpenAPI spec:', error)
+  } catch {
     throw serverError('Failed to generate API documentation')
   }
 })

@@ -47,8 +47,7 @@ const onSubmit = async () => {
     })
     resetState()
     emit('refresh')
-  } catch (error) {
-    console.error('Failed to create post:', error)
+  } catch {
     useNotifications().error({
       title: t('form.post.error.create.title'),
       message: t('form.post.error.create.message')

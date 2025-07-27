@@ -7,7 +7,7 @@ import type { ApiResponse } from '@@/shared/types/api'
  * @returns An ApiResponse object
  * @template T - The type of the data in the response
  */
-export function createApiResponse<T> (
+export function createApiResponse<T>(
   data?: T | null,
   statusCode: number = HTTP_STATUS.OK,
   message?: string
@@ -25,7 +25,7 @@ export function createApiResponse<T> (
  * @returns An ApiResponse object with status code 201 (Created)
  * @template T - The type of the data in the response
  */
-export function createCreatedResponse<T> (data: T): ApiResponse<T> {
+export function createCreatedResponse<T>(data: T): ApiResponse<T> {
   return createApiResponse(data, HTTP_STATUS.CREATED, 'Resource created successfully')
 }
 
@@ -34,7 +34,7 @@ export function createCreatedResponse<T> (data: T): ApiResponse<T> {
  * @returns An ApiResponse object with status code 204 (No Content)
  * @template T - The type of the data in the response
  */
-export function createNoContentResponse (): ApiResponse<null> {
+export function createNoContentResponse(): ApiResponse<null> {
   return createApiResponse(null, HTTP_STATUS.NO_CONTENT, 'No Content')
 }
 
@@ -43,7 +43,7 @@ export function createNoContentResponse (): ApiResponse<null> {
  * @returns An ApiResponse object with status code 204 (No Content)
  * @template T - The type of the data in the response
  */
-export function createDeletedResponse (): ApiResponse<null> {
+export function createDeletedResponse(): ApiResponse<null> {
   return createApiResponse(null, HTTP_STATUS.NO_CONTENT, 'Resource deleted successfully')
 }
 
@@ -52,7 +52,7 @@ export function createDeletedResponse (): ApiResponse<null> {
  * @returns An ApiResponse object with status code 204 (No Content)
  * @template T - The type of the data in the response
  */
-export function notFoundError (message = 'Resource not found') {
+export function notFoundError(message = 'Resource not found') {
   throw createError({
     statusCode: HTTP_STATUS.NOT_FOUND,
     statusMessage: message
@@ -64,7 +64,7 @@ export function notFoundError (message = 'Resource not found') {
  * @param message - The error message to return
  * @returns An error with status code 400 (Bad Request)
  */
-export function badRequestError (message = 'Bad Request') {
+export function badRequestError(message = 'Bad Request') {
   throw createError({
     statusCode: HTTP_STATUS.BAD_REQUEST,
     statusMessage: message
@@ -76,7 +76,7 @@ export function badRequestError (message = 'Bad Request') {
  * @param message - The error message to return
  * @returns An error with status code 500 (Internal Server Error)
  */
-export function serverError (message = 'Internal Server Error') {
+export function serverError(message = 'Internal Server Error') {
   throw createError({
     statusCode: HTTP_STATUS.INTERNAL_ERROR,
     statusMessage: message
@@ -88,7 +88,7 @@ export function serverError (message = 'Internal Server Error') {
  * @param message - The error message to return
  * @returns An error with status code 422 (Unprocessable Entity)
  */
-export function validationError (message = 'Validation Error') {
+export function validationError(message = 'Validation Error') {
   throw createError({
     statusCode: HTTP_STATUS.BAD_REQUEST,
     statusMessage: message

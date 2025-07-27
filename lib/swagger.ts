@@ -21,10 +21,10 @@ const swaggerOptions: OAS3Options = {
   apis: ['./server/api/**/*.{js,ts}']
 }
 
-export function generateSwaggerSpec () {
+export function generateSwaggerSpec() {
   return swaggerJsdoc(swaggerOptions)
 }
 
-export function isSwaggerEnabled (): boolean {
+export function isSwaggerEnabled(): boolean {
   return process.env.NODE_ENV === 'development'
 }

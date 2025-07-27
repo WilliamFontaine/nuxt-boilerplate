@@ -43,7 +43,7 @@ if [ -f "package.json" ]; then
         # Linux
         sed -i "s/\"name\": \"nuxt-boilerplate\"/\"name\": \"$NEW_PROJECT_NAME\"/" package.json
     fi
-    echo "✅ package.json updated"
+    echo "✅ package.json updated (remember to update YOUR_USERNAME in URLs)"
 else
     echo "⚠️  package.json not found"
 fi
@@ -104,12 +104,37 @@ else
     echo "ℹ️  .github/workflows directory not found"
 fi
 
-# 5. Reinstall dependencies to update lock file
-echo "📦 Reinstalling dependencies..."
-echo "🔧 Using npm..."
+# 5. Update .env.example if it contains references
+echo "⚙️  Updating .env.example..."
+if [ -f ".env.example" ]; then
+    if grep -q "database" .env.example; then
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/database/$NEW_PROJECT_NAME/g" .env.example
+            sed -i '' "s/test_database/test_$NEW_PROJECT_NAME/g" .env.example
+        else
+            sed -i "s/database/$NEW_PROJECT_NAME/g" .env.example
+            sed -i "s/test_database/test_$NEW_PROJECT_NAME/g" .env.example
+        fi
+        echo "✅ .env.example updated with new database names"
+    fi
+else
+    echo "ℹ️  .env.example not found"
+fi
+
+# 6. Clean up other package manager files and use npm
+echo "📦 Cleaning up package manager files and installing with npm..."
+if [ -f "pnpm-lock.yaml" ]; then
+    echo "🗑️  Removing pnpm-lock.yaml..."
+    rm pnpm-lock.yaml
+fi
+if [ -f "yarn.lock" ]; then
+    echo "🗑️  Removing yarn.lock..."
+    rm yarn.lock
+fi
+echo "🔧 Installing with npm..."
 npm install
 
-# 6. Clean up the script itself
+# 7. Clean up the script itself
 echo "🧹 Cleaning up..."
 read -p "Do you want to remove this renaming script? (y/N): " -n 1 -r
 echo
@@ -125,8 +150,10 @@ echo "🎉 Project successfully renamed!"
 echo "📂 Your project is now called: $NEW_PROJECT_NAME"
 echo ""
 echo "📋 Next recommended steps:"
-echo "   1. Test that everything works: npm dev"
-echo "   2. Commit the changes: git add . && git commit -m 'Rename project to $NEW_PROJECT_NAME'"
-echo "   3. Update the remote repository URL if needed"
-echo "   4. Update any deployment configurations"
+echo "   1. Copy environment variables: cp .env.example .env"
+echo "   2. Test that everything works: npm run dev"
+echo "   3. Commit the changes: git add . && git commit -m 'Rename project to $NEW_PROJECT_NAME'"
+echo "   4. Update YOUR_USERNAME in package.json URLs with your actual GitHub username"
+echo "   5. Update the remote repository URL if needed"
+echo "   6. Update any deployment configurations"
 echo ""
