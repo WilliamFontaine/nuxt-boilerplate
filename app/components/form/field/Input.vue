@@ -3,7 +3,7 @@
     <UInput
       :value="modelValue"
       :type="type"
-      :placeholder="placeholder || $t(`form.post.${name}.placeholder`)"
+      :placeholder="placeholder || t(`form.post.${name}.placeholder`)"
       color="primary"
       variant="outline"
       class="w-full"
@@ -25,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+
 defineProps<{
   modelValue?: string
   label: string

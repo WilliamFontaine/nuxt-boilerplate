@@ -29,14 +29,14 @@ export const usePostForm = () => {
     yup.object().shape({
       title: yup
         .string()
-        .required(t('form.post.title.required'))
-        .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('form.post.title.minLength'))
-        .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('form.post.title.maxLength')),
+        .required(t('postForm.fields.title.validation.required'))
+        .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('postForm.fields.title.validation.minLength'))
+        .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('postForm.fields.title.validation.maxLength')),
       content: yup
         .string()
-        .required(t('form.post.content.required'))
-        .min(TEXT_FIELD_LIMITS.CONTENT.MIN, t('form.post.content.minLength'))
-        .max(TEXT_FIELD_LIMITS.CONTENT.MAX, t('form.post.content.maxLength'))
+        .required(t('postForm.fields.content.validation.required'))
+        .min(TEXT_FIELD_LIMITS.CONTENT.MIN, t('postForm.fields.content.validation.minLength'))
+        .max(TEXT_FIELD_LIMITS.CONTENT.MAX, t('postForm.fields.content.validation.maxLength'))
     })
   )
 

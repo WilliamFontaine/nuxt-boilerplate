@@ -1,78 +1,149 @@
 {
   "app": {
     "description": "A simple and efficient starting point",
-    "footer": "Realized by William Fontaine",
+    "footer": "Made by William Fontaine",
     "name": "Nuxt Boilerplate"
+  },
+  "actions": {
+    "refresh": "Refresh",
+    "reset": "Reset",
+    "viewPosts": "View posts",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loadMore": "Load more"
+  },
+  "hero": {
+    "title": "Nuxt Boilerplate",
+    "subtitle": "A simple and efficient starting point",
+    "modernInterface": "Modern and intuitive interface"
+  },
+  "preferences": {
+    "displayMode": {
+      "label": "Display mode",
+      "list": "List",
+      "grid": "Grid"
+    },
+    "detailLevel": {
+      "label": "Detail level",
+      "compact": "Compact",
+      "extended": "Extended"
+    },
+    "current": "Current configuration",
+    "items": "items"
+  },
+  "posts": {
+    "title": "My posts",
+    "subtitle": "Discover and manage your post collection",
+    "empty": {
+      "title": "No posts",
+      "subtitle": "Start by creating your first post."
+    }
+  },
+  "stats": {
+    "title": "Statistics",
+    "subtitle": "Data overview",
+    "totalPosts": "Total posts"
+  },
+  "postForm": {
+    "fields": {
+      "title": {
+        "label": "Post title",
+        "placeholder": "Enter post title",
+        "validation": {
+          "required": "Title is required",
+          "minLength": "Title must contain at least 3 characters",
+          "maxLength": "Title cannot exceed 100 characters"
+        }
+      },
+      "content": {
+        "label": "Post content",
+        "placeholder": "Write your post content here",
+        "validation": {
+          "required": "Content is required",
+          "minLength": "Content must contain at least 10 characters",
+          "maxLength": "Content cannot exceed 1000 characters"
+        }
+      },
+      "createdAt": {
+        "label": "Created on {date} at {time}"
+      },
+      "updatedAt": {
+        "label": "Modified on {date} at {time}"
+      }
+    },
+    "analytics": {
+      "characterCount": "No characters | {count} character | {count} characters",
+      "wordCount": "No words | {count} word | {count} words",
+      "readingTime": "{count} minute read | {count} minutes read"
+    },
+    "actions": {
+      "create": {
+        "title": "Create new post",
+        "description": "Fill in the fields below to create a post.",
+        "submit": "Create post",
+        "cancel": "Cancel",
+        "success": {
+          "title": "Post created successfully",
+          "message": "Your post has been created successfully"
+        },
+        "error": {
+          "title": "Failed to create post",
+          "message": "An error occurred while creating the post"
+        },
+        "autoSaveInfo": "Changes will be saved automatically"
+      },
+      "edit": {
+        "title": "Edit post",
+        "description": "Edit your post content here.",
+        "save": "Save changes",
+        "cancel": "Cancel",
+        "success": {
+          "title": "Post updated successfully",
+          "message": "Your post has been updated successfully"
+        },
+        "error": {
+          "title": "Failed to update post",
+          "message": "An error occurred while updating the post"
+        },
+        "autoSaveInfo": "Changes will be saved automatically"
+      },
+      "delete": {
+        "title": "Delete post",
+        "description": "Are you sure you want to delete this post? This action is irreversible.",
+        "confirm": "Delete",
+        "cancel": "Cancel",
+        "tooltip": "Delete this post",
+        "success": {
+          "title": "Post deleted successfully",
+          "message": "Your post has been deleted successfully"
+        },
+        "error": {
+          "title": "Failed to delete post",
+          "message": "An error occurred while deleting the post"
+        },
+        "info": "This action will permanently delete the post"
+      }
+    },
+    "badgeLabels": {
+      "length": {
+        "short": "Short",
+        "medium": "Medium",
+        "long": "Long"
+      }
+    }
   },
   "error": {
     "404": {
       "message": "The page you are looking for does not exist.",
-      "title": "Page Not Found"
+      "title": "Page not found"
     },
     "actions": {
-      "back": "Go Back",
-      "home": "Go Home"
+      "back": "Back",
+      "home": "Home"
     },
     "generic": {
       "message": "An unexpected error occurred.",
-      "title": "Something went wrong"
+      "title": "An error occurred"
     }
-  },
-  "form": {
-    "post": {
-      "content": {
-        "label": "Content",
-        "placeholder": "Write your post content here",
-        "required": "Content is required",
-        "minLength": "Content must be at least 10 characters long",
-        "maxLength": "Content cannot exceed 1000 characters"
-      },
-      "delete": {
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "description": "Are you sure you want to delete this post? This action cannot be undone.",
-        "title": "Delete Post",
-        "tooltip": "Delete this post"
-      },
-      "edit": {
-        "cancel": "Cancel",
-        "save": "Save Changes",
-        "title": "Edit Post",
-        "tooltip": "Edit this post"
-      },
-      "error": {
-        "create": {
-          "message": "An error occurred while creating the post",
-          "title": "Failed to create post"
-        },
-        "update": {
-          "message": "An error occurred while updating the post",
-          "title": "Failed to update post"
-        }
-      },
-      "submit": "Create Post",
-      "success": {
-        "create": {
-          "message": "Your post has been created successfully",
-          "title": "Post created successfully"
-        },
-        "delete": "Your post has been deleted successfully",
-        "update": {
-          "message": "Your post has been updated successfully",
-          "title": "Post updated successfully"
-        }
-      },
-      "title": {
-        "label": "Title",
-        "placeholder": "Enter post title",
-        "required": "Title is required",
-        "minLength": "Title must be at least 3 characters long",
-        "maxLength": "Title cannot exceed 100 characters"
-      }
-    }
-  },
-  "hero": {
-    "subtitle": "A simple and efficient starting point",
-    "title": "Nuxt Boilerplate"
   }
 }

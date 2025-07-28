@@ -46,9 +46,12 @@
     "@nuxt/image": "1.10.0",
     "@nuxt/ui": "3.3.0",
     "@nuxtjs/i18n": "10.0.3",
+    "@pinia/nuxt": "^0.11.2",
     "@prisma/nuxt": "^0.3.0",
     "nuxt": "4.0.1",
     "nuxt-security": "^2.3.0",
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.4.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {

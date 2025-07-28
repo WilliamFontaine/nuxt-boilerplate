@@ -1,95 +1,118 @@
 <template>
-  <UCard>
+  <UCard :class="cardClass">
     <template #header>
-      <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-          {{ post.title }}
-        </h3>
-        <div class="flex gap-1">
-          <UTooltip :text="t('form.post.edit.tooltip')" :popper="{ placement: 'left' }">
-            <UButton
-              color="primary"
-              variant="ghost"
-              icon="i-lucide:edit"
-              size="sm"
-              data-testid="edit-button"
-              @click="showEditModal = true"
-            />
-          </UTooltip>
-          <UTooltip :text="t('form.post.delete.tooltip')" :popper="{ placement: 'left' }">
-            <UButton
-              color="error"
-              variant="ghost"
-              icon="i-lucide:trash-2"
-              size="sm"
-              @click="showDeleteModal = true"
-            />
-          </UTooltip>
+      <div class="flex justify-between gap-4">
+        <div class="flex-1 min-w-0">
+          <h3
+            class="font-semibold text-gray-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
+          >
+            {{ post.title }}
+          </h3>
         </div>
+        <UDropdownMenu :items="dropdownItems">
+          <UButton variant="ghost" icon="i-heroicons-ellipsis-vertical" size="sm" square />
+        </UDropdownMenu>
       </div>
     </template>
 
-    <p class="text-neutral-600 dark:text-neutral-400 whitespace-pre-wrap leading-relaxed">
-      {{ post.content }}
-    </p>
+    <div class="space-y-4">
+      <p
+        :class="[
+          'text-gray-700 dark:text-gray-300 leading-relaxed',
+          displayMode === 'compact' ? 'line-clamp-3' : ''
+        ]"
+      >
+        {{ post.content }}
+      </p>
+    </div>
 
-    <EditPostModal v-model:open="showEditModal" :post="post" @success="handleEditSuccess" />
-
-    <UModal
-      v-model:open="showDeleteModal"
-      :title="t('form.post.delete.title')"
-      :description="t('form.post.delete.description')"
-      :ui="{ footer: 'justify-end' }"
-      :close="{ color: 'neutral', variant: 'ghost' }"
-      :dismissible="false"
-    >
-      <template #footer>
-        <div class="flex w-full justify-end gap-x-3">
-          <UButton
-            color="neutral"
-            variant="outline"
-            :label="t('form.post.delete.cancel')"
-            @click="showDeleteModal = false"
-          />
-          <UButton
-            color="error"
-            :label="t('form.post.delete.delete')"
-            :loading="isDeleting"
-            @click="handleDelete"
-          />
+    <template v-if="displayMode === 'extended'" #footer>
+      <div class="flex flex-col text-xs gap-y-1 text-gray-600 dark:text-gray-400">
+        <div class="flex items-center gap-1">
+          <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
+          <span>
+            {{
+              t('postForm.fields.createdAt.label', {
+                date: formatDate(post.createdAt),
+                time: formatTime(post.createdAt)
+              })
+            }}
+          </span>
         </div>
-      </template>
-    </UModal>
+        <div v-if="post.updatedAt !== post.createdAt" class="flex items-center gap-1">
+          <UIcon name="i-heroicons-pencil" class="w-4 h-4" />
+          <span>
+            {{
+              t('postForm.fields.updatedAt.label', {
+                date: formatDate(post.updatedAt),
+                time: formatTime(post.updatedAt)
+              })
+            }}
+          </span>
+        </div>
+      </div>
+    </template>
   </UCard>
 </template>
 
 <script setup lang="ts">
+import ModalPost from '~/components/modal/post/index.vue'
+import ModalPostDelete from '~/components/modal/post/delete.vue'
+
 const { t } = useI18n()
 
-const props = defineProps<{
+interface Props {
   post: Post
-}>()
+  displayMode?: 'compact' | 'extended'
+  viewMode?: 'list' | 'grid'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  displayMode: 'compact',
+  viewMode: 'list'
+})
 
 const emit = defineEmits<{
-  (e: 'delete', post: Post): void
-  (e: 'refresh'): void
+  refresh: []
 }>()
 
-const showDeleteModal = ref(false)
-const showEditModal = ref(false)
-const isDeleting = ref(false)
+const overlay = useOverlay()
+const editModal = overlay.create(ModalPost)
+const deleteModal = overlay.create(ModalPostDelete)
 
-const handleDelete = async () => {
-  try {
-    isDeleting.value = true
-    emit('delete', props.post)
-    showDeleteModal.value = false
-  } finally {
-    isDeleting.value = false
-  }
-}
+const dropdownItems = [
+  [
+    {
+      label: t('actions.edit'),
+      icon: 'i-heroicons-pencil',
+      async onSelect() {
+        const result = await editModal.open({
+          mode: 'edit',
+          post: props.post,
+          open: true
+        }).result
+        if (result?.success) emit('refresh')
+      }
+    }
+  ],
+  [
+    {
+      label: t('actions.delete'),
+      icon: 'i-heroicons-trash',
+      async onSelect() {
+        const result = await deleteModal.open({
+          post: props.post,
+          open: true
+        }).result
+        if (result?.success) emit('refresh')
+      }
+    }
+  ]
+]
 
-const handleEditSuccess = () => {
-  emit('refresh')
-}
+const cardClass = computed(() => [
+  'group hover:shadow-lg transition-all duration-200',
+  props.viewMode === 'list' ? 'ring-1 ring-gray-200 dark:ring-gray-800' : '',
+  'hover:ring-primary-200 dark:hover:ring-primary-800'
+])
 </script>

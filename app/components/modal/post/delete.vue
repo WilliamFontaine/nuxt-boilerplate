@@ -1,0 +1,76 @@
+<template>
+  <UModal
+    v-model:open="open"
+    :title="t('postForm.actions.delete.title')"
+    :description="t('postForm.actions.delete.description')"
+    :dismissible="!loading"
+  >
+    <template #footer>
+      <div class="flex flex-col w-full">
+        <div class="flex items-center gap-2">
+          <UIcon name="i-lucide-info" class="w-4 h-4 text-gray-400" />
+          <span class="text-xs text-gray-500 dark:text-gray-400">
+            {{ t('postForm.actions.delete.info') }}
+          </span>
+        </div>
+        <div class="flex gap-3 self-end mt-4">
+          <UButton
+            type="button"
+            color="neutral"
+            variant="outline"
+            :label="t('postForm.actions.delete.cancel')"
+            icon="i-lucide-x"
+            :disabled="loading"
+            @click="open = false"
+          />
+          <UButton
+            type="button"
+            color="error"
+            variant="solid"
+            :label="t('postForm.actions.delete.confirm')"
+            icon="i-heroicons-trash"
+            :loading="loading"
+            @click="handleDelete"
+          />
+        </div>
+      </div>
+    </template>
+  </UModal>
+</template>
+
+<script setup lang="ts">
+const { t } = useI18n()
+
+interface Props {
+  post?: Post
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  post: undefined
+})
+
+const emit = defineEmits(['close'])
+const open = defineModel<boolean>('open', { required: true })
+const loading = ref(false)
+
+const handleDelete = async () => {
+  if (!props.post) return
+  loading.value = true
+  try {
+    await $fetch(`/api/posts/${props.post.id}`, { method: 'DELETE' })
+    useNotifications().success({
+      title: t('postForm.actions.delete.success.title'),
+      message: t('postForm.actions.delete.success.message')
+    })
+    emit('close', { success: true })
+    open.value = false
+  } catch {
+    useNotifications().error({
+      title: t('postForm.actions.delete.error.title'),
+      message: t('postForm.actions.delete.error.message')
+    })
+  } finally {
+    loading.value = false
+  }
+}
+</script>
