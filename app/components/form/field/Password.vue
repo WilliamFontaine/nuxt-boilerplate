@@ -16,7 +16,7 @@
         variant="link"
         size="lg"
         :icon="showPassword ? 'i-lucide:eye-off' : 'i-lucide:eye'"
-        :aria-label="showPassword ? $t('login.hidePassword') : $t('login.showPassword')"
+        :aria-label="showPassword ? t('login.hidePassword') : t('login.showPassword')"
         :aria-pressed="showPassword"
         @click="showPassword = !showPassword"
       />
@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
 const showPassword = ref(false)
 
 defineProps<{

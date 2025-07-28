@@ -1,4 +1,11 @@
 {
+  "actions": {
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "loadMore": "Charger plus",
+    "reset": "Réinitialiser",
+    "viewPosts": "Voir les posts"
+  },
   "app": {
     "description": "Un point de départ simple et efficace",
     "footer": "Réalisé par William Fontaine",
@@ -18,61 +25,124 @@
       "title": "Une erreur est survenue"
     }
   },
-  "form": {
-    "post": {
-      "content": {
-        "label": "Contenu",
-        "placeholder": "Écrivez le contenu de votre post ici",
-        "required": "Le contenu est requis",
-        "minLength": "Le contenu doit contenir au moins 10 caractères",
-        "maxLength": "Le contenu ne peut pas dépasser 1000 caractères"
+  "hero": {
+    "modernInterface": "Interface moderne et intuitive",
+    "subtitle": "Un point de départ simple et efficace",
+    "title": "Nuxt Boilerplate"
+  },
+  "postForm": {
+    "actions": {
+      "create": {
+        "autoSaveInfo": "Les modifications seront sauvegardées automatiquement",
+        "cancel": "Annuler",
+        "description": "Remplissez les champs ci-dessous pour créer un post.",
+        "error": {
+          "message": "Une erreur est survenue lors de la création du post",
+          "title": "Échec de la création du post"
+        },
+        "submit": "Créer le post",
+        "success": {
+          "message": "Votre post a été créé avec succès",
+          "title": "Post créé avec succès"
+        },
+        "title": "Créer un nouveau post"
       },
       "delete": {
         "cancel": "Annuler",
-        "delete": "Supprimer",
+        "confirm": "Supprimer",
         "description": "Êtes-vous sûr de vouloir supprimer ce post ? Cette action est irréversible.",
+        "error": {
+          "message": "Une erreur est survenue lors de la suppression du post",
+          "title": "Échec de la suppression du post"
+        },
+        "info": "Cette action supprimera définitivement le post",
+        "success": {
+          "message": "Votre post a été supprimé avec succès",
+          "title": "Post supprimé avec succès"
+        },
         "title": "Supprimer le post",
         "tooltip": "Supprimer ce post"
       },
       "edit": {
+        "autoSaveInfo": "Les modifications seront sauvegardées automatiquement",
         "cancel": "Annuler",
-        "save": "Enregistrer les modifications",
-        "title": "Modifier le post",
-        "tooltip": "Modifier ce post"
-      },
-      "error": {
-        "create": {
-          "message": "Une erreur est survenue lors de la création du post",
-          "title": "Échec de la création du post"
-        },
-        "update": {
+        "description": "Modifiez le contenu de votre post ici.",
+        "error": {
           "message": "Une erreur est survenue lors de la modification du post",
           "title": "Échec de la modification du post"
-        }
-      },
-      "submit": "Créer le post",
-      "success": {
-        "create": {
-          "message": "Votre post a été créé avec succès",
-          "title": "Post créé avec succès"
         },
-        "delete": "Votre post a été supprimé avec succès",
-        "update": {
+        "save": "Enregistrer les modifications",
+        "success": {
           "message": "Votre post a été modifié avec succès",
           "title": "Post modifié avec succès"
+        },
+        "title": "Modifier le post"
+      }
+    },
+    "analytics": {
+      "characterCount": "Aucun caractère | {count} caractère | {count} caractères",
+      "readingTime": "{count} minute de lecture | {count} minutes de lecture",
+      "wordCount": "Aucun mot | {count} mot | {count} mots"
+    },
+    "badgeLabels": {
+      "length": {
+        "long": "Long",
+        "medium": "Moyen",
+        "short": "Court"
+      }
+    },
+    "fields": {
+      "content": {
+        "label": "Contenu du post",
+        "placeholder": "Écrivez le contenu du post ici",
+        "validation": {
+          "maxLength": "Le contenu ne peut pas dépasser 1000 caractères",
+          "minLength": "Le contenu doit contenir au moins 10 caractères",
+          "required": "Le contenu est requis"
         }
       },
+      "createdAt": {
+        "label": "Créé le {date} à {time}"
+      },
       "title": {
-        "label": "Titre",
-        "placeholder": "Entrez le titre de votre post",
-        "required": "Le titre est requis",
-        "minLength": "Le titre doit contenir au moins 3 caractères",
-        "maxLength": "Le titre ne peut pas dépasser 100 caractères"
+        "label": "Titre du post",
+        "placeholder": "Entrez le titre du post",
+        "validation": {
+          "maxLength": "Le titre ne peut pas dépasser 100 caractères",
+          "minLength": "Le titre doit contenir au moins 3 caractères",
+          "required": "Le titre est requis"
+        }
+      },
+      "updatedAt": {
+        "label": "Modifié le {date} à {time}"
       }
     }
   },
-  "hero": {
-    "subtitle": "Un point de départ simple et efficace",
-    "title": "Nuxt Boilerplate"
+  "posts": {
+    "empty": {
+      "subtitle": "Commencez par créer votre premier post.",
+      "title": "Aucun post"
+    },
+    "subtitle": "Découvrez et gérez votre collection de posts",
+    "title": "Mes posts",
+    "type": "Article"
+  },
+  "preferences": {
+    "current": "Configuration actuelle",
+    "detailLevel": {
+      "compact": "Compact",
+      "extended": "Étendu",
+      "label": "Niveau de détail"
+    },
+    "displayMode": {
+      "grid": "Grille",
+      "label": "Mode d'affichage",
+      "list": "Liste"
+    }
+  },
+  "stats": {
+    "subtitle": "Aperçu des données",
+    "title": "Statistiques",
+    "totalPosts": "Total des posts"
   }
 }

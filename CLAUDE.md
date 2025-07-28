@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Nuxt 4 boilerplate featuring TypeScript, Nuxt UI, Prisma ORM, PostgreSQL, security hardening with nuxt-security, testing with Vitest/Playwright, and i18n support. The project uses a monorepo-like structure with shared utilities and comprehensive testing setup.
+This is a Nuxt 4 boilerplate featuring TypeScript, Nuxt UI, Pinia store management, Prisma ORM, PostgreSQL, security hardening with nuxt-security, testing with Vitest/Playwright, and i18n support. The project uses a monorepo-like structure with shared utilities and comprehensive testing setup.
 
 ## Specialized Agents
 
@@ -113,6 +113,7 @@ npm run tag:major           # Version bump and deploy (major)
 
 - **Framework**: Nuxt 4 with Vue 3 Composition API
 - **UI Library**: Nuxt UI components with Tailwind CSS
+- **State Management**: Pinia with persistent storage (cookies)
 - **Database**: PostgreSQL + Prisma ORM (v6.12.0)
 - **Security**: nuxt-security module with CORS, CSP, HSTS, rate limiting
 - **Internationalization**: French default, English support, prefix strategy except default
@@ -156,6 +157,33 @@ CORS_ORIGIN=https://yourdomain.com,https://app.yourdomain.com
 
 ## Development Guidelines
 
+### Auto-imports Configuration
+
+Nuxt 4 handles imports automatically - no manual import statements needed for:
+
+**Default Nuxt Auto-imports:**
+
+- **Vue components** from `~/components/` directory
+- **Vue/Nuxt built-ins**: ref, computed, reactive, watch, useI18n, $fetch, defineModel, etc.
+
+**Custom Client-side Auto-imports** (configured in `nuxt.config.ts`):
+
+- **`../shared/**`\*\* - All shared utilities, types, models (Post, ApiResponse, etc.)
+- **`composables/**`\*\* - All composables (usePostForm, useNotifications, usePreferences, etc.)
+
+**Custom Server-side Auto-imports** (configured in `nitro.imports`):
+
+- **`shared/**`\*\* - Shared utilities accessible in API routes
+- **`server/constants/**`\*\* - Server constants and configurations
+- **`server/validations/**`\*\* - Validation schemas (createPostSchema, updatePostSchema, etc.)
+
+**Additional Auto-imports:**
+
+- **Pinia stores** and store composables
+- **TypeScript types** are generated automatically during build
+
+When reviewing code, do NOT flag missing import statements for these directories as they are handled automatically by Nuxt's auto-import system.
+
 ### Code Style & Quality
 
 - Single quotes, no semicolons, 100 character line width
@@ -182,12 +210,43 @@ CORS_ORIGIN=https://yourdomain.com,https://app.yourdomain.com
 - Rate limiting applied (150 requests per 5 minutes)
 - Security headers enforced on all endpoints
 
+### State Management with Pinia
+
+- **Store Definition**: Use `defineStore` in `app/stores/`
+- **Persistent Storage**: Use `@pinia-plugin-persistedstate/nuxt` for cookie persistence
+- **Composable Pattern**: Create composables in `app/composables/` for clean store access
+- **Type Safety**: Full TypeScript support with proper typing
+
+```typescript
+// Store example
+export const usePreferencesStore = defineStore('preferences', {
+  state: () => ({
+    postViewMode: 'list' as PostViewMode
+  }),
+  persist: {
+    storage: piniaPluginPersistedstate.cookies({
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    })
+  }
+})
+
+// Composable example
+export const usePreferences = () => {
+  const store = usePreferencesStore()
+  return {
+    postViewMode: toRef(store, 'postViewMode'),
+    setPostViewMode: store.setPostViewMode
+  }
+}
+```
+
 ### Frontend Development
 
 - Composition API preferred over Options API
 - Form components in `app/components/form/field/`
 - Reusable patterns with proper prop validation
 - Type-safe event emissions with `defineEmits<>()`
+- Use `t()` from `useI18n()` instead of `$t()` for translations
 
 ### Testing Strategy
 

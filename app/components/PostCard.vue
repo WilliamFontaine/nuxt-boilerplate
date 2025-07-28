@@ -1,95 +1,124 @@
 <template>
-  <UCard>
-    <template #header>
-      <div class="flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-          {{ post.title }}
-        </h3>
-        <div class="flex gap-1">
-          <UTooltip :text="t('form.post.edit.tooltip')" :popper="{ placement: 'left' }">
-            <UButton
-              color="primary"
-              variant="ghost"
-              icon="i-lucide:edit"
-              size="sm"
-              data-testid="edit-button"
-              @click="showEditModal = true"
-            />
-          </UTooltip>
-          <UTooltip :text="t('form.post.delete.tooltip')" :popper="{ placement: 'left' }">
-            <UButton
-              color="error"
-              variant="ghost"
-              icon="i-lucide:trash-2"
-              size="sm"
-              @click="showDeleteModal = true"
-            />
-          </UTooltip>
+  <UCard :class="cardClass">
+    <div class="space-y-6">
+      <div class="flex justify-between items-start gap-4">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-2 h-2 bg-primary-500 rounded-full" />
+            <span
+              class="text-xs font-medium text-primary-600 dark:text-primary-400 uppercase tracking-wider"
+            >
+              {{ t('posts.type') }}
+            </span>
+          </div>
+          <h3
+            class="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-tight"
+          >
+            {{ post.title }}
+          </h3>
+        </div>
+        <UDropdownMenu :items="dropdownItems">
+          <UButton
+            variant="ghost"
+            icon="i-lucide-more-vertical"
+            size="sm"
+            square
+            class="opacity-60 hover:opacity-100 transition-opacity"
+          />
+        </UDropdownMenu>
+      </div>
+
+      <div class="relative">
+        <p
+          :class="[
+            'text-gray-600 dark:text-gray-300 leading-relaxed text-base',
+            displayMode === 'compact' ? 'line-clamp-3' : ''
+          ]"
+        >
+          {{ post.content }}
+        </p>
+        <div
+          v-if="displayMode === 'compact'"
+          class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none"
+        />
+      </div>
+
+      <div
+        class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800"
+      >
+        <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+          <div class="flex items-center gap-2">
+            <UIcon name="i-lucide-calendar" class="w-4 h-4" />
+            <span>{{ formatDate(post.createdAt) }}</span>
+          </div>
+          <div v-if="post.updatedAt !== post.createdAt" class="flex items-center gap-2">
+            <UIcon name="i-lucide-pencil" class="w-4 h-4" />
+            <span>{{ formatDate(post.updatedAt) }}</span>
+          </div>
         </div>
       </div>
-    </template>
-
-    <p class="text-neutral-600 dark:text-neutral-400 whitespace-pre-wrap leading-relaxed">
-      {{ post.content }}
-    </p>
-
-    <EditPostModal v-model:open="showEditModal" :post="post" @success="handleEditSuccess" />
-
-    <UModal
-      v-model:open="showDeleteModal"
-      :title="t('form.post.delete.title')"
-      :description="t('form.post.delete.description')"
-      :ui="{ footer: 'justify-end' }"
-      :close="{ color: 'neutral', variant: 'ghost' }"
-      :dismissible="false"
-    >
-      <template #footer>
-        <div class="flex w-full justify-end gap-x-3">
-          <UButton
-            color="neutral"
-            variant="outline"
-            :label="t('form.post.delete.cancel')"
-            @click="showDeleteModal = false"
-          />
-          <UButton
-            color="error"
-            :label="t('form.post.delete.delete')"
-            :loading="isDeleting"
-            @click="handleDelete"
-          />
-        </div>
-      </template>
-    </UModal>
+    </div>
   </UCard>
 </template>
 
 <script setup lang="ts">
+import ModalPost from '~/components/modal/post/index.vue'
+import ModalPostDelete from '~/components/modal/post/delete.vue'
+
 const { t } = useI18n()
 
-const props = defineProps<{
+interface Props {
   post: Post
-}>()
+  displayMode?: 'compact' | 'extended'
+  viewMode?: 'list' | 'grid'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  displayMode: 'compact',
+  viewMode: 'list'
+})
 
 const emit = defineEmits<{
-  (e: 'delete', post: Post): void
-  (e: 'refresh'): void
+  refresh: []
 }>()
 
-const showDeleteModal = ref(false)
-const showEditModal = ref(false)
-const isDeleting = ref(false)
+const overlay = useOverlay()
+const editModal = overlay.create(ModalPost)
+const deleteModal = overlay.create(ModalPostDelete)
 
-const handleDelete = async () => {
-  try {
-    isDeleting.value = true
-    emit('delete', props.post)
-    showDeleteModal.value = false
-  } finally {
-    isDeleting.value = false
-  }
-}
+const dropdownItems = [
+  [
+    {
+      label: t('actions.edit'),
+      icon: 'i-lucide-pencil',
+      async onSelect() {
+        const result = await editModal.open({
+          mode: 'edit',
+          post: props.post,
+          open: true
+        }).result
+        if (result?.success) emit('refresh')
+      }
+    }
+  ],
+  [
+    {
+      label: t('actions.delete'),
+      icon: 'i-lucide-trash-2',
+      async onSelect() {
+        const result = await deleteModal.open({
+          post: props.post,
+          open: true
+        }).result
+        if (result?.success) emit('refresh')
+      }
+    }
+  ]
+]
 
-const handleEditSuccess = () => {
-  emit('refresh')
-}
+const cardClass = computed(() => [
+  'group hover:shadow-lg transition-all duration-200',
+  props.viewMode === 'list' ? 'ring-1 ring-gray-200 dark:ring-gray-800' : '',
+  'hover:ring-primary-200 dark:hover:ring-primary-800'
+])
 </script>

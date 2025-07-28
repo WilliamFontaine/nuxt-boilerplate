@@ -1,78 +1,150 @@
 {
+  "actions": {
+    "delete": "Delete",
+    "edit": "Edit",
+    "loadMore": "Load more",
+    "refresh": "Refresh",
+    "reset": "Reset",
+    "viewPosts": "View posts"
+  },
   "app": {
     "description": "A simple and efficient starting point",
-    "footer": "Realized by William Fontaine",
+    "footer": "Made by William Fontaine",
     "name": "Nuxt Boilerplate"
   },
   "error": {
     "404": {
       "message": "The page you are looking for does not exist.",
-      "title": "Page Not Found"
+      "title": "Page not found"
     },
     "actions": {
-      "back": "Go Back",
-      "home": "Go Home"
+      "back": "Back",
+      "home": "Home"
     },
     "generic": {
       "message": "An unexpected error occurred.",
-      "title": "Something went wrong"
-    }
-  },
-  "form": {
-    "post": {
-      "content": {
-        "label": "Content",
-        "placeholder": "Write your post content here",
-        "required": "Content is required",
-        "minLength": "Content must be at least 10 characters long",
-        "maxLength": "Content cannot exceed 1000 characters"
-      },
-      "delete": {
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "description": "Are you sure you want to delete this post? This action cannot be undone.",
-        "title": "Delete Post",
-        "tooltip": "Delete this post"
-      },
-      "edit": {
-        "cancel": "Cancel",
-        "save": "Save Changes",
-        "title": "Edit Post",
-        "tooltip": "Edit this post"
-      },
-      "error": {
-        "create": {
-          "message": "An error occurred while creating the post",
-          "title": "Failed to create post"
-        },
-        "update": {
-          "message": "An error occurred while updating the post",
-          "title": "Failed to update post"
-        }
-      },
-      "submit": "Create Post",
-      "success": {
-        "create": {
-          "message": "Your post has been created successfully",
-          "title": "Post created successfully"
-        },
-        "delete": "Your post has been deleted successfully",
-        "update": {
-          "message": "Your post has been updated successfully",
-          "title": "Post updated successfully"
-        }
-      },
-      "title": {
-        "label": "Title",
-        "placeholder": "Enter post title",
-        "required": "Title is required",
-        "minLength": "Title must be at least 3 characters long",
-        "maxLength": "Title cannot exceed 100 characters"
-      }
+      "title": "An error occurred"
     }
   },
   "hero": {
+    "modernInterface": "Modern and intuitive interface",
     "subtitle": "A simple and efficient starting point",
     "title": "Nuxt Boilerplate"
+  },
+  "postForm": {
+    "actions": {
+      "create": {
+        "autoSaveInfo": "Changes will be saved automatically",
+        "cancel": "Cancel",
+        "description": "Fill in the fields below to create a post.",
+        "error": {
+          "message": "An error occurred while creating the post",
+          "title": "Failed to create post"
+        },
+        "submit": "Create post",
+        "success": {
+          "message": "Your post has been created successfully",
+          "title": "Post created successfully"
+        },
+        "title": "Create new post"
+      },
+      "delete": {
+        "cancel": "Cancel",
+        "confirm": "Delete",
+        "description": "Are you sure you want to delete this post? This action is irreversible.",
+        "error": {
+          "message": "An error occurred while deleting the post",
+          "title": "Failed to delete post"
+        },
+        "info": "This action will permanently delete the post",
+        "success": {
+          "message": "Your post has been deleted successfully",
+          "title": "Post deleted successfully"
+        },
+        "title": "Delete post",
+        "tooltip": "Delete this post"
+      },
+      "edit": {
+        "autoSaveInfo": "Changes will be saved automatically",
+        "cancel": "Cancel",
+        "description": "Edit your post content here.",
+        "error": {
+          "message": "An error occurred while updating the post",
+          "title": "Failed to update post"
+        },
+        "save": "Save changes",
+        "success": {
+          "message": "Your post has been updated successfully",
+          "title": "Post updated successfully"
+        },
+        "title": "Edit post"
+      }
+    },
+    "analytics": {
+      "characterCount": "No characters | {count} character | {count} characters",
+      "readingTime": "{count} minute read | {count} minutes read",
+      "wordCount": "No words | {count} word | {count} words"
+    },
+    "badgeLabels": {
+      "length": {
+        "long": "Long",
+        "medium": "Medium",
+        "short": "Short"
+      }
+    },
+    "fields": {
+      "content": {
+        "label": "Post content",
+        "placeholder": "Write your post content here",
+        "validation": {
+          "maxLength": "Content cannot exceed 1000 characters",
+          "minLength": "Content must contain at least 10 characters",
+          "required": "Content is required"
+        }
+      },
+      "createdAt": {
+        "label": "Created on {date} at {time}"
+      },
+      "title": {
+        "label": "Post title",
+        "placeholder": "Enter post title",
+        "validation": {
+          "maxLength": "Title cannot exceed 100 characters",
+          "minLength": "Title must contain at least 3 characters",
+          "required": "Title is required"
+        }
+      },
+      "updatedAt": {
+        "label": "Modified on {date} at {time}"
+      }
+    }
+  },
+  "posts": {
+    "empty": {
+      "subtitle": "Start by creating your first post.",
+      "title": "No posts"
+    },
+    "subtitle": "Discover and manage your post collection",
+    "title": "My posts",
+    "type": "Article"
+  },
+  "preferences": {
+    "current": "Current configuration",
+    "detailLevel": {
+      "compact": "Compact",
+      "extended": "Extended",
+      "label": "Detail level"
+    },
+    "displayMode": {
+      "grid": "Grid",
+      "label": "Display mode",
+      "list": "List"
+    },
+    "items": "items"
+  },
+  "stats": {
+    "subtitle": "Data overview",
+    "title": "Statistics",
+    "totalPosts": "Total posts"
   }
 }
