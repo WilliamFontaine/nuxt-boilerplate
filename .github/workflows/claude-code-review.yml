@@ -50,6 +50,20 @@ jobs:
           # Nuxt 4 specialized review prompt
           direct_prompt: |
             Review this Nuxt 4 PR focusing on:
+
+            🚨 **CRITICAL**: DO NOT flag missing imports! Nuxt 4 auto-imports:
+            - Vue/Nuxt built-ins (ref, computed, watch, useI18n, $fetch, etc.)
+            - All components from ~/components/ (default Nuxt behavior)
+            - Custom client-side auto-imports (nuxt.config.ts):
+              • shared/** - shared utilities, types, models
+              • composables/** - all composables (usePostForm, useNotifications, etc.)
+            - Custom server-side auto-imports (nitro.imports):
+              • shared/** - shared utilities in API routes
+              • server/constants/** - server constants
+              • server/validations/** - validation schemas
+            - Pinia stores and store composables
+
+            **REVIEW FOCUS**:
             - **TypeScript**: Type safety, proper interface usage, avoiding `any`
             - **Vue 3 Composition API**: Proper patterns, reactivity best practices
             - **Nuxt UI components**: Correct usage and accessibility

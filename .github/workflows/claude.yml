@@ -64,12 +64,19 @@ jobs:
             **ESSENTIAL COMMANDS**: npm run dev, build, test, lint, db operations via Docker
             **CODE STANDARDS**: Follow CLAUDE.md patterns - single quotes, no semicolons, 2-space indentation
             **AUTO-IMPORTS**:
-            ⚠️ IMPORTANT: Many imports are automatic - DO NOT add explicit imports for:
+            ⚠️ CRITICAL: DO NOT flag missing imports - Nuxt 4 auto-imports everything from:
             - Vue/Nuxt built-ins: ref, computed, reactive, watch, useI18n, $fetch, defineModel, etc.
-            - Composables: usePostForm, useNotifications (from app/composables/)
-            - Shared types: Post, ApiResponse, etc. (from shared/models/, shared/types/)
-            - Server utilities: createApiResponse, validateBody, validateParams (auto-imported in API routes)
-            - Validation schemas: createPostSchema, updatePostSchema, idSchema (auto-imported in server)
+            - Components: All files from ~/components/ directory (auto-imported by default)
+            - Custom client-side imports (configured in nuxt.config.ts):
+              • shared/** - All shared utilities, types, models (Post, ApiResponse, etc.)
+              • composables/** - All composables (usePostForm, useNotifications, usePreferences, etc.)
+            - Custom server-side imports (configured in nitro.imports):
+              • shared/** - Shared utilities accessible in API routes
+              • server/constants/** - Server constants and configurations
+              • server/validations/** - Validation schemas (createPostSchema, updatePostSchema, etc.)
+            - Pinia stores: usePreferencesStore and store composables
+
+            When reviewing code, NEVER suggest adding import statements for these configured directories.
             **ARCHITECTURE**:
             - Use Prisma singleton pattern (import prisma from '@@/lib/prisma')
             - RESTful APIs with consistent { statusCode, data } response format

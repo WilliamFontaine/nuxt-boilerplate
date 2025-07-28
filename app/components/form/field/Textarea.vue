@@ -7,7 +7,7 @@
       class="w-full"
       size="xl"
       :rows="rows"
-      :placeholder="placeholder || $t(`form.post.${name}.placeholder`)"
+      :placeholder="placeholder || t(`form.post.${name}.placeholder`)"
       @update:model-value="$emit('update:modelValue', $event)"
     />
     <template #error="{ error }">
@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+
 defineProps<{
   modelValue?: string
   label: string

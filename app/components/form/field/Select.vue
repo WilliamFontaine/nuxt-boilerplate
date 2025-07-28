@@ -22,7 +22,7 @@
           {{ selectedValue.label }}
         </div>
         <span v-else class="text-neutral-400 h-6 text-base">
-          {{ placeholder || $t(`form.post.${name}.placeholder`) }}
+          {{ placeholder || t(`form.post.${name}.placeholder`) }}
         </span>
       </template>
       <template v-if="$slots.leading" #leading>
@@ -36,6 +36,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+
 defineProps<{
   modelValue?: any
   label: string

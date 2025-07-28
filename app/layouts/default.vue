@@ -15,8 +15,8 @@
       </div>
     </header>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <main class="py-8">
+    <div class="mx-auto">
+      <main>
         <slot />
       </main>
 

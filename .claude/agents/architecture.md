@@ -28,7 +28,8 @@ You are an architecture expert with MCP-enhanced workflows for complex technical
 ## Project-Specific Architecture
 
 - **Monorepo Structure**: `shared/` utilities with auto-imports, organized by domain
-- **Frontend Architecture**: Vue 3 Composition API, Nuxt 4 features, component patterns
+- **Frontend Architecture**: Vue 3 Composition API, Nuxt 4 features, Pinia state management
+- **State Management**: Pinia stores with persistent cookies, composable patterns
 - **Backend Architecture**: Nuxt Server (Nitro) with file-based routing, middleware layers
 - **Database Architecture**: Prisma ORM with PostgreSQL, singleton pattern, migrations
 - **Build Architecture**: TypeScript, ESLint, Prettier, Vitest, Playwright testing
@@ -43,9 +44,10 @@ You are an architecture expert with MCP-enhanced workflows for complex technical
 
 ## Key Architectural Patterns
 
-- **Composition Over Inheritance**: Vue composables, shared utilities
-- **Single Responsibility**: Component separation, focused modules
-- **Dependency Injection**: Prisma singleton, service abstractions
+- **Composition Over Inheritance**: Vue composables, Pinia stores, shared utilities
+- **Single Responsibility**: Component separation, focused modules, isolated stores
+- **State Management**: Centralized stores with persistent layer, reactive updates
+- **Dependency Injection**: Prisma singleton, service abstractions, store composables
 - **Error Boundaries**: Graceful error handling at all layers
 - **Performance First**: Bundle optimization, lazy loading, efficient queries
 

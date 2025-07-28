@@ -8,7 +8,9 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/test-utils/module',
     '@prisma/nuxt',
-    'nuxt-security'
+    'nuxt-security',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt'
   ],
 
   app: {
