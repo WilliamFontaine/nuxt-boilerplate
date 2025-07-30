@@ -44,7 +44,7 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.58",
     "@iconify-json/openmoji": "^1.2.9",
-    "@nuxt/image": "1.10.0",
+    "@nuxt/image": "1.11.0",
     "@nuxt/ui": "3.3.0",
     "@nuxtjs/i18n": "10.0.3",
     "@pinia/nuxt": "^0.11.2",
