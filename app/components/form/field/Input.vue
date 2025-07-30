@@ -1,14 +1,14 @@
 <template>
   <UFormField :label="label" :name="name" :required="required">
     <UInput
-      :value="modelValue"
+      :model-value="modelValue"
       :type="type"
       :placeholder="placeholder || t(`form.post.${name}.placeholder`)"
       color="primary"
       variant="outline"
       class="w-full"
       size="xl"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @update:model-value="$emit('update:modelValue', $event)"
     >
       <template v-if="$slots.leading" #leading>
         <slot name="leading" />

@@ -1,25 +1,23 @@
 <template>
-  <UForm :state="state" :schema="schema" @submit="onSubmit">
-    <UModal
-      v-model:open="open"
-      :dismissible="!loading"
-      :title="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
-      :description="
-        isEditing
-          ? t('postForm.actions.edit.description')
-          : t('postForm.actions.create.description')
-      "
-    >
-      <UButton
-        size="lg"
-        color="primary"
-        :label="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
-        :icon="isEditing ? 'i-lucide-edit' : 'i-lucide-plus'"
-        class="shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 bg-white text-primary-600 hover:bg-gray-50"
-        @click="open = true"
-      />
+  <UModal
+    v-model:open="open"
+    :dismissible="!loading"
+    :title="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
+    :description="
+      isEditing ? t('postForm.actions.edit.description') : t('postForm.actions.create.description')
+    "
+  >
+    <UButton
+      size="lg"
+      color="primary"
+      :label="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
+      :icon="isEditing ? 'i-lucide-edit' : 'i-lucide-plus'"
+      class="shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 bg-white text-primary-600 hover:bg-gray-50"
+      @click="open = true"
+    />
 
-      <template #body>
+    <template #body>
+      <UForm ref="form" :state="state" :schema="schema" @submit="onSubmit">
         <div class="space-y-6">
           <FormFieldInput
             v-model="state.title"
@@ -65,50 +63,52 @@
             </div>
           </div>
         </div>
-      </template>
+      </UForm>
+    </template>
 
-      <template #footer>
-        <div class="flex flex-col w-full">
-          <div class="flex items-center gap-2">
-            <UIcon name="i-lucide-info" class="w-4 h-4 text-gray-400" />
-            <span class="text-xs text-gray-500 dark:text-gray-400">
-              {{
-                isEditing
-                  ? t('postForm.actions.edit.autoSaveInfo')
-                  : t('postForm.actions.create.autoSaveInfo')
-              }}
-            </span>
-          </div>
-          <div class="flex gap-3 self-end mt-4">
-            <UButton
-              type="button"
-              color="neutral"
-              variant="outline"
-              :label="
-                isEditing ? t('postForm.actions.edit.cancel') : t('postForm.actions.create.cancel')
-              "
-              icon="i-lucide-x"
-              :disabled="loading"
-              @click="open = false"
-            />
-            <UButton
-              type="submit"
-              color="primary"
-              :label="
-                isEditing ? t('postForm.actions.edit.save') : t('postForm.actions.create.submit')
-              "
-              :loading="loading"
-              :icon="isEditing ? 'i-lucide-save' : 'i-lucide-plus'"
-              @click="onSubmit"
-            />
-          </div>
+    <template #footer>
+      <div class="flex flex-col w-full">
+        <div class="flex items-center gap-2">
+          <UIcon name="i-lucide-info" class="w-4 h-4 text-gray-400" />
+          <span class="text-xs text-gray-500 dark:text-gray-400">
+            {{
+              isEditing
+                ? t('postForm.actions.edit.autoSaveInfo')
+                : t('postForm.actions.create.autoSaveInfo')
+            }}
+          </span>
         </div>
-      </template>
-    </UModal>
-  </UForm>
+        <div class="flex gap-3 self-end mt-4">
+          <UButton
+            type="button"
+            color="neutral"
+            variant="outline"
+            :label="
+              isEditing ? t('postForm.actions.edit.cancel') : t('postForm.actions.create.cancel')
+            "
+            icon="i-lucide-x"
+            :disabled="loading"
+            @click="open = false"
+          />
+          <UButton
+            type="submit"
+            color="primary"
+            :label="
+              isEditing ? t('postForm.actions.edit.save') : t('postForm.actions.create.submit')
+            "
+            :loading="loading"
+            :icon="isEditing ? 'i-lucide-save' : 'i-lucide-plus'"
+            @click="form?.submit()"
+          />
+        </div>
+      </div>
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
+import type { FormSubmitEvent } from '@nuxt/ui'
+
 const { t } = useI18n()
 
 interface Props {
@@ -127,6 +127,7 @@ const open = defineModel<boolean>('open', { required: true })
 
 const { state, schema, setState, resetState } = usePostForm()
 
+const form = useTemplateRef('form')
 const loading = ref(false)
 
 const isEditing = computed(() => props.mode === 'edit' || !!props.post)
@@ -181,7 +182,7 @@ onUnmounted(() => {
   stopOpenWatcher()
 })
 
-const onSubmit = async () => {
+const onSubmit = async (event: FormSubmitEvent<PostFormState>) => {
   if (isEditing.value && !props.post) return
 
   loading.value = true
@@ -189,7 +190,7 @@ const onSubmit = async () => {
     if (isEditing.value) {
       await $fetch<ApiResponse<Post>>(`/api/posts/${props.post!.id}`, {
         method: 'PUT',
-        body: state
+        body: event.data
       })
       useNotifications().success({
         title: t('postForm.actions.edit.success.title'),
@@ -198,7 +199,7 @@ const onSubmit = async () => {
     } else {
       await $fetch<ApiResponse<Post>>('/api/posts', {
         method: 'POST',
-        body: state
+        body: event.data
       })
       useNotifications().success({
         title: t('postForm.actions.create.success.title'),
