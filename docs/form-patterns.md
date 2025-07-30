@@ -28,7 +28,7 @@ resetState()
 **Features:**
 
 - ✅ Reactive state management
-- ✅ Yup schema validation with i18n
+- ✅ Zod schema validation with i18n
 - ✅ Computed validation status
 - ✅ State reset/update utilities
 
@@ -67,16 +67,16 @@ const model = defineModel<string>({ required: true })
 
 ### Schema Definition
 
-Forms use Yup schemas with i18n integration:
+Forms use Zod schemas with i18n integration:
 
 ```typescript
 const schema = computed(() =>
-  yup.object().shape({
-    title: yup
-      .string()
-      .required(t('form.post.title.required'))
+  z.object({
+    title: z
+      .string({ required_error: t('form.post.title.required') })
       .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('form.post.title.minLength'))
       .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('form.post.title.maxLength'))
+      .trim()
   })
 )
 ```

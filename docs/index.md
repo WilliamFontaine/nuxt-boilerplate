@@ -66,13 +66,14 @@ try {
 
 ```typescript
 const dynamicSchema = computed(() => {
-  return yup.object().shape({
-    title: yup
-      .string()
-      .required(t('validation.required'))
-      .test('unique', t('validation.unique'), async (value) => {
+  return z.object({
+    title: z.string({ required_error: t('validation.required') }).refine(
+      async (value) => {
         // Custom async validation
-      })
+        return await checkUniqueness(value)
+      },
+      { message: t('validation.unique') }
+    )
   })
 })
 ```

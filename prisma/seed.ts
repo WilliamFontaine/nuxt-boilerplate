@@ -1,80 +1,77 @@
+/* eslint-disable no-console */
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 const seedPosts = [
   {
-    title: 'Introduction au développement Nuxt 4',
+    title: 'Introduction to Nuxt 4 Development',
     content:
-      'Nuxt 4 apporte de nombreuses améliorations par rapport aux versions précédentes. Dans cet article, nous explorerons les nouvelles fonctionnalités comme la compilation plus rapide, les performances améliorées et la meilleure intégration TypeScript. Nous verrons également comment migrer vos projets existants vers cette nouvelle version majeure.'
+      'Nuxt 4 brings many improvements over previous versions. In this article, we will explore new features like faster compilation, better performance, and improved TypeScript integration. We will also look at how to migrate your existing projects to this major new version.'
   },
   {
-    title: 'Guide complet de Vue.js Composition API',
+    title: 'Comprehensive Guide to Vue.js Composition API',
     content:
-      'La Composition API est devenue la méthode recommandée pour développer avec Vue.js. Elle offre une meilleure réutilisabilité du code, une logique plus organisée et un support TypeScript amélioré. Ce guide couvre les concepts fondamentaux comme ref, reactive, computed et watch, avec des exemples pratiques.'
+      'The Composition API has become the recommended method for developing with Vue.js. It offers better code reusability, more organized logic, and improved TypeScript support. This guide covers key concepts such as ref, reactive, computed, and watch, with practical examples.'
   },
   {
-    title: 'Optimisation des performances web en 2024',
+    title: 'Web Performance Optimization in 2024',
     content:
-      'Les performances web sont cruciales pour l\'expérience utilisateur et le SEO. Cet article explore les techniques modernes d\'optimisation : lazy loading, tree shaking, code splitting, optimisation des images, mise en cache efficace et mesure des Core Web Vitals. Des conseils pratiques pour améliorer votre score PageSpeed.'
+      'Web performance is critical for user experience and SEO. This article explores modern optimization techniques: lazy loading, tree shaking, code splitting, image optimization, effective caching, and measuring Core Web Vitals. Practical tips to improve your PageSpeed score.'
   },
   {
-    title: 'TypeScript : Types avancés et bonnes pratiques',
+    title: 'TypeScript: Advanced Types and Best Practices',
     content:
-      'TypeScript offre un système de types puissant qui va bien au-delà des types primitifs. Découvrez les types utilitaires, les types génériques, les types conditionnels, l\'inférence de type et les techniques avancées pour créer des APIs type-safe et maintenables.'
+      'TypeScript offers a powerful type system that goes beyond primitive types. Discover utility types, generics, conditional types, type inference, and advanced techniques for building type-safe and maintainable APIs.'
   },
   {
-    title: 'Architecture moderne avec Pinia',
+    title: 'Modern Architecture with Pinia',
     content:
-      'Pinia est le nouveau standard pour la gestion d\'état dans Vue.js. Plus simple et plus performant que Vuex, il offre une API intuitive, un excellent support TypeScript et des devtools intégrés. Ce guide couvre la création de stores, la persistance et les bonnes pratiques.'
+      'Pinia is the new standard for state management in Vue.js. Simpler and more performant than Vuex, it offers an intuitive API, excellent TypeScript support, and integrated devtools. This guide covers store creation, persistence, and best practices.'
   },
   {
-    title: 'Sécurité des applications web modernes',
+    title: 'Security for Modern Web Applications',
     content:
-      'La sécurité web évolue constamment avec de nouvelles menaces et solutions. Cet article couvre les vulnérabilités courantes (XSS, CSRF, injection SQL), les headers de sécurité essentiels, l\'authentification moderne (JWT, OAuth2) et les bonnes pratiques de sécurisation des APIs.'
+      'Web security is constantly evolving with new threats and solutions. This article covers common vulnerabilities (XSS, CSRF, SQL injection), essential security headers, modern authentication (JWT, OAuth2), and best practices for securing APIs.'
   },
   {
-    title: 'Tests automatisés avec Vitest et Playwright',
+    title: 'Automated Testing with Vitest and Playwright',
     content:
-      'Une stratégie de test solide est essentielle pour maintenir la qualité du code. Découvrez comment mettre en place des tests unitaires avec Vitest, des tests d\'intégration et des tests E2E avec Playwright. Techniques de mocking, coverage et intégration CI/CD.'
+      'A solid testing strategy is essential for maintaining code quality. Learn how to set up unit tests with Vitest, integration tests, and E2E tests with Playwright. Mocking techniques, coverage, and CI/CD integration are also covered.'
   },
   {
-    title: 'Déploiement et DevOps pour développeurs frontend',
+    title: 'Deployment and DevOps for Frontend Developers',
     content:
-      'Le déploiement moderne va au-delà du simple upload FTP. Explorez Docker, les pipelines CI/CD avec GitHub Actions, le déploiement automatisé, la surveillance des applications et les stratégies de rollback. Un guide pratique pour passer en production sereinement.'
+      'Modern deployment goes beyond simple FTP uploads. Explore Docker, CI/CD pipelines with GitHub Actions, automated deployment, application monitoring, and rollback strategies. A practical guide for smooth production releases.'
   },
   {
-    title: 'Design System et composants réutilisables',
+    title: 'Design Systems and Reusable Components',
     content:
-      'Un design system cohérent améliore l\'expérience utilisateur et accélère le développement. Apprenez à créer des composants Vue.js réutilisables, à organiser votre système de design, à documenter vos composants et à maintenir la cohérence visuelle à grande échelle.'
+      'A consistent design system improves user experience and speeds up development. Learn how to create reusable Vue.js components, organize your design system, document your components, and maintain visual consistency at scale.'
   },
   {
-    title: 'Progressive Web Apps (PWA) avec Nuxt',
+    title: 'Progressive Web Apps (PWA) with Nuxt',
     content:
-      'Les PWA combinent le meilleur du web et du mobile. Découvrez comment transformer votre application Nuxt en PWA : service workers, mise en cache avancée, fonctionnement hors ligne, notifications push et installation sur l\'écran d\'accueil. L\'avenir du web mobile.'
+      'PWAs combine the best of web and mobile. Learn how to turn your Nuxt app into a PWA: service workers, advanced caching, offline functionality, push notifications, and home screen installation. The future of mobile web.'
   }
 ]
 
 async function main() {
-  // eslint-disable-next-line no-console
-  console.log('🌱 Début du seeding de la base de données...')
+  console.log('🌱 Starting database seeding...')
 
-  // Nettoyer les données existantes
+  // Clean up existing data
   await prisma.post.deleteMany()
-  // eslint-disable-next-line no-console
-  console.log('✅ Données existantes supprimées')
+  console.log('✅ Existing data deleted')
 
-  // Créer les nouveaux posts
+  // Create new posts
   for (const post of seedPosts) {
     await prisma.post.create({
       data: post
     })
   }
 
-  // eslint-disable-next-line no-console
-  console.log(`✅ ${seedPosts.length} articles de test créés`)
-  // eslint-disable-next-line no-console
-  console.log('🎉 Seeding terminé avec succès !')
+  console.log(`✅ ${seedPosts.length} test posts created`)
+  console.log('🎉 Seeding completed successfully!')
 }
 
 main()
@@ -82,8 +79,7 @@ main()
     await prisma.$disconnect()
   })
   .catch(async (e) => {
-    // eslint-disable-next-line no-console
-    console.error('❌ Erreur lors du seeding :', e)
+    console.error('❌ Error during seeding:', e)
     await prisma.$disconnect()
     process.exit(1)
   })
