@@ -1,7 +1,4 @@
-import * as yup from 'yup'
-import { ValidationError } from 'yup'
-
-interface PostFormState {
+export interface PostFormState {
   title: string
   content: string
 }
@@ -25,41 +22,28 @@ export const usePostForm = () => {
     Object.assign(state, { ...initialState })
   }
 
+  // Schema with client-side translations only
   const schema = computed(() =>
-    yup.object().shape({
-      title: yup
-        .string()
-        .required(t('postForm.fields.title.validation.required'))
+    z.object({
+      title: z
+        .string({ required_error: t('postForm.fields.title.validation.required') })
         .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('postForm.fields.title.validation.minLength'))
-        .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('postForm.fields.title.validation.maxLength')),
-      content: yup
-        .string()
-        .required(t('postForm.fields.content.validation.required'))
+        .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('postForm.fields.title.validation.maxLength'))
+        .trim(),
+      content: z
+        .string({ required_error: t('postForm.fields.content.validation.required') })
         .min(TEXT_FIELD_LIMITS.CONTENT.MIN, t('postForm.fields.content.validation.minLength'))
         .max(TEXT_FIELD_LIMITS.CONTENT.MAX, t('postForm.fields.content.validation.maxLength'))
+        .trim()
     })
   )
 
   const isValid = computed(() => {
-    try {
-      schema.value.validateSync(state)
-      return true
-    } catch {
-      return false
-    }
+    const result = schema.value.safeParse(state)
+    return result.success
   })
 
-  const validate = async () => {
-    try {
-      await schema.value.validate(state, { abortEarly: false })
-      return { isValid: true, errors: [] }
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        return { isValid: false, errors: error.errors }
-      }
-      return { isValid: false, errors: ['Validation failed'] }
-    }
-  }
+  const validate = () => schema.value.safeParse(state)
 
   return {
     state,

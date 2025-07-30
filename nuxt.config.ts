@@ -54,12 +54,13 @@ export default defineNuxtConfig({
   css: ['/assets/css/main.css'],
 
   imports: {
-    dirs: ['../shared/**', 'composables/**']
+    dirs: ['../shared/**', 'composables/**'],
+    imports: [{ name: 'z', from: 'zod' }]
   },
 
   nitro: {
     imports: {
-      dirs: ['shared/**', 'server/constants/**', 'server/validations/**']
+      dirs: ['shared/**', 'server/constants/**']
     }
   },
 
