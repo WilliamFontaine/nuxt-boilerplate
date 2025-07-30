@@ -1,19 +1,34 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Feature Request
+about: Suggest a new feature
 title: ''
-labels: ''
+labels: enhancement
 assignees: ''
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Feature Description
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+What feature would you like to see?
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Problem to Solve
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+Is this related to a problem? Describe it.
+
+## Proposed Solution
+
+How would you like this to work?
+
+## Components
+
+- [ ] Frontend
+- [ ] Backend/API
+- [ ] Database
+- [ ] Authentication
+- [ ] i18n
+- [ ] Security
+- [ ] Tests
+- [ ] Other:
+
+## Additional Context
+
+Any other context, mockups, or examples.
