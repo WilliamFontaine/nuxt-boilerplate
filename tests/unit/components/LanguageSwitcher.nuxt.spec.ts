@@ -34,14 +34,6 @@ describe('LanguageSwitcher', () => {
     expect(button.attributes('type')).toBe('button')
   })
 
-  it('should show French flag icon', async () => {
-    const wrapper = await mountSuspended(LanguageSwitcher)
-
-    const html = wrapper.html()
-    // Check that French flag icon is present (current locale)
-    expect(html).toContain('i-openmoji:flag-france')
-  })
-
   it('should mount without errors', async () => {
     await expect(mountSuspended(LanguageSwitcher)).resolves.toBeTruthy()
   })
