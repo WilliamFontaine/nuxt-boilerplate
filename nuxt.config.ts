@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/eslint',
     '@nuxtjs/i18n',
+    '@nuxtjs/seo',
     '@nuxt/image',
     '@nuxt/test-utils/module',
     '@prisma/nuxt',
@@ -32,14 +33,14 @@ export default defineNuxtConfig({
       {
         code: 'en',
         name: 'English',
-        file: 'en.json',
+        files: ['en/common.json', 'en/seo.json'],
         language: 'en-US',
         flag: 'i-openmoji:flag-united-states'
       },
       {
         code: 'fr',
         name: 'Français',
-        file: 'fr.json',
+        files: ['fr/common.json', 'fr/seo.json'],
         language: 'fr-FR',
         flag: 'i-openmoji:flag-france'
       }
@@ -122,6 +123,18 @@ export default defineNuxtConfig({
       headers: {
         'Access-Control-Max-Age': '86400'
       }
+    }
+  },
+
+  // SEO Configuration
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+    defaultLocale: 'fr'
+  },
+
+  seo: {
+    meta: {
+      twitterCard: 'summary_large_image'
     }
   },
 
