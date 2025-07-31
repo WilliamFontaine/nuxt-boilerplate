@@ -4,17 +4,33 @@ interface SeoOptions {
   ogTitle?: string
   ogDescription?: string
   keywords?: string
+  ogImage?: string
 }
 
+interface SeoData {
+  title?: string
+  description?: string
+  og?: {
+    title?: string
+    description?: string
+  }
+}
+
+/**
+ * Composable for managing SEO meta tags with i18n support
+ * @param pageKey - The key to lookup page-specific SEO data in translations (e.g., 'home', 'error.404')
+ * @param options - Optional SEO overrides
+ * @returns The computed SEO configuration
+ */
 export const useSeo = (pageKey?: string, options?: SeoOptions) => {
   const { t, locale } = useI18n()
 
   // Get SEO data from translations
-  const getSeoData = (key: string) => {
+  const getSeoData = (key: string): SeoData | null => {
     try {
       // Handle nested keys like 'error.404'
       const keyPath = key.includes('.') ? key : key
-      return t(`seo.pages.${keyPath}`, {}, { missingWarn: false })
+      return t(`seo.pages.${keyPath}`, {}, { missingWarn: false }) as SeoData
     } catch {
       return null
     }
@@ -22,7 +38,7 @@ export const useSeo = (pageKey?: string, options?: SeoOptions) => {
 
   // Build SEO configuration
   const buildSeoConfig = () => {
-    let seoData: any = {}
+    let seoData: SeoData | null = null
 
     if (pageKey) {
       seoData = getSeoData(pageKey)
@@ -52,6 +68,7 @@ export const useSeo = (pageKey?: string, options?: SeoOptions) => {
     keywords: seoConfig.keywords,
     ogTitle: seoConfig.ogTitle,
     ogDescription: seoConfig.ogDescription,
+    ogImage: options?.ogImage,
     ogSiteName: t('seo.site.name'),
     ogType: 'website',
     ogLocale: getIsoLocale(locale.value),
