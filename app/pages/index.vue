@@ -170,6 +170,9 @@
 </template>
 
 <script lang="ts" setup>
+// SEO Configuration
+useSeo('home')
+
 const { t } = useI18n()
 const { postViewMode, postDisplayMode } = usePreferences()
 

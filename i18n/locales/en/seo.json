@@ -1,0 +1,30 @@
+{
+  "seo": {
+    "site": {
+      "name": "Nuxt Boilerplate",
+      "description": "A simple and efficient starting point for Nuxt 3 applications with TypeScript, Pinia, and modern tooling.",
+      "keywords": "nuxt, vue, typescript, pinia, boilerplate, starter",
+      "titleTemplate": "%s | Nuxt Boilerplate"
+    },
+    "pages": {
+      "home": {
+        "title": "Home",
+        "description": "Welcome to Nuxt Boilerplate - A modern starting point for your next Vue.js application with Nuxt 3.",
+        "og": {
+          "title": "Nuxt Boilerplate - Modern Vue.js Starter",
+          "description": "Get started quickly with our comprehensive Nuxt 3 boilerplate featuring TypeScript, Pinia, and best practices."
+        }
+      },
+      "error": {
+        "404": {
+          "title": "Page Not Found",
+          "description": "The page you're looking for doesn't exist. Return to our homepage to continue browsing."
+        },
+        "500": {
+          "title": "Server Error",
+          "description": "We're experiencing technical difficulties. Please try again later."
+        }
+      }
+    }
+  }
+}
