@@ -28,6 +28,9 @@ const { t } = useI18n()
 const router = useRouter()
 const error = useError()
 
+const errorKey = error?.value?.statusCode === 404 ? '404' : '500'
+useSeo(`error.${errorKey}`)
+
 const goBack = () => {
   router.back()
 }

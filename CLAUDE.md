@@ -38,12 +38,14 @@ npx prisma migrate dev # run DB migrations
 - Tests separated by unit (Vitest) and E2E (Playwright)
 - Pinia stores use `@pinia-plugin-persistedstate/nuxt` for cookie persistence
 - Auto-imports configured for components, composables, stores, and shared utils
+- SEO with `@nuxtjs/seo` module and `useSeo` composable for localized meta tags
 
 ## Environment Variables
 
 - `NUXT_DATABASE_URL` for production database connection
 - `TEST_DATABASE_URL` for test database
 - `CORS_ORIGIN` required in production for allowed origins
+- `NUXT_PUBLIC_SITE_URL` for SEO canonical URL (defaults to localhost:3000)
 
 ## Development Guidelines
 
