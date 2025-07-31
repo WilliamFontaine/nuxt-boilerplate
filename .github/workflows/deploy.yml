@@ -57,6 +57,8 @@ jobs:
         with:
           context: . # Use the current directory as build context
           push: true # Push the image after building
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:${{ env.TAG_NAME }}
             ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:latest
