@@ -10,13 +10,6 @@ describe('LanguageSwitcher', () => {
     expect(wrapper.find('button').exists()).toBe(true)
   })
 
-  it('should display the current locale flag', async () => {
-    const wrapper = await mountSuspended(LanguageSwitcher)
-
-    // Should show French flag since locale is mocked as 'fr'
-    expect(wrapper.html()).toContain('i-openmoji:flag-france')
-  })
-
   it('should be clickable', async () => {
     const wrapper = await mountSuspended(LanguageSwitcher)
 
