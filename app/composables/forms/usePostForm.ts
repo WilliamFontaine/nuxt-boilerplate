@@ -1,17 +1,7 @@
-export interface PostFormState {
-  title: string
-  content: string
-}
-
 export const usePostForm = () => {
   const { t } = useI18n()
 
-  const initialState: PostFormState = {
-    title: '',
-    content: ''
-  }
-
-  const state = reactive<PostFormState>({ ...initialState })
+  const state = reactive<PostFormState>({ ...initialPostState })
 
   const setState = (data: Partial<PostFormState> | null) => {
     if (!data) return
@@ -19,7 +9,7 @@ export const usePostForm = () => {
   }
 
   const resetState = () => {
-    Object.assign(state, { ...initialState })
+    Object.assign(state, { ...initialPostState })
   }
 
   // Schema with client-side translations only
