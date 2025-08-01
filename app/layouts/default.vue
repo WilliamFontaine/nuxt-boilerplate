@@ -10,8 +10,8 @@
         {{ t('app.name') }}
       </NuxtLink>
       <div class="flex items-center gap-4">
-        <ThemeSwitcher />
-        <LanguageSwitcher />
+        <LayoutThemeSwitcher />
+        <LayoutLanguageSwitcher />
       </div>
     </header>
 

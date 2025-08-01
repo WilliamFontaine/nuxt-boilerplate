@@ -34,7 +34,11 @@
 
           <!-- Quick Actions -->
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <ModalPost v-model:open="createPostModal" display-mode="create" @close="refreshPosts" />
+            <FeaturesPostCreateModal
+              v-model:open="createPostModal"
+              display-mode="create"
+              @close="refreshPosts"
+            />
 
             <UButton
               size="lg"
@@ -57,7 +61,7 @@
         <!-- Enhanced Sidebar -->
         <div class="xl:col-span-1 space-y-8">
           <!-- Enhanced Preferences Controls -->
-          <PreferencesControls />
+          <LayoutPreferencesControls />
 
           <!-- Enhanced Stats Card -->
           <UCard class="shadow-lg border-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
@@ -140,7 +144,7 @@
                   : 'grid grid-cols-1'
               ]"
             >
-              <PostCard
+              <FeaturesPostCard
                 v-for="post in posts"
                 :key="post.id"
                 :post="post"
@@ -170,11 +174,11 @@
 </template>
 
 <script lang="ts" setup>
-// SEO Configuration
-useSeo('home')
-
 const { t } = useI18n()
 const { postViewMode, postDisplayMode } = usePreferences()
+
+// SEO Configuration
+useSeo('home')
 
 const createPostModal = ref(false)
 
