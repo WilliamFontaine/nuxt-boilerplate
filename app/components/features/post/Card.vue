@@ -62,8 +62,8 @@
 </template>
 
 <script setup lang="ts">
-import ModalPost from '~/components/modal/post/index.vue'
-import ModalPostDelete from '~/components/modal/post/delete.vue'
+import FeaturesPostCreateModal from '~/components/features/post/CreateModal.vue'
+import FeaturesPostDeleteModal from '~/components/features/post/DeleteModal.vue'
 
 const { t } = useI18n()
 
@@ -83,8 +83,8 @@ const emit = defineEmits<{
 }>()
 
 const overlay = useOverlay()
-const editModal = overlay.create(ModalPost)
-const deleteModal = overlay.create(ModalPostDelete)
+const editModal = overlay.create(FeaturesPostCreateModal)
+const deleteModal = overlay.create(FeaturesPostDeleteModal)
 
 const dropdownItems = [
   [

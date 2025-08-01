@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
-import ThemeSwitcher from '../../../app/components/ThemeSwitcher.vue'
+import ThemeSwitcher from '../../../app/components/layout/ThemeSwitcher.vue'
 
 describe('ThemeSwitcher', () => {
   it('should render the component', async () => {

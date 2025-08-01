@@ -19,7 +19,7 @@
     <template #body>
       <UForm ref="form" :state="state" :schema="schema" @submit="onSubmit">
         <div class="space-y-6">
-          <FormFieldInput
+          <UiFormInput
             v-model="state.title"
             name="title"
             :label="t('postForm.fields.title.label')"
@@ -27,7 +27,7 @@
             required
             size="lg"
           />
-          <FormFieldTextarea
+          <UiFormTextarea
             v-model="state.content"
             name="content"
             :label="t('postForm.fields.content.label')"
