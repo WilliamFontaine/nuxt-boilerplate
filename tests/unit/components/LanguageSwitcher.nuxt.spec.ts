@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
-import LanguageSwitcher from '../../../app/components/LanguageSwitcher.vue'
+import LanguageSwitcher from '../../../app/components/layout/LanguageSwitcher.vue'
 
 describe('LanguageSwitcher', () => {
   it('should render the component', async () => {

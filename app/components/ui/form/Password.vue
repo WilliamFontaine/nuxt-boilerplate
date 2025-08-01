@@ -1,5 +1,5 @@
 <template>
-  <FormFieldInput
+  <UiFormInput
     v-bind="$props"
     :type="showPassword ? 'text' : 'password'"
     class="w-full"
@@ -21,7 +21,7 @@
         @click="showPassword = !showPassword"
       />
     </template>
-  </FormFieldInput>
+  </UiFormInput>
 </template>
 
 <script setup lang="ts">

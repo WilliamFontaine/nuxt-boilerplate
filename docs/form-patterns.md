@@ -118,20 +118,20 @@ Form validation messages support multiple languages:
   <form @submit.prevent="handleSubmit">
     <FieldInput
       v-model="state.title"
-      :label="$t('form.post.title.label')"
-      :placeholder="$t('form.post.title.placeholder')"
+      :label="t('form.post.title.label')"
+      :placeholder="t('form.post.title.placeholder')"
       :error="titleError"
     />
 
     <FieldTextarea
       v-model="state.content"
-      :label="$t('form.post.content.label')"
-      :placeholder="$t('form.post.content.placeholder')"
+      :label="t('form.post.content.label')"
+      :placeholder="t('form.post.content.placeholder')"
       :error="contentError"
     />
 
     <UButton type="submit" :disabled="!isValid">
-      {{ $t('form.submit') }}
+      {{ t('form.submit') }}
     </UButton>
   </form>
 </template>
