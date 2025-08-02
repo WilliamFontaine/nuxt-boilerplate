@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     'nuxt-security',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    '@sidebase/nuxt-auth'
+    'nuxt-auth-utils'
   ],
 
   // App Configuration
@@ -28,10 +28,6 @@ export default defineNuxtConfig({
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     }
-  },
-
-  runtimeConfig: {
-    authSecret: process.env.NUXT_AUTH_SECRET
   },
 
   // I18n Configuration
@@ -143,14 +139,6 @@ export default defineNuxtConfig({
   seo: {
     meta: {
       twitterCard: 'summary_large_image'
-    }
-  },
-
-  // Authentication Configuration (basic setup for Part 2)
-  auth: {
-    isEnabled: false, // Temporarily disable until Part 3 implementation
-    provider: {
-      type: 'authjs'
     }
   },
 
