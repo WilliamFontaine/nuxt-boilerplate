@@ -11,9 +11,11 @@ export default defineNuxtConfig({
     '@prisma/nuxt',
     'nuxt-security',
     '@pinia/nuxt',
-    'pinia-plugin-persistedstate/nuxt'
+    'pinia-plugin-persistedstate/nuxt',
+    '@sidebase/nuxt-auth'
   ],
 
+  // App Configuration
   app: {
     head: {
       htmlAttrs: {
@@ -28,6 +30,11 @@ export default defineNuxtConfig({
     }
   },
 
+  runtimeConfig: {
+    authSecret: process.env.NUXT_AUTH_SECRET
+  },
+
+  // I18n Configuration
   i18n: {
     locales: [
       {
@@ -75,6 +82,7 @@ export default defineNuxtConfig({
     }
   },
 
+  // Security Configuration
   security: {
     headers: {
       contentSecurityPolicy: {
@@ -135,6 +143,14 @@ export default defineNuxtConfig({
   seo: {
     meta: {
       twitterCard: 'summary_large_image'
+    }
+  },
+
+  // Authentication Configuration (basic setup for Part 2)
+  auth: {
+    isEnabled: false, // Temporarily disable until Part 3 implementation
+    provider: {
+      type: 'authjs'
     }
   },
 
