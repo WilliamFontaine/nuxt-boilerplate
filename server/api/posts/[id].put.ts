@@ -1,11 +1,11 @@
-import prisma from '@@/lib/prisma'
-
 /**
  * @openapi
  * /api/posts/{id}:
  *   put:
- *     summary: Update a post
+ *     summary: Update a post (only by owner)
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -18,7 +18,6 @@ import prisma from '@@/lib/prisma'
  *         application/json:
  *           schema:
  *             type: object
- *             required: [title, content]
  *             properties:
  *               title:
  *                 type: string
@@ -26,24 +25,30 @@ import prisma from '@@/lib/prisma'
  *                 type: string
  *     responses:
  *       200:
- *         description: Updated
+ *         description: Post updated successfully
+ *       400:
+ *         description: Validation error
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - can only edit own posts
+ *       404:
+ *         description: Post not found
  */
 export default defineEventHandler(async (event) => {
   try {
+    // Require user authentication
+    const { user } = await requireUserSession(event)
+
     const { id } = await validateParams(event, idSchema)
-    const data = await validateBody(event, updatePostSchema)
+    const postData = await validateBody(event, updatePostSchema)
 
-    const post = await prisma.post.update({
-      where: { id },
-      data
-    })
+    // Update post using service (includes ownership check)
+    const post = await updatePost(id, postData, user.id)
 
-    return createApiResponse(post)
+    return createApiResponse(post, HTTP_STATUS.OK, 'Post updated successfully')
   } catch (error: any) {
     if (error.statusCode) throw error
-    if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {
-      throw notFoundError('Post not found')
-    }
     throw serverError('Failed to update post')
   }
 })

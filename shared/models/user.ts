@@ -196,9 +196,20 @@ export const initialPasswordState: PasswordFormState = {
 }
 
 /**
- * Helper function to convert User to PublicUser
+ * Helper function to convert Prisma User to PublicUser
  */
-export function toPublicUser(user: User): PublicUser {
-  const { password, ...publicUser } = user
-  return publicUser
+export function toPublicUser(user: {
+  id: number
+  email: string
+  password: string
+  name: string
+  createdAt: Date
+  updatedAt: Date
+}): PublicUser {
+  const { password, ...rest } = user
+  return {
+    ...rest,
+    createdAt: rest.createdAt.toISOString(),
+    updatedAt: rest.updatedAt.toISOString()
+  }
 }
