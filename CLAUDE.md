@@ -26,7 +26,7 @@ npm run dev            # start dev server
 npm run build          # build for production
 npm run lint           # run ESLint + Prettier
 npm test               # run unit + E2E tests
-docker compose up -d   # start PostgreSQL + Adminer
+docker compose up -d   # start PostgreSQL
 npx prisma migrate dev # run DB migrations
 ```
 

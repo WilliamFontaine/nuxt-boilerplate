@@ -83,12 +83,12 @@ export interface Post {
 ### Development Environment
 
 ```bash
-# Start PostgreSQL + Adminer
+# Start PostgreSQL
 docker compose up -d
 
 # Database accessible at:
 # - PostgreSQL: localhost:5432
-# - Adminer UI: localhost:8000
+# - Prisma Studio: localhost:5555
 ```
 
 ### Environment Variables

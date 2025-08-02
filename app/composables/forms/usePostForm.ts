@@ -3,9 +3,16 @@ export const usePostForm = () => {
 
   const state = reactive<PostFormState>({ ...initialPostState })
 
-  const setState = (data: Partial<PostFormState> | null) => {
+  const setState = (data: Partial<PostFormState> | Post | null) => {
     if (!data) return
-    Object.assign(state, data)
+
+    // Handle conversion from Post (with nullable content) to PostFormState
+    const formData: Partial<PostFormState> = {
+      title: data.title,
+      content: data.content ?? ''
+    }
+
+    Object.assign(state, formData)
   }
 
   const resetState = () => {
