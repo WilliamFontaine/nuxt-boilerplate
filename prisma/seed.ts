@@ -7,22 +7,26 @@ const prisma = new PrismaClient()
 const seedUsers = [
   {
     email: 'admin@example.com',
-    password: '$scrypt$n=16384,r=8,p=1$Nn8nVuIj5KB9Dlj/1DjECg$Nw69xt0a86YX3PWYf8bB3GCKijyvwyoiSRXKnCapI6qp7IxxE5xZEhfGbkZMzFKf9U4GPF6xFY/yfwaV1Emmtg', // admin123
+    password:
+      '$scrypt$n=16384,r=8,p=1$Nn8nVuIj5KB9Dlj/1DjECg$Nw69xt0a86YX3PWYf8bB3GCKijyvwyoiSRXKnCapI6qp7IxxE5xZEhfGbkZMzFKf9U4GPF6xFY/yfwaV1Emmtg', // admin123
     name: 'Admin User'
   },
   {
     email: 'author@example.com',
-    password: '$scrypt$n=16384,r=8,p=1$P45lRBd44V/Ldl1xbS3QGQ$31lj2goYjRRwpniWfAEkC0ALpPVcu+C8rJLmforCMlm97E/I7ORkI2NWHT3qLVr/jaaOG1OP0uvuXugdirsnwQ', // author123
+    password:
+      '$scrypt$n=16384,r=8,p=1$P45lRBd44V/Ldl1xbS3QGQ$31lj2goYjRRwpniWfAEkC0ALpPVcu+C8rJLmforCMlm97E/I7ORkI2NWHT3qLVr/jaaOG1OP0uvuXugdirsnwQ', // author123
     name: 'Content Author'
   },
   {
     email: 'editor@example.com',
-    password: '$scrypt$n=16384,r=8,p=1$SdRqhJlpopJJDIBR3Vq9aw$l3NIJ/EYWphnGB9uuAGn0ve9AF4N8ChpFC4dTvAleX+zkbSy68Ge27rx/Li8QvdgMCm3+lkahSgkgofVb6CWfw', // editor123
+    password:
+      '$scrypt$n=16384,r=8,p=1$SdRqhJlpopJJDIBR3Vq9aw$l3NIJ/EYWphnGB9uuAGn0ve9AF4N8ChpFC4dTvAleX+zkbSy68Ge27rx/Li8QvdgMCm3+lkahSgkgofVb6CWfw', // editor123
     name: 'Content Editor'
   },
   {
     email: 'demo@example.com',
-    password: '$scrypt$n=16384,r=8,p=1$zW1Nt12sSTXq6PeflXZHlw$2vNZNORH2MHQBTq+zswcqeWj/Sc+hsaOlQ8taKgxA3KBoKmlXcaxRS/DVYGCgksh+qjH3iKvg7veP6wsZkFjeQ', // demo123
+    password:
+      '$scrypt$n=16384,r=8,p=1$zW1Nt12sSTXq6PeflXZHlw$2vNZNORH2MHQBTq+zswcqeWj/Sc+hsaOlQ8taKgxA3KBoKmlXcaxRS/DVYGCgksh+qjH3iKvg7veP6wsZkFjeQ', // demo123
     name: 'Demo User'
   }
 ]

@@ -1,11 +1,11 @@
-import prisma from '@@/lib/prisma'
-
 /**
  * @openapi
  * /api/posts:
  *   post:
- *     summary: Create a post
+ *     summary: Create a new post
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -20,25 +20,21 @@ import prisma from '@@/lib/prisma'
  *                 type: string
  *     responses:
  *       201:
- *         description: Created
+ *         description: Post created successfully
+ *       400:
+ *         description: Validation error
+ *       401:
+ *         description: Unauthorized
  */
 export default defineEventHandler(async (event) => {
   try {
-    const data = await validateBody(event, createPostSchema)
+    // Require user authentication
+    const { user } = await requireUserSession(event)
 
-    // TODO: Replace with actual authenticated user ID when auth is implemented
-    // For now, assign to the first user (Admin User from seed)
-    const firstUser = await prisma.user.findFirst()
-    if (!firstUser) {
-      throw serverError('No users found in database. Please run the seed command.')
-    }
+    const postData = await validateBody(event, createPostSchema)
 
-    const post = await prisma.post.create({
-      data: {
-        ...data,
-        authorId: firstUser.id
-      }
-    })
+    // Create post using service
+    const post = await createPost(postData, user.id)
 
     return createCreatedResponse(post)
   } catch (error: any) {
