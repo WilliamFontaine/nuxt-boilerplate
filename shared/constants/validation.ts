@@ -45,7 +45,7 @@ export const PAGINATION_LIMITS = {
 
 // Validation patterns
 export const VALIDATION_PATTERNS = {
-  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  EMAIL: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/,
   PHONE: /^[\\+]?[1-9][\d]{0,15}$/,
   URL: /^https?:\/\/.+/,

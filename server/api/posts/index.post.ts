@@ -26,8 +26,18 @@ export default defineEventHandler(async (event) => {
   try {
     const data = await validateBody(event, createPostSchema)
 
+    // TODO: Replace with actual authenticated user ID when auth is implemented
+    // For now, assign to the first user (Admin User from seed)
+    const firstUser = await prisma.user.findFirst()
+    if (!firstUser) {
+      throw serverError('No users found in database. Please run the seed command.')
+    }
+
     const post = await prisma.post.create({
-      data
+      data: {
+        ...data,
+        authorId: firstUser.id
+      }
     })
 
     return createCreatedResponse(post)
