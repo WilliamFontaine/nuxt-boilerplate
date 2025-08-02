@@ -1,11 +1,11 @@
-import prisma from '@@/lib/prisma'
-
 /**
  * @openapi
  * /api/posts/{id}:
  *   delete:
- *     summary: Delete a post
+ *     summary: Delete a post (only by owner)
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -14,22 +14,27 @@ import prisma from '@@/lib/prisma'
  *           type: integer
  *     responses:
  *       200:
- *         description: Deleted
+ *         description: Post deleted successfully
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - can only delete own posts
+ *       404:
+ *         description: Post not found
  */
 export default defineEventHandler(async (event) => {
   try {
+    // Require user authentication
+    const { user } = await requireUserSession(event)
+
     const { id } = await validateParams(event, idSchema)
 
-    await prisma.post.delete({
-      where: { id }
-    })
+    // Delete post using service (includes ownership check)
+    await deletePost(id, user.id)
 
     return createDeletedResponse()
   } catch (error: any) {
     if (error.statusCode) throw error
-    if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {
-      throw notFoundError('Post not found')
-    }
     throw serverError('Failed to delete post')
   }
 })

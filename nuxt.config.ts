@@ -66,7 +66,7 @@ export default defineNuxtConfig({
 
   nitro: {
     imports: {
-      dirs: ['shared/**', 'server/constants/**']
+      dirs: ['shared/**', 'server/constants/**', 'server/services/**']
     }
   },
 
