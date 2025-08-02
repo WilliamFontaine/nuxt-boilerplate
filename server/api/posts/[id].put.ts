@@ -37,13 +37,16 @@
  */
 export default defineEventHandler(async (event) => {
   try {
-    // Require user authentication
-    const { user } = await requireUserSession(event)
+    // User is already authenticated by middleware
+    const user = event.context.user
 
     const { id } = await validateParams(event, idSchema)
     const postData = await validateBody(event, updatePostSchema)
 
-    // Update post using service (includes ownership check)
+    // Ensure user owns this post
+    await ensurePostOwnership(event, id)
+
+    // Update post using service
     const post = await updatePost(id, postData, user.id)
 
     return createApiResponse(post, HTTP_STATUS.OK, 'Post updated successfully')

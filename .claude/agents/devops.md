@@ -17,7 +17,7 @@ Expert DevOps pour infrastructure et déploiement automatisé.
 ```
 .github/workflows/    # CI/CD GitHub Actions
 Dockerfile           # Multi-stage Node.js 22 Alpine
-docker-compose.yml   # PostgreSQL + Adminer
+docker-compose.yml   # PostgreSQL
 ```
 
 ## Patterns Infrastructure

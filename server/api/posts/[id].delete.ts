@@ -24,12 +24,15 @@
  */
 export default defineEventHandler(async (event) => {
   try {
-    // Require user authentication
-    const { user } = await requireUserSession(event)
+    // User is already authenticated by middleware
+    const user = event.context.user
 
     const { id } = await validateParams(event, idSchema)
 
-    // Delete post using service (includes ownership check)
+    // Ensure user owns this post
+    await ensurePostOwnership(event, id)
+
+    // Delete post using service
     await deletePost(id, user.id)
 
     return createDeletedResponse()
