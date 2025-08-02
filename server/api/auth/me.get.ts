@@ -13,15 +13,8 @@
  *         description: Not authenticated
  */
 export default defineEventHandler(async (event) => {
-  // Get user session
-  const session = await getUserSession(event)
+  // User is already authenticated by middleware and available in context
+  const user = event.context.user
 
-  if (!session.user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Not authenticated'
-    })
-  }
-
-  return createApiResponse(session.user, HTTP_STATUS.OK, 'User session retrieved')
+  return createApiResponse(user, HTTP_STATUS.OK, 'User session retrieved')
 })

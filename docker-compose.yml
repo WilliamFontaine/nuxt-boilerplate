@@ -17,17 +17,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
-  adminer:
-    image: adminer:latest
-    container_name: nuxt-boilerplate_adminer
-    depends_on:
-      postgres:
-        condition: service_healthy
-    environment:
-      ADMINER_PLUGINS: 'tables-filter enum-option'
-      ADMINER_DESIGN: dracula
-      ADMINER_DEFAULT_SERVER: postgres
-    ports:
-      - '8000:8080'
-    restart: 'no'

@@ -39,7 +39,7 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, Nuxt UI, Prism
 2. **Start database**
 
    ```bash
-   docker compose up -d          # Start PostgreSQL + Adminer
+   docker compose up -d          # Start PostgreSQL
    npx prisma migrate dev        # Run database migrations
    ```
 
@@ -52,7 +52,7 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, Nuxt UI, Prism
 
 - **Application**: http://localhost:3000
 - **API Documentation**: http://localhost:3000/api/docs/ui
-- **Database Admin**: http://localhost:8000 (Adminer)
+- **Database Admin**: http://localhost:5555 (Prisma Studio)
 
 The app includes a simple **Posts** example to demonstrate the full stack.
 
