@@ -28,8 +28,8 @@
  */
 export default defineEventHandler(async (event) => {
   try {
-    // Require user authentication
-    const { user } = await requireUserSession(event)
+    // User is already authenticated by middleware and available in context
+    const user = event.context.user
 
     const postData = await validateBody(event, createPostSchema)
 
