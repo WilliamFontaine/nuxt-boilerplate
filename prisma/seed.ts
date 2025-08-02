@@ -1,49 +1,28 @@
 /* eslint-disable no-console */
 import { PrismaClient, type User } from '@prisma/client'
-import { scrypt, randomBytes } from 'node:crypto'
-import { promisify } from 'node:util'
-
-const scryptAsync = promisify(scrypt)
-
-// Compatible password hashing with nuxt-auth-utils format
-async function hashPasswordCompatible(password: string): Promise<string> {
-  const salt = randomBytes(32)
-  const N = 16384,
-    r = 8,
-    p = 1
-  const keylen = 64
-
-  const derivedKey = (await scryptAsync(password, salt, keylen)) as Buffer
-
-  // Format compatible with nuxt-auth-utils: $scrypt$n=N,r=r,p=p$salt$hash
-  const saltBase64 = salt.toString('base64')
-  const hashBase64 = derivedKey.toString('base64')
-
-  return `$scrypt$n=${N},r=${r},p=${p}$${saltBase64}$${hashBase64}`
-}
 
 const prisma = new PrismaClient()
 
-// Test users with hashed passwords
+// Test users with pre-hashed passwords (compatible with nuxt-auth-utils)
 const seedUsers = [
   {
     email: 'admin@example.com',
-    password: 'admin123',
+    password: '$scrypt$n=16384,r=8,p=1$Nn8nVuIj5KB9Dlj/1DjECg$Nw69xt0a86YX3PWYf8bB3GCKijyvwyoiSRXKnCapI6qp7IxxE5xZEhfGbkZMzFKf9U4GPF6xFY/yfwaV1Emmtg', // admin123
     name: 'Admin User'
   },
   {
     email: 'author@example.com',
-    password: 'author123',
+    password: '$scrypt$n=16384,r=8,p=1$P45lRBd44V/Ldl1xbS3QGQ$31lj2goYjRRwpniWfAEkC0ALpPVcu+C8rJLmforCMlm97E/I7ORkI2NWHT3qLVr/jaaOG1OP0uvuXugdirsnwQ', // author123
     name: 'Content Author'
   },
   {
     email: 'editor@example.com',
-    password: 'editor123',
+    password: '$scrypt$n=16384,r=8,p=1$SdRqhJlpopJJDIBR3Vq9aw$l3NIJ/EYWphnGB9uuAGn0ve9AF4N8ChpFC4dTvAleX+zkbSy68Ge27rx/Li8QvdgMCm3+lkahSgkgofVb6CWfw', // editor123
     name: 'Content Editor'
   },
   {
     email: 'demo@example.com',
-    password: 'demo123',
+    password: '$scrypt$n=16384,r=8,p=1$zW1Nt12sSTXq6PeflXZHlw$2vNZNORH2MHQBTq+zswcqeWj/Sc+hsaOlQ8taKgxA3KBoKmlXcaxRS/DVYGCgksh+qjH3iKvg7veP6wsZkFjeQ', // demo123
     name: 'Demo User'
   }
 ]
@@ -109,14 +88,13 @@ async function main() {
   await prisma.user.deleteMany()
   console.log('✅ Existing data deleted')
 
-  // Create test users with hashed passwords
+  // Create test users with pre-hashed passwords
   const createdUsers: User[] = []
   for (const userData of seedUsers) {
-    const hashedPassword = await hashPasswordCompatible(userData.password)
     const user = await prisma.user.create({
       data: {
         email: userData.email,
-        password: hashedPassword,
+        password: userData.password, // Already hashed
         name: userData.name
       }
     })
