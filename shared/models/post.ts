@@ -17,7 +17,7 @@ import { z } from 'zod'
 export interface Post {
   id: number
   title: string
-  content: string
+  content: string | null
   authorId: number
   createdAt: string
   updatedAt: string

@@ -1,5 +1,3 @@
-import prisma from '@@/lib/prisma'
-
 /**
  * @openapi
  * /api/posts:
@@ -8,15 +6,13 @@ import prisma from '@@/lib/prisma'
  *     tags: [Posts]
  *     responses:
  *       200:
- *         description: Success
+ *         description: Posts retrieved successfully
  */
 export default defineEventHandler(async () => {
   try {
-    const posts = await prisma.post.findMany({
-      orderBy: { createdAt: 'desc' }
-    })
+    const posts = await getAllPosts()
 
-    return createApiResponse(posts)
+    return createApiResponse(posts, HTTP_STATUS.OK, 'Posts retrieved successfully')
   } catch (error: any) {
     if (error.statusCode) throw error
     throw serverError('Failed to fetch posts')
