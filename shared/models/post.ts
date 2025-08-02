@@ -18,8 +18,16 @@ export interface Post {
   id: number
   title: string
   content: string
+  authorId: number
   createdAt: string
   updatedAt: string
+}
+
+/**
+ * Post entity with author information (for display)
+ */
+export interface PostWithAuthor extends Post {
+  author: PublicUser
 }
 
 // =============================================================================
@@ -33,11 +41,18 @@ export interface Post {
  */
 
 /**
- * Schema for creating a new post
+ * Schema for creating a new post (client-side form)
  */
 export const createPostSchema = z.object({
   title: z.string().min(TEXT_FIELD_LIMITS.TITLE.MIN).max(TEXT_FIELD_LIMITS.TITLE.MAX).trim(),
   content: z.string().min(TEXT_FIELD_LIMITS.CONTENT.MIN).max(TEXT_FIELD_LIMITS.CONTENT.MAX).trim()
+})
+
+/**
+ * Schema for creating a new post (server-side with authorId)
+ */
+export const createPostWithAuthorSchema = createPostSchema.extend({
+  authorId: z.number().int().positive()
 })
 
 /**
@@ -58,6 +73,7 @@ export const partialPostSchema = createPostSchema.partial()
  * Post data types inferred from validation schemas
  */
 export type CreatePostData = z.infer<typeof createPostSchema>
+export type CreatePostWithAuthorData = z.infer<typeof createPostWithAuthorSchema>
 export type UpdatePostData = z.infer<typeof updatePostSchema>
 export type PartialPostData = z.infer<typeof partialPostSchema>
 

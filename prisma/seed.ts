@@ -1,7 +1,32 @@
 /* eslint-disable no-console */
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type User } from '@prisma/client'
+import * as bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
+
+// Test users with hashed passwords
+const seedUsers = [
+  {
+    email: 'admin@example.com',
+    password: 'admin123',
+    name: 'Admin User'
+  },
+  {
+    email: 'author@example.com',
+    password: 'author123',
+    name: 'Content Author'
+  },
+  {
+    email: 'editor@example.com',
+    password: 'editor123',
+    name: 'Content Editor'
+  },
+  {
+    email: 'demo@example.com',
+    password: 'demo123',
+    name: 'Demo User'
+  }
+]
 
 const seedPosts = [
   {
@@ -61,17 +86,47 @@ async function main() {
 
   // Clean up existing data
   await prisma.post.deleteMany()
+  await prisma.user.deleteMany()
   console.log('✅ Existing data deleted')
 
-  // Create new posts
-  for (const post of seedPosts) {
+  // Create test users with hashed passwords
+  const createdUsers: User[] = []
+  for (const userData of seedUsers) {
+    const hashedPassword = await bcrypt.hash(userData.password, 10)
+    const user = await prisma.user.create({
+      data: {
+        email: userData.email,
+        password: hashedPassword,
+        name: userData.name
+      }
+    })
+    createdUsers.push(user)
+  }
+  console.log(`✅ ${createdUsers.length} test users created`)
+
+  // Create posts and associate them with random users
+  for (let i = 0; i < seedPosts.length; i++) {
+    const post = seedPosts[i]
+    // Distribute posts among users (cycling through them)
+    const authorIndex = i % createdUsers.length
+    const authorId = createdUsers[authorIndex].id
+
     await prisma.post.create({
-      data: post
+      data: {
+        ...post,
+        authorId
+      }
     })
   }
 
-  console.log(`✅ ${seedPosts.length} test posts created`)
+  console.log(`✅ ${seedPosts.length} test posts created and associated with users`)
   console.log('🎉 Seeding completed successfully!')
+
+  // Display created users for reference
+  console.log('\n📋 Created users:')
+  for (const user of createdUsers) {
+    console.log(`   • ${user.name} (${user.email}) - ID: ${user.id}`)
+  }
 }
 
 main()
