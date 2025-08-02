@@ -46,6 +46,8 @@ All field components follow this pattern:
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+
 interface Props {
   label: string
   placeholder?: string
@@ -137,6 +139,8 @@ Form validation messages support multiple languages:
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+
 const { state, isValid, validate } = usePostForm()
 
 const handleSubmit = async () => {
