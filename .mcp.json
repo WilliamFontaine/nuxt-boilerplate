@@ -2,23 +2,52 @@
   "mcpServers": {
     "context7": {
       "type": "http",
-      "url": "https://mcp.context7.com/mcp"
+      "url": "https://mcp.context7.com/mcp",
+      "alwaysAllow": ["resolve-library-id", "get-library-docs"]
     },
     "nuxt": {
       "type": "sse",
-      "url": "https://mcp.nuxt.com/sse"
+      "url": "https://mcp.nuxt.com/sse",
+      "alwaysAllow": ["search_nuxt_docs", "list_nuxt_modules"]
+    },
+    "nuxt-mcp": {
+      "type": "sse",
+      "url": "http://localhost:3000/__mcp/sse",
+      "alwaysAllow": []
     },
     "prisma": {
       "type": "http",
-      "url": "https://mcp.prisma.io/mcp"
+      "url": "https://mcp.prisma.io/mcp",
+      "alwaysAllow": [
+        "list_prisma_postgres_databases",
+        "create_prisma_postgres_database",
+        "introspect_database_schema",
+        "execute_sql_query",
+        "execute_prisma_postgres_schema_update",
+        "create_prisma_postgres_connection_string"
+      ]
     },
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"]
+      "args": ["@playwright/mcp@latest"],
+      "alwaysAllow": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_click",
+        "browser_type",
+        "browser_take_screenshot",
+        "browser_wait_for"
+      ]
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "alwaysAllow": ["sequentialthinking"]
+    }
+  },
+  "defaults": {
+    "sampling": {
+      "temperature": 0.7
     }
   }
 }

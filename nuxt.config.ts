@@ -18,7 +18,8 @@ export default defineNuxtConfig({
     'nuxt-security',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
+    'nuxt-mcp'
   ],
 
   // App Configuration
