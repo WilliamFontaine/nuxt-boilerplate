@@ -4,12 +4,13 @@
       class="py-4 px-4 flex justify-between items-center border-b border-neutral-200 dark:border-neutral-800"
     >
       <NuxtLink
-        :to="localePath('index')"
+        :to="localePath('/')"
         class="text-xl font-bold text-secondary-500 dark:text-secondary-400"
       >
         {{ t('app.name') }}
       </NuxtLink>
       <div class="flex items-center gap-4">
+        <LayoutUserMenu />
         <LayoutThemeSwitcher />
         <LayoutLanguageSwitcher />
       </div>
