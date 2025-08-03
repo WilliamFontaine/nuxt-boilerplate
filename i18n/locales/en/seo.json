@@ -1,30 +1,46 @@
 {
   "seo": {
-    "site": {
-      "name": "Nuxt Boilerplate",
-      "description": "A simple and efficient starting point for Nuxt 3 applications with TypeScript, Pinia, and modern tooling.",
-      "keywords": "nuxt, vue, typescript, pinia, boilerplate, starter",
-      "titleTemplate": "%s | Nuxt Boilerplate"
-    },
     "pages": {
-      "home": {
-        "title": "Home",
-        "description": "Welcome to Nuxt Boilerplate - A modern starting point for your next Vue.js application with Nuxt 3.",
-        "og": {
-          "title": "Nuxt Boilerplate - Modern Vue.js Starter",
-          "description": "Get started quickly with our comprehensive Nuxt 3 boilerplate featuring TypeScript, Pinia, and best practices."
-        }
-      },
       "error": {
         "404": {
-          "title": "Page Not Found",
-          "description": "The page you're looking for doesn't exist. Return to our homepage to continue browsing."
+          "description": "The page you're looking for doesn't exist. Return to our homepage to continue browsing.",
+          "title": "Page Not Found"
         },
         "500": {
-          "title": "Server Error",
-          "description": "We're experiencing technical difficulties. Please try again later."
+          "description": "We're experiencing technical difficulties. Please try again later.",
+          "title": "Server Error"
         }
+      },
+      "home": {
+        "description": "Welcome to Nuxt Boilerplate - A modern starting point for your next Vue.js application with Nuxt 3.",
+        "og": {
+          "description": "Get started quickly with our comprehensive Nuxt 3 boilerplate featuring TypeScript, Pinia, and best practices.",
+          "title": "Nuxt Boilerplate - Modern Vue.js Starter"
+        },
+        "title": "Home"
+      },
+      "login": {
+        "description": "Sign in to your account to access your personal data and features.",
+        "og": {
+          "description": "Access your personal space with your credentials.",
+          "title": "Login - Nuxt Boilerplate"
+        },
+        "title": "Login"
+      },
+      "register": {
+        "description": "Create your free account to start using all our features.",
+        "og": {
+          "description": "Join us and discover all the possibilities offered by our platform.",
+          "title": "Sign Up - Nuxt Boilerplate"
+        },
+        "title": "Sign Up"
       }
+    },
+    "site": {
+      "description": "A simple and efficient starting point for Nuxt 3 applications with TypeScript, Pinia, and modern tooling.",
+      "keywords": "nuxt, vue, typescript, pinia, boilerplate, starter",
+      "name": "Nuxt Boilerplate",
+      "titleTemplate": "%s | Nuxt Boilerplate"
     }
   }
 }

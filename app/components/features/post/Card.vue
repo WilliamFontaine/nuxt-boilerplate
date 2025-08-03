@@ -17,7 +17,7 @@
             {{ post.title }}
           </h3>
         </div>
-        <UDropdownMenu :items="dropdownItems">
+        <UDropdownMenu v-if="isOwner" :items="dropdownItems">
           <UButton
             variant="ghost"
             icon="i-lucide-more-vertical"
@@ -66,6 +66,7 @@ import FeaturesPostCreateModal from '~/components/features/post/CreateModal.vue'
 import FeaturesPostDeleteModal from '~/components/features/post/DeleteModal.vue'
 
 const { t } = useI18n()
+const { user } = useUserSession()
 
 interface Props {
   post: Post
@@ -81,6 +82,10 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   refresh: []
 }>()
+
+const isOwner = computed(() => {
+  return user.value && props.post.authorId === user.value.id
+})
 
 const overlay = useOverlay()
 const editModal = overlay.create(FeaturesPostCreateModal)

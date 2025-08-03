@@ -6,30 +6,42 @@
  */
 
 export default defineEventHandler(async (event) => {
-  // Only apply to API routes
-  if (!event.path?.startsWith('/api/')) return
+  const path = event.path || ''
+  const method = event.method || 'GET'
 
-  // Define public routes that don't need authentication
+  // Skip non-API routes
+  if (!path.startsWith('/api/')) return
+
+  // Skip internal Nuxt 4 API endpoints (icons, image, etc.)
+  // Covers: /api/_nuxt, /api/__nuxt, /api/_image, etc.
+  const isInternalNuxtRoute = /^\/api\/[_]{1,2}/.test(path)
+  if (isInternalNuxtRoute) return
+
+  // Declare public API routes (exact or prefix)
   const publicRoutes = [
     { path: '/api/auth/login', methods: ['POST'] },
     { path: '/api/auth/register', methods: ['POST'] },
-    { path: '/api/posts', methods: ['GET'] },
-    { path: '/api/docs', methods: ['GET'] } // docs and any sub-paths
+    { pathPrefix: '/api/posts', methods: ['GET'] }, // Allow /api/posts and subpaths
+    { pathPrefix: '/api/docs', methods: ['GET'] } // Allow /api/docs and subpaths
   ]
 
-  // Check if current route is public
   const isPublicRoute = publicRoutes.some((route) => {
-    const pathMatches =
-      route.path === '/api/docs'
-        ? event.path?.startsWith('/api/docs') // docs and sub-paths
-        : event.path === route.path // exact match for other routes
-    const methodMatches = route.methods.includes(event.method || 'GET')
-    return pathMatches && methodMatches
+    const methodMatches = route.methods.includes(method)
+
+    if ('path' in route) {
+      return route.path === path && methodMatches
+    }
+
+    if ('pathPrefix' in route) {
+      return path.startsWith(route.pathPrefix) && methodMatches
+    }
+
+    return false
   })
 
   if (isPublicRoute) return
 
-  // For protected routes, require authentication
+  // Protected route: require session
   try {
     const session = await requireUserSession(event)
     // Attach user to context for easy access in handlers
