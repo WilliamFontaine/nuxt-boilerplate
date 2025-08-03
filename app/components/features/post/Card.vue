@@ -1,5 +1,10 @@
 <template>
-  <UCard :class="cardClass">
+  <UCard
+    :class="[
+      'group hover:shadow-lg transition-all duration-200 hover:ring-primary-200 dark:hover:ring-primary-800',
+      viewMode === 'list' ? 'ring-1 ring-gray-200 dark:ring-gray-800' : ''
+    ]"
+  >
     <div class="space-y-6">
       <div class="flex justify-between items-start gap-4">
         <div class="flex-1 min-w-0">
@@ -46,7 +51,10 @@
       <div
         class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800"
       >
-        <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+        <div
+          :class="viewMode === 'grid' ? 'flex flex-col gap-2' : 'flex items-center gap-4'"
+          class="text-sm text-gray-500 dark:text-gray-400"
+        >
           <div class="flex items-center gap-2">
             <UIcon name="i-lucide-user" class="w-4 h-4" />
             <span>{{ post.author?.name || 'Auteur inconnu' }}</span>
@@ -73,7 +81,7 @@ const { t } = useI18n()
 const { user } = useUserSession()
 
 interface Props {
-  post: Post
+  post: PostWithAuthor
   displayMode?: 'compact' | 'extended'
   viewMode?: 'list' | 'grid'
 }
@@ -124,10 +132,4 @@ const dropdownItems = [
     }
   ]
 ]
-
-const cardClass = computed(() => [
-  'group hover:shadow-lg transition-all duration-200',
-  props.viewMode === 'list' ? 'ring-1 ring-gray-200 dark:ring-gray-800' : '',
-  'hover:ring-primary-200 dark:hover:ring-primary-800'
-])
 </script>

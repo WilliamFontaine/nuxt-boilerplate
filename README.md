@@ -8,6 +8,7 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, Nuxt UI, Prism
 
 - **🔧 Nuxt 4** with Vue 3 Composition API and TypeScript
 - **🎨 Nuxt UI** components with Tailwind CSS
+- **🔐 Authentication** with nuxt-auth-utils, JWT sessions, and OAuth support
 - **🗄️ Prisma ORM** with PostgreSQL and Docker setup
 - **🌍 Internationalization** (French/English) with auto-detection
 - **📚 API Documentation** with OpenAPI/Swagger (dev-only)
@@ -54,7 +55,7 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, Nuxt UI, Prism
 - **API Documentation**: http://localhost:3000/api/docs/ui
 - **Database Admin**: http://localhost:5555 (Prisma Studio)
 
-The app includes a simple **Posts** example to demonstrate the full stack.
+The app includes a complete **authentication system** and **Posts** example to demonstrate the full stack.
 
 ## 🛠️ Development Commands
 
@@ -119,6 +120,7 @@ npm run tag:major             # Version bump + deploy (major)
 
 - **Frontend**: Nuxt 4, Vue 3 Composition API, TypeScript
 - **UI**: Nuxt UI, Tailwind CSS, Headless UI
+- **Authentication**: nuxt-auth-utils, JWT sessions, OAuth providers, bcrypt
 - **Backend**: Nitro, H3, OpenAPI/Swagger
 - **Database**: PostgreSQL, Prisma ORM v6
 - **Security**: nuxt-security (CORS, CSP, HSTS, rate limiting)
@@ -130,14 +132,40 @@ npm run tag:major             # Version bump + deploy (major)
 
 ### Environment Setup
 
+Key environment variables:
+
+```bash
+# Database
+NUXT_DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+
+# Authentication (required for JWT sessions)
+NUXT_SESSION_PASSWORD="your-32-character-secret-key-here"
+
+# Production only
+CORS_ORIGIN="https://yourdomain.com"
+NUXT_PUBLIC_SITE_URL="https://yourdomain.com"
+```
+
 - **Development**: Uses `localhost` origins, relaxed CSP
-- **Production**: Requires `CORS_ORIGIN` env var, strict security headers
+- **Production**: Requires `CORS_ORIGIN` and `NUXT_SESSION_PASSWORD` env vars, strict security headers
 
 ### Rename Project
 
 ```bash
 ./rename-project.sh my-awesome-project
 ```
+
+### Authentication Features
+
+The boilerplate includes a complete authentication system:
+
+- **User Registration & Login** (`/auth/register`, `/auth/login`)
+- **Session Management** with JWT cookies via nuxt-auth-utils
+- **OAuth Support** for Google, GitHub, Discord, and other providers
+- **Protected API Routes** with automatic middleware protection
+- **Form Validation** with composables following consistent patterns
+- **Password Security** with bcrypt hashing
+- **User Context** accessible via `useUserSession()` composable
 
 ### Remove Example Code
 

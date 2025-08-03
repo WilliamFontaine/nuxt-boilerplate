@@ -5,16 +5,106 @@
     "loadMore": "Charger plus",
     "profile": "Profil",
     "reset": "Réinitialiser",
-    "viewPosts": "Voir les posts"
+    "viewPosts": "Voir les articles"
   },
   "app": {
     "description": "Un point de départ simple et efficace",
-    "footer": "Réalisé par William Fontaine",
+    "footer": "Créé par William Fontaine",
     "name": "Nuxt Boilerplate"
+  },
+  "articleForm": {
+    "actions": {
+      "create": {
+        "autoSaveInfo": "Les modifications sont sauvegardées automatiquement",
+        "cancel": "Annuler",
+        "description": "Remplissez les champs ci-dessous pour créer un article.",
+        "error": {
+          "message": "Une erreur est survenue lors de la création de l'article",
+          "title": "Échec de la création de l'article"
+        },
+        "loginRequired": "Connectez-vous pour créer un article",
+        "submit": "Créer l'article",
+        "success": {
+          "message": "Votre article a été créé avec succès",
+          "title": "Article créé avec succès"
+        },
+        "title": "Créer un nouvel article"
+      },
+      "delete": {
+        "cancel": "Annuler",
+        "confirm": "Supprimer",
+        "description": "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.",
+        "error": {
+          "message": "Une erreur est survenue lors de la suppression de l'article",
+          "title": "Échec de la suppression de l'article"
+        },
+        "info": "Cette action supprimera définitivement l'article",
+        "success": {
+          "message": "Votre article a été supprimé avec succès",
+          "title": "Article supprimé avec succès"
+        },
+        "title": "Supprimer l'article",
+        "tooltip": "Supprimer cet article"
+      },
+      "edit": {
+        "autoSaveInfo": "Les modifications sont sauvegardées automatiquement",
+        "cancel": "Annuler",
+        "description": "Modifiez le contenu de votre article ici.",
+        "error": {
+          "message": "Une erreur est survenue lors de la modification de l'article",
+          "title": "Échec de la modification de l'article"
+        },
+        "loginRequired": "Connectez-vous pour modifier un article",
+        "save": "Enregistrer les modifications",
+        "success": {
+          "message": "Votre article a été modifié avec succès",
+          "title": "Article modifié avec succès"
+        },
+        "title": "Modifier l'article"
+      }
+    },
+    "analytics": {
+      "characterCount": "Aucun caractère | {count} caractère | {count} caractères",
+      "readingTime": "{count} minute de lecture | {count} minutes de lecture",
+      "wordCount": "Aucun mot | {count} mot | {count} mots"
+    },
+    "badgeLabels": {
+      "length": {
+        "long": "Long",
+        "medium": "Moyen",
+        "short": "Court"
+      }
+    },
+    "fields": {
+      "content": {
+        "label": "Contenu de l'article",
+        "placeholder": "Rédigez le contenu de l'article ici",
+        "validation": {
+          "maxLength": "Le contenu ne peut pas dépasser 1000 caractères",
+          "minLength": "Le contenu doit contenir au moins 10 caractères",
+          "required": "Le contenu est requis"
+        }
+      },
+      "createdAt": {
+        "label": "Créé le {date} à {time}"
+      },
+      "title": {
+        "label": "Titre de l'article",
+        "placeholder": "Saisissez le titre de l'article",
+        "validation": {
+          "maxLength": "Le titre ne peut pas dépasser 100 caractères",
+          "minLength": "Le titre doit contenir au moins 3 caractères",
+          "required": "Le titre est requis"
+        }
+      },
+      "updatedAt": {
+        "label": "Modifié le {date} à {time}"
+      }
+    }
   },
   "auth": {
     "login": {
-      "autoSaveInfo": "Vos informations seront traitées de manière sécurisée",
+      "autoSaveInfo": "Vos informations seront traitées en toute sécurité",
       "backToHome": "Retour à l'accueil",
       "cancel": "Annuler",
       "email": {
@@ -36,6 +126,8 @@
         "label": "Mot de passe",
         "placeholder": "Entrez votre mot de passe",
         "validation": {
+          "maxLength": "Le mot de passe ne peut pas dépasser 128 caractères",
+          "minLength": "Le mot de passe doit contenir au moins 8 caractères",
           "required": "Le mot de passe est requis"
         }
       },
@@ -56,7 +148,7 @@
       "title": "Déconnexion"
     },
     "register": {
-      "autoSaveInfo": "Vos informations seront traitées de manière sécurisée",
+      "autoSaveInfo": "Vos informations seront traitées en toute sécurité",
       "backToHome": "Retour à l'accueil",
       "cancel": "Annuler",
       "confirmPassword": {
@@ -130,103 +222,13 @@
     "subtitle": "Un point de départ simple et efficace",
     "title": "Nuxt Boilerplate"
   },
-  "postForm": {
-    "actions": {
-      "create": {
-        "autoSaveInfo": "Les modifications seront sauvegardées automatiquement",
-        "cancel": "Annuler",
-        "description": "Remplissez les champs ci-dessous pour créer un post.",
-        "error": {
-          "message": "Une erreur est survenue lors de la création du post",
-          "title": "Échec de la création du post"
-        },
-        "loginRequired": "Se connecter pour créer un post",
-        "submit": "Créer le post",
-        "success": {
-          "message": "Votre post a été créé avec succès",
-          "title": "Post créé avec succès"
-        },
-        "title": "Créer un nouveau post"
-      },
-      "delete": {
-        "cancel": "Annuler",
-        "confirm": "Supprimer",
-        "description": "Êtes-vous sûr de vouloir supprimer ce post ? Cette action est irréversible.",
-        "error": {
-          "message": "Une erreur est survenue lors de la suppression du post",
-          "title": "Échec de la suppression du post"
-        },
-        "info": "Cette action supprimera définitivement le post",
-        "success": {
-          "message": "Votre post a été supprimé avec succès",
-          "title": "Post supprimé avec succès"
-        },
-        "title": "Supprimer le post",
-        "tooltip": "Supprimer ce post"
-      },
-      "edit": {
-        "autoSaveInfo": "Les modifications seront sauvegardées automatiquement",
-        "cancel": "Annuler",
-        "description": "Modifiez le contenu de votre post ici.",
-        "error": {
-          "message": "Une erreur est survenue lors de la modification du post",
-          "title": "Échec de la modification du post"
-        },
-        "loginRequired": "Se connecter pour modifier un post",
-        "save": "Enregistrer les modifications",
-        "success": {
-          "message": "Votre post a été modifié avec succès",
-          "title": "Post modifié avec succès"
-        },
-        "title": "Modifier le post"
-      }
-    },
-    "analytics": {
-      "characterCount": "Aucun caractère | {count} caractère | {count} caractères",
-      "readingTime": "{count} minute de lecture | {count} minutes de lecture",
-      "wordCount": "Aucun mot | {count} mot | {count} mots"
-    },
-    "badgeLabels": {
-      "length": {
-        "long": "Long",
-        "medium": "Moyen",
-        "short": "Court"
-      }
-    },
-    "fields": {
-      "content": {
-        "label": "Contenu du post",
-        "placeholder": "Écrivez le contenu du post ici",
-        "validation": {
-          "maxLength": "Le contenu ne peut pas dépasser 1000 caractères",
-          "minLength": "Le contenu doit contenir au moins 10 caractères",
-          "required": "Le contenu est requis"
-        }
-      },
-      "createdAt": {
-        "label": "Créé le {date} à {time}"
-      },
-      "title": {
-        "label": "Titre du post",
-        "placeholder": "Entrez le titre du post",
-        "validation": {
-          "maxLength": "Le titre ne peut pas dépasser 100 caractères",
-          "minLength": "Le titre doit contenir au moins 3 caractères",
-          "required": "Le titre est requis"
-        }
-      },
-      "updatedAt": {
-        "label": "Modifié le {date} à {time}"
-      }
-    }
-  },
   "posts": {
     "empty": {
-      "subtitle": "Commencez par créer votre premier post.",
-      "title": "Aucun post"
+      "subtitle": "Commencez par créer votre premier article.",
+      "title": "Aucun article"
     },
-    "subtitle": "Découvrez et gérez votre collection de posts",
-    "title": "Mes posts",
+    "subtitle": "Découvrez et gérez votre collection d'articles",
+    "title": "Mes articles",
     "type": "Article"
   },
   "preferences": {
@@ -246,6 +248,6 @@
   "stats": {
     "subtitle": "Aperçu des données",
     "title": "Statistiques",
-    "totalPosts": "Total des posts"
+    "totalPosts": "Total des articles"
   }
 }

@@ -153,6 +153,7 @@
                 :key="post.id"
                 :post="post"
                 :display-mode="postDisplayMode"
+                :view-mode="postViewMode"
                 @refresh="refreshPosts"
               />
             </div>
@@ -189,7 +190,8 @@ const createPostModal = ref(false)
 // Refs for scroll functionality
 const postsRef = ref<HTMLElement>()
 
-const { data: response, refresh: refreshPosts } = await useFetch<ApiResponse<Post[]>>('/api/posts')
+const { data: response, refresh: refreshPosts } =
+  await useFetch<ApiResponse<PostWithAuthor[]>>('/api/posts')
 const posts = computed(() => response.value?.data)
 
 const scrollToPosts = () => {
