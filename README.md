@@ -1,21 +1,23 @@
 # Nuxt Boilerplate
 
-A modern **Nuxt 4** production-ready boilerplate with TypeScript, Nuxt UI, Prisma, and PostgreSQL.
+A modern **Nuxt 4** production-ready boilerplate with TypeScript, authentication, and full-stack development tools.
 
 ![Screenshot](./public/screenshot.png)
 
 ## 🚀 Features
 
 - **🔧 Nuxt 4** with Vue 3 Composition API and TypeScript
-- **🎨 Nuxt UI** components with Tailwind CSS
-- **🔐 Authentication** with nuxt-auth-utils, JWT sessions, and OAuth support
-- **🗄️ Prisma ORM** with PostgreSQL and Docker setup
-- **🌍 Internationalization** (French/English) with auto-detection
-- **📚 API Documentation** with OpenAPI/Swagger (dev-only)
-- **🛡️ Security** hardening with CORS, CSP, and rate limiting
-- **🧪 Testing** with Vitest (unit) and Playwright (E2E)
-- **✨ Code Quality** with ESLint, Prettier, and Husky hooks
-- **🐳 Docker** support for easy deployment
+- **🎨 Nuxt UI** components with Tailwind CSS and @iconify icons
+- **🔐 Authentication** with nuxt-auth-utils, JWT sessions, bcrypt password hashing
+- **🗄️ Prisma ORM v6** with PostgreSQL and Docker setup
+- **🌍 Internationalization** (French/English) with auto-detection and SEO
+- **📚 API Documentation** with OpenAPI/Swagger (development only)
+- **🛡️ Security** hardening with nuxt-security (CORS, CSP, HSTS, rate limiting)
+- **🧪 Testing** with Vitest (unit) and Playwright (E2E, multi-browser)
+- **✨ Code Quality** with ESLint, Prettier, Husky hooks, and conventional commits
+- **🗂️ State Management** with Pinia and cookie persistence
+- **📱 SEO Optimized** with @nuxtjs/seo and structured meta tags
+- **🐳 Docker** support with docker-compose for development
 
 ## ⚡ Quick Start
 
@@ -109,7 +111,8 @@ npm run tag:major             # Version bump + deploy (major)
 ├── server/                   # Server-side code
 │   ├── api/                  # API routes (auto-mapped)
 │   ├── middleware/           # Server middleware
-│   └── utils/                # Server utilities
+│   ├── utils/                # Server utilities
+│   └── services/             # Server-side services
 ├── lib/                      # Core libraries (Prisma, Swagger)
 ├── prisma/                   # Database schema and migrations
 ├── tests/                    # Unit and E2E tests
@@ -118,36 +121,68 @@ npm run tag:major             # Version bump + deploy (major)
 
 ## 🔧 Tech Stack
 
-- **Frontend**: Nuxt 4, Vue 3 Composition API, TypeScript
-- **UI**: Nuxt UI, Tailwind CSS, Headless UI
-- **Authentication**: nuxt-auth-utils, JWT sessions, OAuth providers, bcrypt
-- **Backend**: Nitro, H3, OpenAPI/Swagger
-- **Database**: PostgreSQL, Prisma ORM v6
+### Frontend
+
+- **Framework**: Nuxt 4 with Vue 3 Composition API
+- **Language**: TypeScript with strict configuration
+- **UI Library**: Nuxt UI with Tailwind CSS and Headless UI
+- **Icons**: @iconify (Lucide and OpenMoji sets)
+- **State**: Pinia with cookie persistence (@pinia-plugin-persistedstate)
+- **Images**: @nuxt/image for optimization
+
+### Backend
+
+- **Runtime**: Nitro (Nuxt's server engine)
+- **API**: H3 framework with OpenAPI/Swagger documentation
+- **Database**: PostgreSQL with Prisma ORM v6
+- **Authentication**: nuxt-auth-utils with JWT sessions and bcrypt
+- **Validation**: Zod schema validation
+
+### Development & Quality
+
+- **Testing**: Vitest (unit tests) + Playwright (E2E, multi-browser)
+- **Linting**: ESLint with Nuxt config + Prettier
+- **Git Hooks**: Husky with conventional commits and commitlint
+- **Changelog**: Conventional Changelog with automatic generation
 - **Security**: nuxt-security (CORS, CSP, HSTS, rate limiting)
-- **Testing**: Vitest (unit), Playwright (E2E, multi-browser)
-- **Quality**: ESLint, Prettier, Husky, Conventional Commits
-- **DevOps**: Docker, GitHub Actions, Docker Registry
+
+### DevOps & Deployment
+
+- **Containerization**: Docker with docker-compose
+- **CI/CD**: GitHub Actions ready
+- **Internationalization**: @nuxtjs/i18n with French/English
+- **SEO**: @nuxtjs/seo with structured data and meta tags
 
 ## 🎛️ Configuration & Customization
 
 ### Environment Setup
 
+Copy the example environment file and configure:
+
+```bash
+cp .env.example .env
+```
+
 Key environment variables:
 
 ```bash
-# Database
-NUXT_DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+# Database (required)
+NUXT_DATABASE_URL="postgresql://postgres:P@ssw0rd@localhost:5432/database"
 
 # Authentication (required for JWT sessions)
 NUXT_SESSION_PASSWORD="your-32-character-secret-key-here"
 
-# Production only
-CORS_ORIGIN="https://yourdomain.com"
-NUXT_PUBLIC_SITE_URL="https://yourdomain.com"
+# SEO Configuration
+NUXT_PUBLIC_SITE_URL="http://localhost:3000"  # or your production URL
+
+# Production Security (required in production)
+CORS_ORIGIN="https://yourdomain.com,https://www.yourdomain.com"
 ```
 
-- **Development**: Uses `localhost` origins, relaxed CSP
-- **Production**: Requires `CORS_ORIGIN` and `NUXT_SESSION_PASSWORD` env vars, strict security headers
+**Environment-specific notes:**
+
+- **Development**: Uses `localhost` origins, relaxed CSP, includes API docs
+- **Production**: Requires `CORS_ORIGIN` and `NUXT_SESSION_PASSWORD`, strict security headers
 
 ### Rename Project
 

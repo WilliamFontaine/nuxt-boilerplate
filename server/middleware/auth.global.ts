@@ -12,6 +12,9 @@ export default defineEventHandler(async (event) => {
   // Skip non-API routes
   if (!path.startsWith('/api/')) return
 
+  // Skip MCP endpoints
+  if (path.startsWith('/__mcp/')) return
+
   // Skip internal Nuxt 4 API endpoints (icons, image, etc.)
   // Covers: /api/_nuxt, /api/__nuxt, /api/_image, etc.
   const isInternalNuxtRoute = /^\/api\/[_]{1,2}/.test(path)

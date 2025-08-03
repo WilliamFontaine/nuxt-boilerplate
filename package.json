@@ -72,6 +72,7 @@
     "eslint": "^9.32.0",
     "happy-dom": "18.0.1",
     "husky": "^9.1.7",
+    "nuxt-mcp": "^0.2.4",
     "playwright-core": "1.54.2",
     "prettier": "^3.6.2",
     "prisma": "^6.13.0",

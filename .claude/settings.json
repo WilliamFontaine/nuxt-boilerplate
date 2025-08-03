@@ -13,6 +13,7 @@
       "Edit",
       "mcp__context7",
       "mcp__nuxt",
+      "mcp__nuxt-mcp",
       "mcp__prisma",
       "mcp__playwright",
       "mcp__sequential-thinking__sequentialthinking",
@@ -34,7 +35,7 @@
     ],
     "defaultMode": "acceptEdits",
     "enableAllProjectMcpServers": true,
-    "enabledMcpJsonServers": ["context7", "nuxt", "prisma", "playwright", "ide", "sequential-thinking"],
+    "enabledMcpJsonServers": ["context7", "nuxt", "nuxt-mcp", "prisma", "playwright", "ide", "sequential-thinking"],
     "includeCoAuthoredBy": false
   }
 }
