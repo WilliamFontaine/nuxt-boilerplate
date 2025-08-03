@@ -12,10 +12,17 @@ Detailed implementation patterns and advanced usage for experienced developers.
 - **[🔔 Notification System](./notification-system.md)** - Toast system internals and customization
 - **[🗃️ Database Patterns](./database-patterns.md)** - Prisma patterns, query optimization, error handling
 - **[🧩 Component Architecture](./component-architecture.md)** - Component composition, patterns, and architecture
+- **[🗂️ Pinia Patterns](./pinia-patterns.md)** - State management with Pinia and persistence
+- **[🛡️ Security Patterns](./security-patterns.md)** - Authentication, authorization, and security hardening
+- **[🧪 Testing Patterns](./testing-patterns.md)** - Unit and E2E testing strategies with Vitest and Playwright
+
+### Operations & Deployment
+
+- **[🚀 Deployment Guide](./deployment-guide.md)** - Production deployment, CI/CD, and monitoring
 
 ### API Reference
 
-- **[📡 API](./api/)** - OpenAPI specification and implementation details
+- **[📡 API](./api.md)** - OpenAPI specification and implementation details
 
 ## 🎨 Design Patterns
 

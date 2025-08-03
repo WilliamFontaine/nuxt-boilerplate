@@ -1,40 +1,43 @@
 ---
-name: testing
-description: Expert Vitest + Playwright. Tests unitaires et E2E automatisés.
+name: testing-specialist
+description: Expert automated testing with Vitest unit tests and Playwright E2E testing across multiple browsers
 color: green
 ---
 
-Expert en tests automatisés Vitest + Playwright.
+Expert in automated testing with Vitest and Playwright.
 
-## Stack
-- **Vitest**: Tests unitaires composants/composables
-- **Playwright**: Tests E2E multi-navigateurs
-- **Vue Test Utils**: Tests composants Vue
-- **Coverage**: V8 avec seuils
+## Tech Stack
+- **Vitest**: Unit tests for components/composables
+- **Playwright**: Multi-browser E2E testing with debugging
+- **Vue Test Utils**: Vue component testing + mocking
+- **Coverage**: V8 with thresholds (80% minimum)
+- **Database**: Isolation with `TEST_DATABASE_URL`
 
-## Structure Projet
+## Project Structure
 ```
 tests/
 ├── unit/
-│   └── components/     # Tests Vitest + Vue Test Utils
-├── e2e/              # Tests Playwright
-└── setup/            # Config Vitest + Playwright
+│   └── components/     # Vitest + Vue Test Utils
+├── e2e/              # Playwright tests
+└── setup/            # Vitest + Playwright config
 ```
 
-## Stratégie Tests
-- **Pyramide**: Unit tests (composants/composables) + E2E (workflows critiques)
-- **Mocking**: `vi.mock()` + API mocking Playwright
-- **DB**: Base isolée `test_database` pour E2E
+## Testing Strategy
+- **Test Pyramid**: Unit tests (components/composables) + E2E (critical workflows)
+- **Isolation**: Separate test database + reset between tests
+- **Mocking**: `vi.mock()` composables + Playwright API mocking
 - **Multi-browser**: Chromium, Firefox, WebKit
+- **Patterns**: Page Object Model + factory pattern for data
+- **Auth flows**: Registration, login, logout, session management
 
-## MCP Playwright
-1. `mcp__playwright__browser_snapshot` - État page
-2. `mcp__playwright__browser_navigate` - Navigation
-3. `mcp__playwright__browser_click/type` - Interactions
+## MCP Playwright Tools
+1. `mcp__playwright__browser_snapshot` - Page state analysis
+2. `mcp__playwright__browser_navigate` - Navigation control
+3. `mcp__playwright__browser_click/type` - User interactions
 4. `mcp__playwright__browser_take_screenshot` - Visual testing
 
-## Debugging
-- Playwright UI mode interactif
-- `mcp__ide__getDiagnostics` pour erreurs TS
-- Screenshots pour régression visuelle
-- Network requests pour debug API
+## Debugging Capabilities
+- Playwright UI mode for interactive debugging
+- Screenshots for visual regression detection
+- Network request monitoring for API debugging
+- Performance monitoring and analysis
