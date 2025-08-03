@@ -24,14 +24,14 @@ export const usePostForm = () => {
     z.object({
       title: z
         .string()
-        .min(1, t('postForm.fields.title.validation.required'))
-        .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('postForm.fields.title.validation.minLength'))
-        .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('postForm.fields.title.validation.maxLength')),
+        .min(1, t('articleForm.fields.title.validation.required'))
+        .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('articleForm.fields.title.validation.minLength'))
+        .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('articleForm.fields.title.validation.maxLength')),
       content: z
         .string()
-        .min(1, t('postForm.fields.content.validation.required'))
-        .min(TEXT_FIELD_LIMITS.CONTENT.MIN, t('postForm.fields.content.validation.minLength'))
-        .max(TEXT_FIELD_LIMITS.CONTENT.MAX, t('postForm.fields.content.validation.maxLength'))
+        .min(1, t('articleForm.fields.content.validation.required'))
+        .min(TEXT_FIELD_LIMITS.CONTENT.MIN, t('articleForm.fields.content.validation.minLength'))
+        .max(TEXT_FIELD_LIMITS.CONTENT.MAX, t('articleForm.fields.content.validation.maxLength'))
     })
   )
 
