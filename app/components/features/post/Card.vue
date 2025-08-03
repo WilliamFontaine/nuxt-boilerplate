@@ -48,6 +48,10 @@
       >
         <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
           <div class="flex items-center gap-2">
+            <UIcon name="i-lucide-user" class="w-4 h-4" />
+            <span>{{ post.author?.name || 'Auteur inconnu' }}</span>
+          </div>
+          <div class="flex items-center gap-2">
             <UIcon name="i-lucide-calendar" class="w-4 h-4" />
             <span>{{ formatDate(post.createdAt) }}</span>
           </div>
