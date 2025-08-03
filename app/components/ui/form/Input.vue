@@ -3,11 +3,11 @@
     <UInput
       :model-value="modelValue"
       :type="type"
-      :placeholder="placeholder || t(`form.post.${name}.placeholder`)"
+      :placeholder="placeholder"
       color="primary"
       variant="outline"
       class="w-full"
-      size="xl"
+      :size="size || 'xl'"
       @update:model-value="$emit('update:modelValue', $event)"
     >
       <template v-if="$slots.leading" #leading>
@@ -25,17 +25,18 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
-
-defineProps<{
+interface InputProps {
   modelValue?: string
   label: string
   name: string
   placeholder?: string
   required?: boolean
   type?: string
+  size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs'
   admin?: boolean
-}>()
+}
+
+defineProps<InputProps>()
 
 defineEmits<(e: 'update:modelValue', value: string) => void>()
 </script>

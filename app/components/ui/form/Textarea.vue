@@ -7,7 +7,7 @@
       class="w-full"
       size="xl"
       :rows="rows"
-      :placeholder="placeholder || t(`form.post.${name}.placeholder`)"
+      :placeholder="placeholder"
       @update:model-value="$emit('update:modelValue', $event)"
     />
     <template #error="{ error }">
@@ -17,16 +17,16 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
-
-defineProps<{
+interface TextareaProps {
   modelValue?: string
   label: string
   name: string
   required?: boolean
   rows?: number
   placeholder?: string
-}>()
+}
+
+defineProps<TextareaProps>()
 
 defineEmits<(e: 'update:modelValue', value: string) => void>()
 </script>

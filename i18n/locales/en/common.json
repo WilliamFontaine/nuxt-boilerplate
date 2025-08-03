@@ -3,7 +3,7 @@
     "delete": "Delete",
     "edit": "Edit",
     "loadMore": "Load more",
-    "refresh": "Refresh",
+    "profile": "Profile",
     "reset": "Reset",
     "viewPosts": "View posts"
   },
@@ -11,6 +11,105 @@
     "description": "A simple and efficient starting point",
     "footer": "Made by William Fontaine",
     "name": "Nuxt Boilerplate"
+  },
+  "auth": {
+    "login": {
+      "autoSaveInfo": "Your information will be processed securely",
+      "backToHome": "Back to home",
+      "cancel": "Cancel",
+      "email": {
+        "label": "Email address",
+        "placeholder": "Enter your email address",
+        "validation": {
+          "invalid": "Email address is not valid",
+          "maxLength": "Email address cannot exceed 254 characters",
+          "required": "Email address is required"
+        }
+      },
+      "error": {
+        "generic": "An error occurred during login",
+        "invalidCredentials": "Invalid email or password",
+        "title": "Login error"
+      },
+      "noAccount": "Don't have an account?",
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "validation": {
+          "required": "Password is required"
+        }
+      },
+      "register": "Sign up",
+      "submit": "Sign in",
+      "subtitle": "Sign in to your account",
+      "success": {
+        "message": "You are now signed in",
+        "title": "Login successful"
+      },
+      "title": "Login"
+    },
+    "logout": {
+      "success": {
+        "message": "You have been logged out",
+        "title": "Logout successful"
+      },
+      "title": "Logout"
+    },
+    "register": {
+      "autoSaveInfo": "Your information will be processed securely",
+      "backToHome": "Back to home",
+      "cancel": "Cancel",
+      "confirmPassword": {
+        "label": "Confirm password",
+        "placeholder": "Confirm your password",
+        "validation": {
+          "match": "Passwords do not match",
+          "required": "Password confirmation is required"
+        }
+      },
+      "email": {
+        "label": "Email address",
+        "placeholder": "Enter your email address",
+        "validation": {
+          "invalid": "Email address is not valid",
+          "maxLength": "Email address cannot exceed 254 characters",
+          "required": "Email address is required"
+        }
+      },
+      "error": {
+        "emailExists": "This email address is already in use",
+        "generic": "An error occurred during registration",
+        "title": "Registration error"
+      },
+      "hasAccount": "Already have an account?",
+      "login": "Sign in",
+      "name": {
+        "label": "Full name",
+        "placeholder": "Enter your full name",
+        "validation": {
+          "maxLength": "Name cannot exceed 50 characters",
+          "minLength": "Name must be at least 2 characters long",
+          "required": "Name is required"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "validation": {
+          "maxLength": "Password cannot exceed 128 characters",
+          "minLength": "Password must be at least 8 characters long",
+          "pattern": "Password must include: 1 uppercase letter, 1 lowercase letter, and 1 number",
+          "required": "Password is required"
+        }
+      },
+      "submit": "Sign up",
+      "subtitle": "Create your account",
+      "success": {
+        "message": "Your account has been created successfully",
+        "title": "Registration successful"
+      },
+      "title": "Sign up"
+    }
   },
   "error": {
     "404": {
@@ -41,6 +140,7 @@
           "message": "An error occurred while creating the post",
           "title": "Failed to create post"
         },
+        "loginRequired": "Sign in to create a post",
         "submit": "Create post",
         "success": {
           "message": "Your post has been created successfully",
@@ -72,6 +172,7 @@
           "message": "An error occurred while updating the post",
           "title": "Failed to update post"
         },
+        "loginRequired": "Sign in to edit a post",
         "save": "Save changes",
         "success": {
           "message": "Your post has been updated successfully",

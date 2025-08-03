@@ -1,7 +1,7 @@
 <template>
   <UModal
     v-model:open="open"
-    :dismissible="!loading"
+    :dismissible="!isLoading"
     :title="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
     :description="
       isEditing ? t('postForm.actions.edit.description') : t('postForm.actions.create.description')
@@ -13,11 +13,11 @@
       :label="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
       :icon="isEditing ? 'i-lucide-edit' : 'i-lucide-plus'"
       class="shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 bg-white text-primary-600 hover:bg-gray-50"
-      @click="open = true"
+      @click="handleButtonClick"
     />
 
     <template #body>
-      <UForm ref="form" :state="state" :schema="schema" @submit="onSubmit">
+      <UForm ref="formRef" :state="state" :schema="schema" @submit="handleSubmit">
         <div class="space-y-6">
           <UiFormInput
             v-model="state.title"
@@ -25,7 +25,6 @@
             :label="t('postForm.fields.title.label')"
             :placeholder="t('postForm.fields.title.placeholder')"
             required
-            size="lg"
           />
           <UiFormTextarea
             v-model="state.content"
@@ -34,7 +33,6 @@
             :placeholder="t('postForm.fields.content.placeholder')"
             :rows="8"
             required
-            size="lg"
             :maxlength="1000"
           />
 
@@ -87,7 +85,7 @@
               isEditing ? t('postForm.actions.edit.cancel') : t('postForm.actions.create.cancel')
             "
             icon="i-lucide-x"
-            :disabled="loading"
+            :disabled="isLoading"
             @click="open = false"
           />
           <UButton
@@ -96,9 +94,10 @@
             :label="
               isEditing ? t('postForm.actions.edit.save') : t('postForm.actions.create.submit')
             "
-            :loading="loading"
+            :loading="isLoading"
+            :disabled="isLoading || !isValid"
             :icon="isEditing ? 'i-lucide-save' : 'i-lucide-plus'"
-            @click="form?.submit()"
+            @click="formRef?.submit()"
           />
         </div>
       </div>
@@ -110,6 +109,9 @@
 import type { FormSubmitEvent } from '@nuxt/ui'
 
 const { t } = useI18n()
+const { user } = useUserSession()
+const { success, error } = useNotifications()
+const localePath = useLocalePath()
 
 interface Props {
   post?: Post
@@ -125,12 +127,23 @@ const emit = defineEmits(['close'])
 
 const open = defineModel<boolean>('open', { required: true })
 
-const { state, schema, setState, resetState } = usePostForm()
+const { state, schema, setState, resetState, isValid } = usePostForm()
 
-const form = useTemplateRef('form')
-const loading = ref(false)
+const formRef = useTemplateRef('formRef')
+const isLoading = ref(false)
 
 const isEditing = computed(() => props.mode === 'edit' || !!props.post)
+
+// Handle button click with authentication check
+const handleButtonClick = async () => {
+  if (!user.value) {
+    // Redirect to login if not authenticated
+    await navigateTo(localePath('/auth/login'))
+    return
+  }
+  // Open modal if authenticated
+  open.value = true
+}
 
 const wordCount = computed(
   () => state.content.split(/\s+/).filter((word) => word.length > 0).length
@@ -166,8 +179,16 @@ const stopPostWatcher = watch(
 
 const stopOpenWatcher = watch(
   () => open.value,
-  (isOpen) => {
+  async (isOpen) => {
     if (isOpen) {
+      // Check authentication when modal opens
+      if (!user.value) {
+        // Close modal and redirect to login
+        open.value = false
+        await navigateTo(localePath('/auth/login'))
+        return
+      }
+
       if (!isEditing.value) {
         resetState()
       } else if (props.post) {
@@ -182,17 +203,17 @@ onUnmounted(() => {
   stopOpenWatcher()
 })
 
-const onSubmit = async (event: FormSubmitEvent<PostFormState>) => {
+const handleSubmit = async (event: FormSubmitEvent<PostFormState>) => {
   if (isEditing.value && !props.post) return
 
-  loading.value = true
+  isLoading.value = true
   try {
     if (isEditing.value) {
       await $fetch<ApiResponse<Post>>(`/api/posts/${props.post!.id}`, {
         method: 'PUT',
         body: event.data
       })
-      useNotifications().success({
+      success({
         title: t('postForm.actions.edit.success.title'),
         message: t('postForm.actions.edit.success.message')
       })
@@ -201,7 +222,7 @@ const onSubmit = async (event: FormSubmitEvent<PostFormState>) => {
         method: 'POST',
         body: event.data
       })
-      useNotifications().success({
+      success({
         title: t('postForm.actions.create.success.title'),
         message: t('postForm.actions.create.success.message')
       })
@@ -217,12 +238,12 @@ const onSubmit = async (event: FormSubmitEvent<PostFormState>) => {
       ? t('postForm.actions.edit.error.message')
       : t('postForm.actions.create.error.message')
 
-    useNotifications().error({
+    error({
       title: errorTitle,
       message: errorMessage
     })
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 </script>

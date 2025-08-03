@@ -138,7 +138,7 @@ success({
   message: 'Your post has been published successfully',
   action: {
     label: 'View Post',
-    handler: () => navigateTo(`/posts/${newPost.id}`)
+    handler: () => navigateTo(localePath(`/posts/${newPost.id}`))
   }
 })
 ```

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800"
+    class="bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 min-h-screen flex flex-col"
   >
     <!-- Hero Section with Modern Design -->
     <section
@@ -56,10 +56,12 @@
     </section>
 
     <!-- Main Content with Enhanced Layout -->
-    <UContainer class="py-6">
-      <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+    <UContainer class="py-6 flex-grow flex flex-col h-[80vh]">
+      <div class="flex flex-1 gap-4 overflow-hidden">
         <!-- Enhanced Sidebar -->
-        <div class="xl:col-span-1 space-y-8">
+        <div
+          class="w-full max-w-xs flex-shrink-0 space-y-8 overflow-y-auto border-r border-gray-200 dark:border-gray-700 p-4"
+        >
           <!-- Enhanced Preferences Controls -->
           <LayoutPreferencesControls />
 
@@ -118,9 +120,11 @@
         </div>
 
         <!-- Enhanced Posts Content -->
-        <div ref="postsRef" class="xl:col-span-3">
+        <div ref="postsRef" class="flex flex-col flex-grow overflow-hidden">
           <!-- Enhanced Posts Header -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4 flex-shrink-0"
+          >
             <div>
               <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 {{ t('posts.title') }}
@@ -134,7 +138,7 @@
           <!-- Enhanced Posts Grid/List -->
           <div
             v-if="posts && posts.length > 0"
-            class="space-y-8 h-[43.2vh] overflow-y-auto p-1 border border-gray-200 dark:border-gray-700 rounded-lg"
+            class="flex-grow overflow-y-auto p-1 border border-gray-200 dark:border-gray-700 rounded-lg space-y-8"
           >
             <div
               :class="[
@@ -155,7 +159,7 @@
           </div>
 
           <!-- Enhanced Empty State -->
-          <div v-else class="text-center py-20">
+          <div v-else class="text-center py-20 flex-shrink-0">
             <UIcon
               name="i-lucide-file-plus"
               class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 mb-6"
