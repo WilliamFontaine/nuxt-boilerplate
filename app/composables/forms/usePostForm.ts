@@ -24,18 +24,12 @@ export const usePostForm = () => {
     z.object({
       title: z
         .string()
-        .trim()
-        .refine((val) => val.length > 0, {
-          message: t('postForm.fields.title.validation.required')
-        })
+        .min(1, t('postForm.fields.title.validation.required'))
         .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('postForm.fields.title.validation.minLength'))
         .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('postForm.fields.title.validation.maxLength')),
       content: z
         .string()
-        .trim()
-        .refine((val) => val.length > 0, {
-          message: t('postForm.fields.content.validation.required')
-        })
+        .min(1, t('postForm.fields.content.validation.required'))
         .min(TEXT_FIELD_LIMITS.CONTENT.MIN, t('postForm.fields.content.validation.minLength'))
         .max(TEXT_FIELD_LIMITS.CONTENT.MAX, t('postForm.fields.content.validation.maxLength'))
     })
