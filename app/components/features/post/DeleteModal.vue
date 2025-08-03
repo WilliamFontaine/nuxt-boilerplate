@@ -1,8 +1,8 @@
 <template>
   <UModal
     v-model:open="open"
-    :title="t('postForm.actions.delete.title')"
-    :description="t('postForm.actions.delete.description')"
+    :title="t('articleForm.actions.delete.title')"
+    :description="t('articleForm.actions.delete.description')"
     :dismissible="!loading"
   >
     <template #footer>
@@ -10,7 +10,7 @@
         <div class="flex items-center gap-2">
           <UIcon name="i-lucide-info" class="w-4 h-4 text-gray-400" />
           <span class="text-xs text-gray-500 dark:text-gray-400">
-            {{ t('postForm.actions.delete.info') }}
+            {{ t('articleForm.actions.delete.info') }}
           </span>
         </div>
         <div class="flex gap-3 self-end mt-4">
@@ -18,7 +18,7 @@
             type="button"
             color="neutral"
             variant="outline"
-            :label="t('postForm.actions.delete.cancel')"
+            :label="t('articleForm.actions.delete.cancel')"
             icon="i-lucide-x"
             :disabled="loading"
             @click="open = false"
@@ -27,7 +27,7 @@
             type="button"
             color="error"
             variant="solid"
-            :label="t('postForm.actions.delete.confirm')"
+            :label="t('articleForm.actions.delete.confirm')"
             icon="i-lucide-trash-2"
             :loading="loading"
             @click="handleDelete"
@@ -59,15 +59,15 @@ const handleDelete = async () => {
   try {
     await $fetch(`/api/posts/${props.post.id}`, { method: 'DELETE' })
     useNotifications().success({
-      title: t('postForm.actions.delete.success.title'),
-      message: t('postForm.actions.delete.success.message')
+      title: t('articleForm.actions.delete.success.title'),
+      message: t('articleForm.actions.delete.success.message')
     })
     emit('close', { success: true })
     open.value = false
   } catch {
     useNotifications().error({
-      title: t('postForm.actions.delete.error.title'),
-      message: t('postForm.actions.delete.error.message')
+      title: t('articleForm.actions.delete.error.title'),
+      message: t('articleForm.actions.delete.error.message')
     })
   } finally {
     loading.value = false
