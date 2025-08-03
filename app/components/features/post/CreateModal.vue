@@ -2,15 +2,19 @@
   <UModal
     v-model:open="open"
     :dismissible="!isLoading"
-    :title="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
+    :title="isEditing ? t('articleForm.actions.edit.title') : t('articleForm.actions.create.title')"
     :description="
-      isEditing ? t('postForm.actions.edit.description') : t('postForm.actions.create.description')
+      isEditing
+        ? t('articleForm.actions.edit.description')
+        : t('articleForm.actions.create.description')
     "
   >
     <UButton
       size="lg"
       color="primary"
-      :label="isEditing ? t('postForm.actions.edit.title') : t('postForm.actions.create.title')"
+      :label="
+        isEditing ? t('articleForm.actions.edit.title') : t('articleForm.actions.create.title')
+      "
       :icon="isEditing ? 'i-lucide-edit' : 'i-lucide-plus'"
       class="shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 bg-white text-primary-600 hover:bg-gray-50"
       @click="handleButtonClick"
@@ -22,15 +26,15 @@
           <UiFormInput
             v-model="state.title"
             name="title"
-            :label="t('postForm.fields.title.label')"
-            :placeholder="t('postForm.fields.title.placeholder')"
+            :label="t('articleForm.fields.title.label')"
+            :placeholder="t('articleForm.fields.title.placeholder')"
             required
           />
           <UiFormTextarea
             v-model="state.content"
             name="content"
-            :label="t('postForm.fields.content.label')"
-            :placeholder="t('postForm.fields.content.placeholder')"
+            :label="t('articleForm.fields.content.label')"
+            :placeholder="t('articleForm.fields.content.placeholder')"
             :rows="8"
             required
             :maxlength="1000"
@@ -42,19 +46,19 @@
                 <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
                   <UIcon name="i-lucide-type" class="w-4 h-4" />
                   <span>{{
-                    t('postForm.analytics.characterCount', { count: state.content.length })
+                    t('articleForm.analytics.characterCount', { count: state.content.length })
                   }}</span>
                 </div>
                 <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
                   <UIcon name="i-lucide-book-open" class="w-4 h-4" />
-                  <span>{{ t('postForm.analytics.wordCount', { count: wordCount }) }}</span>
+                  <span>{{ t('articleForm.analytics.wordCount', { count: wordCount }) }}</span>
                 </div>
                 <div
                   v-if="readingTime > 0"
                   class="flex items-center gap-1 text-gray-500 dark:text-gray-400"
                 >
                   <UIcon name="i-lucide-clock" class="w-4 h-4" />
-                  <span>{{ t('postForm.analytics.readingTime', { count: readingTime }) }}</span>
+                  <span>{{ t('articleForm.analytics.readingTime', { count: readingTime }) }}</span>
                 </div>
               </div>
               <UBadge :label="getBadgeLabel()" :color="getBadgeColor()" variant="soft" />
@@ -71,8 +75,8 @@
           <span class="text-xs text-gray-500 dark:text-gray-400">
             {{
               isEditing
-                ? t('postForm.actions.edit.autoSaveInfo')
-                : t('postForm.actions.create.autoSaveInfo')
+                ? t('articleForm.actions.edit.autoSaveInfo')
+                : t('articleForm.actions.create.autoSaveInfo')
             }}
           </span>
         </div>
@@ -82,7 +86,9 @@
             color="neutral"
             variant="outline"
             :label="
-              isEditing ? t('postForm.actions.edit.cancel') : t('postForm.actions.create.cancel')
+              isEditing
+                ? t('articleForm.actions.edit.cancel')
+                : t('articleForm.actions.create.cancel')
             "
             icon="i-lucide-x"
             :disabled="isLoading"
@@ -92,7 +98,9 @@
             type="submit"
             color="primary"
             :label="
-              isEditing ? t('postForm.actions.edit.save') : t('postForm.actions.create.submit')
+              isEditing
+                ? t('articleForm.actions.edit.save')
+                : t('articleForm.actions.create.submit')
             "
             :loading="isLoading"
             :disabled="isLoading || !isValid"
@@ -157,9 +165,9 @@ const readingTime = computed(() => {
 
 const getBadgeLabel = () => {
   const length = state.content.length
-  if (length > 500) return t('postForm.badgeLabels.length.long')
-  if (length > 200) return t('postForm.badgeLabels.length.medium')
-  return t('postForm.badgeLabels.length.short')
+  if (length > 500) return t('articleForm.badgeLabels.length.long')
+  if (length > 200) return t('articleForm.badgeLabels.length.medium')
+  return t('articleForm.badgeLabels.length.short')
 }
 
 const getBadgeColor = () => {
@@ -214,8 +222,8 @@ const handleSubmit = async (event: FormSubmitEvent<PostFormState>) => {
         body: event.data
       })
       success({
-        title: t('postForm.actions.edit.success.title'),
-        message: t('postForm.actions.edit.success.message')
+        title: t('articleForm.actions.edit.success.title'),
+        message: t('articleForm.actions.edit.success.message')
       })
     } else {
       await $fetch<ApiResponse<Post>>('/api/posts', {
@@ -223,8 +231,8 @@ const handleSubmit = async (event: FormSubmitEvent<PostFormState>) => {
         body: event.data
       })
       success({
-        title: t('postForm.actions.create.success.title'),
-        message: t('postForm.actions.create.success.message')
+        title: t('articleForm.actions.create.success.title'),
+        message: t('articleForm.actions.create.success.message')
       })
       resetState()
     }
@@ -232,11 +240,11 @@ const handleSubmit = async (event: FormSubmitEvent<PostFormState>) => {
     open.value = false
   } catch {
     const errorTitle = isEditing.value
-      ? t('postForm.actions.edit.error.title')
-      : t('postForm.actions.create.error.title')
+      ? t('articleForm.actions.edit.error.title')
+      : t('articleForm.actions.create.error.title')
     const errorMessage = isEditing.value
-      ? t('postForm.actions.edit.error.message')
-      : t('postForm.actions.create.error.message')
+      ? t('articleForm.actions.edit.error.message')
+      : t('articleForm.actions.create.error.message')
 
     error({
       title: errorTitle,
