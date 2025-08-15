@@ -22,7 +22,7 @@ jobs:
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v4.3.0
+        uses: actions/checkout@v5.0.0
 
       # Step 2: Verify migrations exist
       - name: Check migrations
