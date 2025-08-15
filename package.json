@@ -45,7 +45,7 @@
     "@iconify-json/lucide": "^1.2.60",
     "@iconify-json/openmoji": "^1.2.9",
     "@nuxt/image": "1.11.0",
-    "@nuxt/ui": "3.3.0",
+    "@nuxt/ui": "3.3.2",
     "@nuxtjs/i18n": "10.0.3",
     "@nuxtjs/seo": "^3.1.0",
     "@pinia/nuxt": "^0.11.2",
