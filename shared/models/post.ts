@@ -15,10 +15,10 @@ import { z } from 'zod'
  * Complete Post entity (matches database schema)
  */
 export interface Post {
-  id: number
+  id: string
   title: string
   content: string | null
-  authorId: number
+  authorId: string
   createdAt: string
   updatedAt: string
 }
@@ -52,7 +52,7 @@ export const createPostSchema = z.object({
  * Schema for creating a new post (server-side with authorId)
  */
 export const createPostWithAuthorSchema = createPostSchema.extend({
-  authorId: z.number().int().positive()
+  authorId: z.string().uuid()
 })
 
 /**

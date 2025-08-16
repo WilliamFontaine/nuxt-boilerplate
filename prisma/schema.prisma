@@ -7,12 +7,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("NUXT_DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("NUXT_DATABASE_URL")
+  extensions = [uuid_ossp(map: "uuid-ossp")]
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   email     String   @unique
   password  String
   name      String
@@ -24,10 +25,10 @@ model User {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   title     String
   content   String?
-  authorId  Int
+  authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
