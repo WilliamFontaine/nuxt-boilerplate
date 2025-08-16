@@ -5,10 +5,10 @@ import { z } from 'zod'
  */
 
 /**
- * Schema for validating numeric IDs (positive integers)
+ * Schema for validating UUID IDs
  */
 export const idSchema = z.object({
-  id: z.coerce.number().int().positive()
+  id: z.uuid()
 })
 
 /**

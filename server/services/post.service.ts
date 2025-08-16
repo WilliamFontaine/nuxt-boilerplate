@@ -10,7 +10,7 @@ import prisma from '@@/lib/prisma'
  */
 export async function createPost(
   postData: CreatePostData,
-  authorId: number
+  authorId: string
 ): Promise<PostWithAuthor> {
   try {
     const post = await prisma.post.create({
@@ -66,7 +66,7 @@ export async function getAllPosts(): Promise<PostWithAuthor[]> {
 /**
  * Get post by ID
  */
-export async function getPostById(id: number): Promise<PostWithAuthor | null> {
+export async function getPostById(id: string): Promise<PostWithAuthor | null> {
   const post = await prisma.post.findUnique({
     where: { id },
     include: {
@@ -90,9 +90,9 @@ export async function getPostById(id: number): Promise<PostWithAuthor | null> {
  * Update post if user owns it
  */
 export async function updatePost(
-  id: number,
+  id: string,
   postData: UpdatePostData,
-  authorId: number
+  authorId: string
 ): Promise<PostWithAuthor> {
   // Check if post exists and user owns it
   const existingPost = await prisma.post.findUnique({
@@ -146,7 +146,7 @@ export async function updatePost(
 /**
  * Delete post if user owns it
  */
-export async function deletePost(id: number, authorId: number): Promise<void> {
+export async function deletePost(id: string, authorId: string): Promise<void> {
   // Check if post exists and user owns it
   const existingPost = await prisma.post.findUnique({
     where: { id },
