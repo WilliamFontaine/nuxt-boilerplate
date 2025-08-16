@@ -7,8 +7,7 @@
     },
     "nuxt": {
       "type": "sse",
-      "url": "https://mcp.nuxt.com/sse",
-      "alwaysAllow": ["search_nuxt_docs", "list_nuxt_modules"]
+      "url": "http://localhost:3000/__mcp/sse"
     },
     "nuxt-mcp": {
       "type": "sse",
@@ -43,6 +42,10 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "alwaysAllow": ["sequentialthinking"]
+    },
+    "nuxt-docs": {
+      "type": "sse",
+      "url": "https://mcp.nuxt.com/sse"
     }
   },
   "defaults": {

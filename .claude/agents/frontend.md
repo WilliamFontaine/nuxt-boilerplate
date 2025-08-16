@@ -34,7 +34,7 @@ i18n/locales/       # Translations
 - v-model: `defineModel<T>()` for bindings
 - i18n: Always use `t()` never `$t()`, typed keys
 - Forms: Zod schemas + reactive validation
-- Field components: Reusable pattern with UFormGroup
+- Field components: Reusable pattern with UFormField
 
 ## Documentation Sources
 1. `mcp__nuxt__search_nuxt_docs` - Nuxt patterns

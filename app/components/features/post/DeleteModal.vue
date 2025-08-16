@@ -4,23 +4,27 @@
     :title="t('articleForm.actions.delete.title')"
     :description="t('articleForm.actions.delete.description')"
     :dismissible="!loading"
+    class="backdrop-blur-sm"
   >
     <template #footer>
-      <div class="flex flex-col w-full">
-        <div class="flex items-center gap-2">
-          <UIcon name="i-lucide-info" class="w-4 h-4 text-gray-400" />
-          <span class="text-xs text-gray-500 dark:text-gray-400">
+      <div
+        class="flex flex-col w-full p-6 bg-red-50 dark:bg-red-950/20 rounded-lg border-t border-red-200 dark:border-red-800"
+      >
+        <div class="flex items-center gap-2 mb-4">
+          <UIcon name="i-lucide-alert-triangle" class="w-4 h-4 text-red-600 dark:text-red-400" />
+          <span class="text-xs text-gray-600 dark:text-gray-300 font-medium">
             {{ t('articleForm.actions.delete.info') }}
           </span>
         </div>
-        <div class="flex gap-3 self-end mt-4">
+        <div class="flex gap-3 self-end">
           <UButton
             type="button"
-            color="neutral"
+            color="secondary"
             variant="outline"
             :label="t('articleForm.actions.delete.cancel')"
             icon="i-lucide-x"
             :disabled="loading"
+            class="transition-all duration-300 hover:scale-105"
             @click="open = false"
           />
           <UButton
@@ -30,6 +34,7 @@
             :label="t('articleForm.actions.delete.confirm')"
             icon="i-lucide-trash-2"
             :loading="loading"
+            class="transition-all duration-300 hover:scale-105"
             @click="handleDelete"
           />
         </div>
