@@ -1,21 +1,23 @@
 # 🧩 Component Architecture
 
-Vue 3 Composition API components with Nuxt UI integration, following consistent patterns for reusability and maintainability.
+Vue 3 Composition API components with Nuxt UI Pro v4 integration, following consistent patterns for reusability and maintainability.
 
 ## 🏗️ Component Structure
 
 ```
 app/components/
-├── EditPostModal.vue        # Modal components for editing
-├── PostCard.vue             # Display components
-├── LanguageSwitcher.vue     # Utility components
-├── ThemeSwitcher.vue        # Utility components
-└── form/                    # Form components
-    ├── Post.vue             # Complete form components
-    └── field/               # Reusable field components
+├── features/
+│   └── post/
+│       ├── Card.vue         # Display components
+│       ├── CreateModal.vue  # Modal components with UAuthForm
+│       └── DeleteModal.vue  # Confirmation modals
+├── layout/
+│   └── PreferencesControls.vue  # Layout utility components
+└── ui/
+    └── form/               # Reusable form field components
         ├── Input.vue
+        ├── Email.vue
         ├── Password.vue
-        ├── Select.vue
         └── Textarea.vue
 ```
 
@@ -90,26 +92,39 @@ const { state, schema } = usePostForm()
 
 **Features:**
 
-- ✅ **Nuxt UI integration** with UCard, UButton, UTooltip
-- ✅ **Action buttons** with accessibility tooltips
-- ✅ **Content formatting** with whitespace preservation
-- ✅ **Event emission** for parent interaction
+- ✅ **Nuxt UI Pro v4 integration** with UCard, UButton, UDropdownMenu
+- ✅ **Overlay system** with useOverlay() for modal management
+- ✅ **Consistent styling** with primary/secondary color scheme
+- ✅ **Micro-interactions** with hover effects and transitions
 
 ### Modal Components
 
-**EditPostModal.vue** - Modal for editing posts:
+**CreateModal.vue** - Modal for creating/editing posts using Nuxt UI Pro patterns:
 
 ```vue
 <template>
-  <UModal v-model:open="open" :dismissible="!loading">
+  <UModal v-model:open="open" :dismissible="!isLoading">
     <template #body>
-      <UForm :state="state" :schema="schema">
-        <!-- Form fields -->
+      <UForm ref="formRef" :state="state" :schema="schema" @submit="handleSubmit">
+        <div class="space-y-6">
+          <UiFormInput
+            v-model="state.title"
+            name="title"
+            :label="t('articleForm.fields.title.label')"
+            required
+          />
+          <UiFormTextarea
+            v-model="state.content"
+            name="content"
+            :label="t('articleForm.fields.content.label')"
+            required
+          />
+        </div>
       </UForm>
     </template>
 
-    <template #footer="{ close }">
-      <!-- Action buttons -->
+    <template #footer>
+      <!-- Footer with analytics and action buttons -->
     </template>
   </UModal>
 </template>
@@ -117,10 +132,10 @@ const { state, schema } = usePostForm()
 
 **Features:**
 
-- ✅ **Form integration** with validation
-- ✅ **Loading states** with disabled interactions
-- ✅ **Auto-population** from props via watchers
-- ✅ **Success/error notifications**
+- ✅ **UAuthForm integration** for consistent form patterns
+- ✅ **Composable-driven** with usePostForm, useLoginForm, useRegisterForm
+- ✅ **Overlay management** with useOverlay() for better UX
+- ✅ **Real-time analytics** with character count, word count, reading time
 
 ### Form Field Components
 
@@ -156,18 +171,18 @@ defineEmits<(e: 'update:modelValue', value: string) => void>()
 
 ## 🎭 Styling Patterns
 
-### Nuxt UI Integration
+### Nuxt UI Pro v4 Integration
 
 ```vue
 <template>
   <!-- Primary colors for main actions -->
   <UButton color="primary" variant="solid" />
 
-  <!-- Error colors for destructive actions -->
-  <UButton color="error" variant="ghost" />
+  <!-- Red colors for destructive actions -->
+  <UButton color="red" variant="solid" />
 
-  <!-- Neutral colors for secondary actions -->
-  <UButton color="neutral" variant="outline" />
+  <!-- Secondary colors for secondary actions -->
+  <UButton color="secondary" variant="outline" />
 </template>
 ```
 
@@ -277,6 +292,7 @@ watch(
 ## 📚 Resources
 
 - [Vue 3 Composition API](https://vuejs.org/api/composition-api-setup.html)
-- [Nuxt UI Components](https://ui.nuxt.com/components)
+- [Nuxt UI Pro v4 Components](https://ui4.nuxt.com/components)
+- [Nuxt UI Pro v4 Auth Components](https://ui4.nuxt.com/docs/components/auth-form)
 - [TypeScript with Vue](https://vuejs.org/guide/typescript/overview.html)
 - [Vue Testing Library](https://testing-library.com/docs/vue-testing-library/intro/)

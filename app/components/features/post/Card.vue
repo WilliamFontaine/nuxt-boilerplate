@@ -1,8 +1,8 @@
 <template>
   <UCard
     :class="[
-      'group hover:shadow-lg transition-all duration-200 hover:ring-primary-200 dark:hover:ring-primary-800',
-      viewMode === 'list' ? 'ring-1 ring-gray-200 dark:ring-gray-800' : ''
+      'group bg-white dark:bg-gray-900 hover:shadow-lg transition-all duration-300 hover:ring-primary-200/60 dark:hover:ring-primary-700/60 hover:-translate-y-1 border-0 shadow-sm',
+      viewMode === 'list' ? 'ring-1 ring-primary-200/30 dark:ring-primary-700/30' : ''
     ]"
   >
     <div class="space-y-6">
@@ -11,13 +11,13 @@
           <div class="flex items-center gap-3 mb-2">
             <div class="w-2 h-2 bg-primary-500 rounded-full" />
             <span
-              class="text-xs font-medium text-primary-600 dark:text-primary-400 uppercase tracking-wider"
+              class="text-xs font-medium text-primary-600 dark:text-primary-400 uppercase tracking-wider bg-primary-100 dark:bg-primary-900 px-2 py-1 rounded-full"
             >
               {{ t('posts.type') }}
             </span>
           </div>
           <h3
-            class="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-tight"
+            class="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-all duration-300 leading-tight group-hover:scale-105 origin-left"
           >
             {{ post.title }}
           </h3>
@@ -25,10 +25,11 @@
         <UDropdownMenu v-if="isOwner" :items="dropdownItems">
           <UButton
             variant="ghost"
+            color="secondary"
             icon="i-lucide-more-vertical"
             size="sm"
             square
-            class="opacity-60 hover:opacity-100 transition-opacity"
+            class="opacity-60 hover:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-secondary-100 dark:hover:bg-secondary-900/50"
           />
         </UDropdownMenu>
       </div>
@@ -49,21 +50,28 @@
       </div>
 
       <div
-        class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800"
+        class="flex items-center justify-between pt-4 border-t border-primary-200/30 dark:border-primary-700/30"
       >
         <div
           :class="viewMode === 'grid' ? 'flex flex-col gap-2' : 'flex items-center gap-4'"
           class="text-sm text-gray-500 dark:text-gray-400"
         >
-          <div class="flex items-center gap-2">
+          <div
+            class="flex items-center gap-2 transition-colors duration-300 hover:text-primary-600 dark:hover:text-primary-400"
+          >
             <UIcon name="i-lucide-user" class="w-4 h-4" />
             <span>{{ post.author?.name || 'Auteur inconnu' }}</span>
           </div>
-          <div class="flex items-center gap-2">
+          <div
+            class="flex items-center gap-2 transition-colors duration-300 hover:text-secondary-600 dark:hover:text-secondary-400"
+          >
             <UIcon name="i-lucide-calendar" class="w-4 h-4" />
             <span>{{ formatDate(post.createdAt) }}</span>
           </div>
-          <div v-if="post.updatedAt !== post.createdAt" class="flex items-center gap-2">
+          <div
+            v-if="post.updatedAt !== post.createdAt"
+            class="flex items-center gap-2 transition-colors duration-300 hover:text-secondary-600 dark:hover:text-secondary-400"
+          >
             <UIcon name="i-lucide-pencil" class="w-4 h-4" />
             <span>{{ formatDate(post.updatedAt) }}</span>
           </div>
@@ -74,8 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import FeaturesPostCreateModal from '~/components/features/post/CreateModal.vue'
-import FeaturesPostDeleteModal from '~/components/features/post/DeleteModal.vue'
+import { FeaturesPostCreateModal, FeaturesPostDeleteModal } from '#components'
 
 const { t } = useI18n()
 const { user } = useUserSession()

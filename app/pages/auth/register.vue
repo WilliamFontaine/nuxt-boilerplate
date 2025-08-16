@@ -1,128 +1,127 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center p-4"
+    class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
   >
-    <UContainer class="max-w-md">
-      <UCard class="shadow-xl border-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
-        <template #header>
-          <div class="text-center space-y-2">
-            <UIcon
-              name="i-lucide:user-plus"
-              class="w-12 h-12 mx-auto text-primary-600 dark:text-primary-400"
-            />
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-              {{ t('auth.register.title') }}
-            </h1>
-            <p class="text-gray-600 dark:text-gray-400">
+    <div class="w-full max-w-md">
+      <!-- Registration card -->
+      <UPageCard class="shadow-xl border-0 bg-white dark:bg-gray-900">
+        <!-- Back button -->
+        <UButton
+          color="primary"
+          variant="ghost"
+          :label="t('auth.register.cancel')"
+          icon="i-lucide-arrow-left"
+          :disabled="isLoading"
+          class="w-fit mb-6 cursor-pointer"
+          @click="navigateTo(localePath('/'))"
+        />
+
+        <!-- Auth form -->
+        <UAuthForm
+          :title="t('auth.register.title')"
+          icon="i-lucide-user-plus"
+          :fields="fields"
+          :schema="schema"
+          :state="state"
+          :submit="submitConfig"
+          @submit="handleSubmit"
+        >
+          <template #description>
+            <p class="text-gray-600 dark:text-gray-400 text-center">
               {{ t('auth.register.subtitle') }}
             </p>
-          </div>
-        </template>
+          </template>
 
-        <UForm ref="formRef" :schema="schema" :state="state" @submit="handleSubmit">
-          <div class="space-y-6">
-            <UiFormInput
-              v-model="state.name"
-              :label="t('auth.register.name.label')"
-              :placeholder="t('auth.register.name.placeholder')"
-              name="name"
-              type="text"
-              required
+          <template #footer>
+            <div
+              class="text-center text-sm text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4 mt-4"
             >
-              <template #leading>
-                <UIcon name="i-lucide:user" class="size-6" />
-              </template>
-            </UiFormInput>
-
-            <UiFormEmail
-              v-model="state.email"
-              :label="t('auth.register.email.label')"
-              :placeholder="t('auth.register.email.placeholder')"
-              name="email"
-              required
-            />
-
-            <UiFormPassword
-              v-model="state.password"
-              :label="t('auth.register.password.label')"
-              :placeholder="t('auth.register.password.placeholder')"
-              name="password"
-              required
-            />
-
-            <UiFormPassword
-              v-model="state.confirmPassword"
-              :label="t('auth.register.confirmPassword.label')"
-              :placeholder="t('auth.register.confirmPassword.placeholder')"
-              name="confirmPassword"
-              required
-            />
-          </div>
-        </UForm>
-
-        <template #footer>
-          <div class="flex flex-col w-full">
-            <div class="flex gap-3 self-center mt-4">
-              <UButton
-                type="button"
-                color="neutral"
-                variant="outline"
-                :label="t('auth.register.cancel')"
-                icon="i-lucide-x"
-                :disabled="isLoading"
-                @click="navigateTo(localePath('/'))"
-              />
-              <UButton
-                type="submit"
-                color="primary"
-                :label="t('auth.register.submit')"
-                :loading="isLoading"
-                :disabled="isLoading || !isValid"
-                icon="i-lucide-user-plus"
-                @click="formRef?.submit()"
-              />
+              {{ t('auth.register.hasAccount') }}
+              <ULink
+                :to="localePath('/auth/login')"
+                class="text-primary-600 dark:text-primary-400 font-semibold ml-1 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+              >
+                {{ t('auth.register.login') }}
+              </ULink>
             </div>
-
-            <div class="text-center mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <div class="space-y-2">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                  {{ t('auth.register.hasAccount') }}
-                </p>
-                <NuxtLink
-                  :to="localePath('/auth/login')"
-                  class="text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
-                >
-                  {{ t('auth.register.login') }}
-                </NuxtLink>
-              </div>
-            </div>
-          </div>
-        </template>
-      </UCard>
-    </UContainer>
+          </template>
+        </UAuthForm>
+      </UPageCard>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
+
+// =============================================================================
+// COMPOSABLES & DEPENDENCIES
+// =============================================================================
 const { t } = useI18n()
 const { fetch: fetchUser } = useUserSession()
 const { success, error } = useNotifications()
 const localePath = useLocalePath()
 
-// Define page meta
+// =============================================================================
+// PAGE CONFIGURATION
+// =============================================================================
 definePageMeta({
   layout: false,
   middleware: ['guest']
 })
 
-// SEO Configuration
 useSeo('register')
 
-// Form state
-const formRef = useTemplateRef('formRef')
-const { state, schema, isValid } = useRegisterForm()
+// =============================================================================
+// FORM CONFIGURATION
+// =============================================================================
+const { state, schema } = useRegisterForm()
 const isLoading = ref(false)
+
+// Fields configuration
+const fields = computed(() => [
+  {
+    name: 'name',
+    type: 'text' as const,
+    label: t('auth.register.name.label'),
+    placeholder: t('auth.register.name.placeholder'),
+    required: true,
+    defaultValue: state.name,
+    autofocus: true
+  },
+  {
+    name: 'email',
+    type: 'email' as const,
+    label: t('auth.register.email.label'),
+    placeholder: t('auth.register.email.placeholder'),
+    required: true,
+    defaultValue: state.email
+  },
+  {
+    name: 'password',
+    type: 'password' as const,
+    label: t('auth.register.password.label'),
+    placeholder: t('auth.register.password.placeholder'),
+    required: true,
+    defaultValue: state.password
+  },
+  {
+    name: 'confirmPassword',
+    type: 'password' as const,
+    label: t('auth.register.confirmPassword.label'),
+    placeholder: t('auth.register.confirmPassword.placeholder'),
+    required: true,
+    defaultValue: state.confirmPassword
+  }
+])
+
+// Submit button configuration
+const submitConfig = computed(() => ({
+  label: t('auth.register.submit'),
+  icon: 'i-lucide-user-plus',
+  loading: isLoading.value,
+  disabled: isLoading.value
+}))
 
 // Form submission
 const handleSubmit = async (event: FormSubmitEvent<RegisterFormState>) => {

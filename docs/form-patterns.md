@@ -1,6 +1,6 @@
 # 📝 Advanced Form Patterns
 
-Deep dive into form architecture, custom validation, and field composition patterns.
+Deep dive into form architecture with Nuxt UI Pro v4, UAuthForm, custom validation, and field composition patterns.
 
 ## 🧠 Reactive State Architecture
 
@@ -40,12 +40,36 @@ All field components follow this pattern:
 
 ```vue
 <template>
-  <UFormGroup :label="label" :error="error">
-    <UInput v-model="model" :placeholder="placeholder" />
-  </UFormGroup>
+  <UFormField :label="label" :name="name" :required="required">
+    <UInput
+      :model-value="modelValue"
+      :placeholder="placeholder"
+      color="primary"
+      variant="outline"
+      class="w-full transition-all duration-300 focus:ring-primary-500/50"
+      @update:model-value="$emit('update:modelValue', $event)"
+    />
+
+    <template #error="{ error }">
+      <span class="text-red-500 dark:text-red-400 text-sm font-medium flex items-center gap-2">
+        <UIcon name="i-lucide-alert-circle" class="w-4 h-4" />
+        {{ error }}
+      </span>
+    </template>
+  </UFormField>
 </template>
 
 <script setup lang="ts">
+interface InputProps {
+  modelValue?: string
+  label: string
+  name: string
+  placeholder?: string
+  required?: boolean
+}
+
+defineProps<InputProps>()
+defineEmits<(e: 'update:modelValue', value: string) => void>()
 const { t } = useI18n()
 
 interface Props {
