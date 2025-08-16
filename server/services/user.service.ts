@@ -78,7 +78,7 @@ export async function authenticateUser(email: string, password: string): Promise
 /**
  * Get user by ID
  */
-export async function getUserById(id: number): Promise<PublicUser | null> {
+export async function getUserById(id: string): Promise<PublicUser | null> {
   const user = await prisma.user.findUnique({
     where: { id }
   })
@@ -89,7 +89,7 @@ export async function getUserById(id: number): Promise<PublicUser | null> {
 /**
  * Check if user owns a specific post
  */
-export async function userOwnsPost(userId: number, postId: number): Promise<boolean> {
+export async function userOwnsPost(userId: string, postId: string): Promise<boolean> {
   const post = await prisma.post.findUnique({
     where: { id: postId },
     select: { authorId: true }

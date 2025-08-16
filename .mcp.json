@@ -3,7 +3,10 @@
     "context7": {
       "type": "http",
       "url": "https://mcp.context7.com/mcp",
-      "alwaysAllow": ["resolve-library-id", "get-library-docs"]
+      "alwaysAllow": [
+        "resolve-library-id",
+        "get-library-docs"
+      ]
     },
     "nuxt": {
       "type": "sse",
@@ -28,7 +31,9 @@
     },
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"],
+      "args": [
+        "@playwright/mcp@latest"
+      ],
       "alwaysAllow": [
         "browser_navigate",
         "browser_snapshot",
@@ -40,8 +45,13 @@
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-      "alwaysAllow": ["sequentialthinking"]
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "alwaysAllow": [
+        "sequentialthinking"
+      ]
     },
     "nuxt-docs": {
       "type": "sse",
