@@ -29,11 +29,6 @@ export const useLoginForm = () => {
     })
   )
 
-  const isValid = computed(() => {
-    const result = schema.value.safeParse(state)
-    return result.success
-  })
-
   const validate = () => schema.value.safeParse(state)
 
   return {
@@ -41,7 +36,6 @@ export const useLoginForm = () => {
     setState,
     resetState,
     schema,
-    isValid,
     validate
   }
 }

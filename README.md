@@ -7,7 +7,7 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, authentication
 ## 🚀 Features
 
 - **🔧 Nuxt 4** with Vue 3 Composition API and TypeScript
-- **🎨 Nuxt UI** components with Tailwind CSS and @iconify icons
+- **🎨 Nuxt UI Pro v4** components with Tailwind CSS and @iconify icons (includes Pro features for free)
 - **🔐 Authentication** with nuxt-auth-utils, JWT sessions, bcrypt password hashing
 - **🗄️ Prisma ORM v6** with PostgreSQL and Docker setup
 - **🌍 Internationalization** (French/English) with auto-detection and SEO
