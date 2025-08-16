@@ -15,7 +15,7 @@ import { z } from 'zod'
  * Complete User entity (matches database schema)
  */
 export interface User {
-  id: number
+  id: string
   email: string
   password: string
   name: string
@@ -27,7 +27,7 @@ export interface User {
  * Public User entity (without sensitive fields)
  */
 export interface PublicUser {
-  id: number
+  id: string
   email: string
   name: string
   createdAt: string
@@ -199,7 +199,7 @@ export const initialPasswordState: PasswordFormState = {
  * Helper function to convert Prisma User to PublicUser
  */
 export function toPublicUser(user: {
-  id: number
+  id: string
   email: string
   password: string
   name: string
