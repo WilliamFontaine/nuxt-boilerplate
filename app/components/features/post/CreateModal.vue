@@ -8,18 +8,8 @@
         ? t('articleForm.actions.edit.description')
         : t('articleForm.actions.create.description')
     "
+    class="backdrop-blur-sm"
   >
-    <UButton
-      size="lg"
-      color="primary"
-      :label="
-        isEditing ? t('articleForm.actions.edit.title') : t('articleForm.actions.create.title')
-      "
-      :icon="isEditing ? 'i-lucide-edit' : 'i-lucide-plus'"
-      class="shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 bg-white text-primary-600 hover:bg-gray-50"
-      @click="handleButtonClick"
-    />
-
     <template #body>
       <UForm ref="formRef" :state="state" :schema="schema" @submit="handleSubmit">
         <div class="space-y-6">
@@ -40,28 +30,35 @@
             :maxlength="1000"
           />
 
-          <div class="space-y-4">
-            <div class="flex items-center justify-between text-sm">
-              <div class="flex items-center gap-4">
-                <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                  <UIcon name="i-lucide-type" class="w-4 h-4" />
+          <div
+            class="space-y-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+          >
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs">
+                  <UIcon name="i-lucide-type" class="w-3 h-3" />
                   <span>{{
                     t('articleForm.analytics.characterCount', { count: state.content.length })
                   }}</span>
                 </div>
-                <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                  <UIcon name="i-lucide-book-open" class="w-4 h-4" />
-                  <span>{{ t('articleForm.analytics.wordCount', { count: wordCount }) }}</span>
-                </div>
-                <div
-                  v-if="readingTime > 0"
-                  class="flex items-center gap-1 text-gray-500 dark:text-gray-400"
-                >
-                  <UIcon name="i-lucide-clock" class="w-4 h-4" />
-                  <span>{{ t('articleForm.analytics.readingTime', { count: readingTime }) }}</span>
-                </div>
+                <UBadge
+                  :label="getBadgeLabel()"
+                  :color="getBadgeColor()"
+                  variant="soft"
+                  size="sm"
+                />
               </div>
-              <UBadge :label="getBadgeLabel()" :color="getBadgeColor()" variant="soft" />
+              <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs">
+                <UIcon name="i-lucide-book-open" class="w-3 h-3" />
+                <span>{{ t('articleForm.analytics.wordCount', { count: wordCount }) }}</span>
+              </div>
+              <div
+                v-if="readingTime > 0"
+                class="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs"
+              >
+                <UIcon name="i-lucide-clock" class="w-3 h-3" />
+                <span>{{ t('articleForm.analytics.readingTime', { count: readingTime }) }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -69,10 +66,12 @@
     </template>
 
     <template #footer>
-      <div class="flex flex-col w-full">
-        <div class="flex items-center gap-2">
-          <UIcon name="i-lucide-info" class="w-4 h-4 text-gray-400" />
-          <span class="text-xs text-gray-500 dark:text-gray-400">
+      <div
+        class="flex flex-col w-full p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border-t border-gray-200 dark:border-gray-700"
+      >
+        <div class="flex items-center gap-2 mb-4">
+          <UIcon name="i-lucide-info" class="w-4 h-4 text-primary-600 dark:text-primary-400" />
+          <span class="text-xs text-gray-600 dark:text-gray-300 font-medium">
             {{
               isEditing
                 ? t('articleForm.actions.edit.autoSaveInfo')
@@ -80,10 +79,10 @@
             }}
           </span>
         </div>
-        <div class="flex gap-3 self-end mt-4">
+        <div class="flex gap-3 self-end">
           <UButton
             type="button"
-            color="neutral"
+            color="secondary"
             variant="outline"
             :label="
               isEditing
@@ -92,6 +91,7 @@
             "
             icon="i-lucide-x"
             :disabled="isLoading"
+            class="transition-all duration-300 hover:scale-105"
             @click="open = false"
           />
           <UButton
@@ -105,6 +105,7 @@
             :loading="isLoading"
             :disabled="isLoading || !isValid"
             :icon="isEditing ? 'i-lucide-save' : 'i-lucide-plus'"
+            class="transition-all duration-300 hover:scale-105"
             @click="formRef?.submit()"
           />
         </div>
@@ -141,17 +142,6 @@ const formRef = useTemplateRef('formRef')
 const isLoading = ref(false)
 
 const isEditing = computed(() => props.mode === 'edit' || !!props.post)
-
-// Handle button click with authentication check
-const handleButtonClick = async () => {
-  if (!user.value) {
-    // Redirect to login if not authenticated
-    await navigateTo(localePath('/auth/login'))
-    return
-  }
-  // Open modal if authenticated
-  open.value = true
-}
 
 const wordCount = computed(
   () => state.content.split(/\s+/).filter((word) => word.length > 0).length

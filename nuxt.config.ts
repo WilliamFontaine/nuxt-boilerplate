@@ -44,15 +44,13 @@ export default defineNuxtConfig({
         code: 'en',
         name: 'English',
         files: ['en/common.json', 'en/seo.json'],
-        language: 'en-US',
-        flag: 'i-openmoji:flag-united-states'
+        language: 'en-US'
       },
       {
         code: 'fr',
         name: 'Français',
         files: ['fr/common.json', 'fr/seo.json'],
-        language: 'fr-FR',
-        flag: 'i-openmoji:flag-france'
+        language: 'fr-FR'
       }
     ],
     defaultLocale: 'fr',
