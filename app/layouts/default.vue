@@ -55,7 +55,7 @@
       <template #right>
         <ULocaleSelect
           v-model="locale"
-          :locales="Object.values(locales)"
+          :locales="Object.values(availableUiLocales)"
           @update:model-value="setLocale($event)"
         />
       </template>
@@ -64,6 +64,7 @@
 </template>
 
 <script lang="ts" setup>
+import * as uiLocales from '@nuxt/ui/locale'
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const { loggedIn, user, clear } = useUserSession()
@@ -94,6 +95,13 @@ const handleLogout = async () => {
 const appNameParts = computed(() => {
   const name = t('app.name')
   return name.split(' ')
+})
+
+const availableUiLocales = computed(() => {
+  const availableLocaleCodes = locales.value.map((l: any) => l.code)
+  return Object.fromEntries(
+    Object.entries(uiLocales).filter(([code]) => availableLocaleCodes.includes(code))
+  ) as typeof uiLocales
 })
 
 const items = ref<DropdownMenuItem[][]>([

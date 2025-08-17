@@ -8,15 +8,6 @@
         "get-library-docs"
       ]
     },
-    "nuxt": {
-      "type": "sse",
-      "url": "http://localhost:3000/__mcp/sse"
-    },
-    "nuxt-mcp": {
-      "type": "sse",
-      "url": "http://localhost:3000/__mcp/sse",
-      "alwaysAllow": []
-    },
     "prisma": {
       "type": "http",
       "url": "https://mcp.prisma.io/mcp",
@@ -56,6 +47,10 @@
     "nuxt-docs": {
       "type": "sse",
       "url": "https://mcp.nuxt.com/sse"
+    },
+    "nuxt": {
+      "type": "sse",
+      "url": "http://localhost:3000/__mcp/sse"
     }
   },
   "defaults": {
