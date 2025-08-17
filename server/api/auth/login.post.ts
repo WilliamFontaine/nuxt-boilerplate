@@ -24,13 +24,35 @@
  *         description: Validation error
  *       401:
  *         description: Invalid credentials
+ *       429:
+ *         description: Too many attempts
  */
 export default defineEventHandler(async (event) => {
   try {
     const { email, password } = await validateBody(event, loginUserSchema)
+    const ipAddress = getClientIP(event)
 
     // Authenticate user using service
-    const user = await authenticateUser(email, password)
+    const user = await authenticateUser(email, password).catch(async (error) => {
+      // Get rate limit info BEFORE recording the attempt
+      const currentRateLimitInfo = await checkLoginAttempt(email, ipAddress)
+
+      await recordLoginAttempt(email, ipAddress, false)
+
+      // If there were remaining attempts before this failure, calculate what's left
+      if (currentRateLimitInfo.remainingAttempts !== undefined) {
+        const remainingAfterThisAttempt = Math.max(0, currentRateLimitInfo.remainingAttempts - 1)
+        error.data = {
+          ...error.data,
+          remainingAttempts: remainingAfterThisAttempt
+        }
+      }
+
+      throw error
+    })
+
+    // Record successful login
+    await recordLoginAttempt(email, ipAddress, true)
 
     // Set user session
     await setUserSession(event, {
