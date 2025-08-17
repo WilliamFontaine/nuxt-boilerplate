@@ -117,9 +117,12 @@
         }
       },
       "error": {
-        "generic": "Une erreur est survenue lors de la connexion",
         "invalidCredentials": "Email ou mot de passe incorrect",
         "title": "Erreur de connexion"
+      },
+      "rateLimit": {
+        "tooManyAttempts": "Trop de tentatives infructueuses. Réessayez dans {minutes}min {seconds}s.",
+        "warning": "Dernière tentative avant blocage | Il vous reste {count} tentative | Il vous reste {count} tentatives"
       },
       "noAccount": "Pas encore de compte ?",
       "password": {

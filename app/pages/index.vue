@@ -124,7 +124,7 @@
             class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200/60 dark:border-gray-700/60 overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
             <!-- Posts grid/list with fixed height and scroll -->
-            <div v-if="posts && posts.length > 0" class="h-[450px] overflow-y-auto p-6">
+            <div v-if="posts && posts.length > 0" class="h-[400px] overflow-y-auto p-6">
               <div
                 :class="[
                   'gap-6',
@@ -145,7 +145,10 @@
             </div>
 
             <!-- Empty state -->
-            <div v-else class="text-center py-16 px-6 bg-gray-50 dark:bg-gray-800 rounded-lg m-6">
+            <div
+              v-else
+              class="h-[400px] text-center py-16 px-6 bg-gray-50 dark:bg-gray-800 rounded-lg m-6"
+            >
               <div
                 class="inline-flex p-4 bg-primary-100 dark:bg-primary-900 rounded-full mb-6 shadow-sm transition-transform duration-300 hover:scale-105"
               >
