@@ -131,15 +131,33 @@ const handleSubmit = async (event: FormSubmitEvent<LoginFormState>) => {
       await navigateTo(localePath('/'))
     }
   } catch (err: any) {
-    // Handle specific errors
-    let errorMessage = t('auth.login.error.generic')
-    if (err?.statusCode === 401) {
-      errorMessage = t('auth.login.error.invalidCredentials')
+    // Handle rate limiting (429)
+    if (err?.statusCode === 429) {
+      const data = err.data?.data || err.data || {}
+      const minutes = data.minutes || 0
+      const seconds = data.seconds || 0
+
+      error({
+        title: t('auth.login.error.title'),
+        message: t('auth.login.rateLimit.tooManyAttempts', { minutes, seconds })
+      })
+      return
     }
 
+    // Handle remaining attempts warning (401 with remainingAttempts)
+    const remainingAttempts = err?.data?.data?.remainingAttempts
+    if (err?.statusCode === 401 && remainingAttempts !== undefined) {
+      error({
+        title: t('auth.login.error.title'),
+        message: t('auth.login.rateLimit.warning', { count: remainingAttempts })
+      })
+      return
+    }
+
+    // Fallback for all other errors (should rarely happen)
     error({
       title: t('auth.login.error.title'),
-      message: errorMessage
+      message: t('auth.login.error.invalidCredentials')
     })
   } finally {
     isLoading.value = false

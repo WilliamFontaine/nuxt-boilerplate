@@ -117,9 +117,12 @@
         }
       },
       "error": {
-        "generic": "An error occurred during login",
         "invalidCredentials": "Invalid email or password",
         "title": "Login error"
+      },
+      "rateLimit": {
+        "tooManyAttempts": "Too many failed attempts. Try again in {minutes}min {seconds}s.",
+        "warning": "Last attempt before blocking | {count} attempt remaining | {count} attempts remaining"
       },
       "noAccount": "Don't have an account?",
       "password": {

@@ -19,9 +19,25 @@ model User {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   // Relations
   posts     Post[]
+}
+
+model LoginAttempt {
+  id             String    @id @default(uuid())
+  email          String
+  ipAddress      String
+  attemptCount   Int       @default(1)
+  blockedUntil   DateTime?
+  lastAttemptAt  DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([email, ipAddress])
+  @@index([email])
+  @@index([ipAddress])
+  @@index([lastAttemptAt])
 }
 
 model Post {
@@ -31,7 +47,7 @@ model Post {
   authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   // Relations
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
