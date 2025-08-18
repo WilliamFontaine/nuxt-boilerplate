@@ -1,9 +1,9 @@
 export const useRegisterForm = () => {
   const { t } = useI18n()
 
-  const state = reactive<RegisterFormState>({ ...initialRegisterState })
+  const state = reactive<RegisterData>({ ...initialRegisterState })
 
-  const setState = (data: Partial<RegisterFormState> | null) => {
+  const setState = (data: Partial<RegisterData> | null) => {
     if (!data) return
     Object.assign(state, data)
   }

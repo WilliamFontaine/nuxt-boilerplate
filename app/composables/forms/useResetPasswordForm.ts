@@ -1,9 +1,9 @@
 export const useResetPasswordForm = () => {
   const { t } = useI18n()
 
-  const state = reactive<ResetPasswordFormState>({ ...initialResetPasswordState })
+  const state = reactive<ResetPasswordData>({ ...initialResetPasswordState })
 
-  const setState = (data: Partial<ResetPasswordFormState> | null) => {
+  const setState = (data: Partial<ResetPasswordData> | null) => {
     if (!data) return
     Object.assign(state, data)
   }

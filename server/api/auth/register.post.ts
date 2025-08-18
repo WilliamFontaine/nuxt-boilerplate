@@ -32,7 +32,7 @@
  */
 export default defineEventHandler(async (event) => {
   try {
-    const userData = await validateBody(event, registerUserSchema)
+    const userData = await validateBody(event, registerSchema)
 
     // Transform to CreateUserData (remove confirmPassword)
     const { confirmPassword, ...createUserData } = userData

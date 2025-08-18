@@ -1,8 +1,7 @@
 /**
  * Post Model
  *
- * This file contains all Post-related types, validation schemas, and constants
- * organized in logical sections for maintainability.
+ * This file contains Post-related types, interfaces and validation schemas
  */
 
 import { z } from 'zod'
@@ -35,28 +34,23 @@ export interface PostWithAuthor extends Post {
 // =============================================================================
 
 /**
- * Post validation schemas using Zod
- * Uses Zod's default messages (in English)
- * Translations are handled client-side in composables
- */
-
-/**
- * Schema for creating a new post (client-side form)
+ * Schema for creating a post
  */
 export const createPostSchema = z.object({
-  title: z.string().min(TEXT_FIELD_LIMITS.TITLE.MIN).max(TEXT_FIELD_LIMITS.TITLE.MAX).trim(),
-  content: z.string().min(TEXT_FIELD_LIMITS.CONTENT.MIN).max(TEXT_FIELD_LIMITS.CONTENT.MAX).trim()
+  title: z
+    .string()
+    .min(TEXT_FIELD_LIMITS.TITLE.MIN, 'Title too short')
+    .max(TEXT_FIELD_LIMITS.TITLE.MAX, 'Title too long')
+    .trim(),
+  content: z
+    .string()
+    .min(TEXT_FIELD_LIMITS.CONTENT.MIN, 'Content too short')
+    .max(TEXT_FIELD_LIMITS.CONTENT.MAX, 'Content too long')
+    .trim()
 })
 
 /**
- * Schema for creating a new post (server-side with authorId)
- */
-export const createPostWithAuthorSchema = createPostSchema.extend({
-  authorId: z.string().uuid()
-})
-
-/**
- * Schema for updating an existing post
+ * Schema for updating a post
  */
 export const updatePostSchema = createPostSchema
 
@@ -66,30 +60,18 @@ export const updatePostSchema = createPostSchema
 export const partialPostSchema = createPostSchema.partial()
 
 // =============================================================================
-// DERIVED TYPES
+// TYPE EXPORTS
 // =============================================================================
 
-/**
- * Post data types inferred from validation schemas
- */
 export type CreatePostData = z.infer<typeof createPostSchema>
-export type CreatePostWithAuthorData = z.infer<typeof createPostWithAuthorSchema>
 export type UpdatePostData = z.infer<typeof updatePostSchema>
 export type PartialPostData = z.infer<typeof partialPostSchema>
 
-/**
- * Post form state (client-side)
- */
-export type PostFormState = CreatePostData
-
 // =============================================================================
-// CONSTANTS & DEFAULTS
+// INITIAL STATES
 // =============================================================================
 
-/**
- * Initial state for post forms
- */
-export const initialPostState: PostFormState = {
+export const initialPostState: CreatePostData = {
   title: '',
   content: ''
 }

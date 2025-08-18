@@ -1,9 +1,34 @@
 /**
- * Token Model - Simplified
- * Contains only essential validation schemas and types
+ * Token Model
+ *
+ * This file contains Token-related types, interfaces and validation schemas
  */
 
 import { z } from 'zod'
+
+// =============================================================================
+// DATABASE ENTITY
+// =============================================================================
+
+/**
+ * Token entity (matches database schema)
+ */
+export interface Token {
+  id: string
+  userId: string
+  type: TokenType
+  token: string
+  expiresAt: string
+  createdAt: string
+}
+
+/**
+ * Token types enumeration
+ */
+export enum TokenType {
+  EMAIL_VERIFICATION = 'EMAIL_VERIFICATION',
+  PASSWORD_RESET = 'PASSWORD_RESET'
+}
 
 // =============================================================================
 // VALIDATION SCHEMAS
@@ -13,72 +38,31 @@ import { z } from 'zod'
  * Schema for email verification
  */
 export const verifyEmailSchema = z.object({
-  token: z.string().min(1, 'Token is required')
+  token: z.string().length(64, 'Invalid token')
 })
-
-/**
- * Schema for password reset request
- */
-export const forgotPasswordSchema = z.object({
-  email: z
-    .string()
-    .regex(VALIDATION_PATTERNS.EMAIL, 'Invalid email format')
-    .max(TEXT_FIELD_LIMITS.EMAIL.MAX)
-    .trim()
-    .toLowerCase()
-})
-
-/**
- * Schema for password reset
- */
-export const resetPasswordSchema = z
-  .object({
-    token: z.string().min(1, 'Token is required'),
-    password: z
-      .string()
-      .min(TEXT_FIELD_LIMITS.PASSWORD.MIN)
-      .max(TEXT_FIELD_LIMITS.PASSWORD.MAX)
-      .regex(
-        VALIDATION_PATTERNS.PASSWORD,
-        'Password must contain at least one lowercase letter, one uppercase letter, and one number'
-      ),
-    confirmPassword: z.string().min(1, 'Password confirmation is required')
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword']
-  })
 
 /**
  * Schema for resending verification email
  */
 export const resendVerificationSchema = z.object({
-  email: z
-    .string()
-    .regex(VALIDATION_PATTERNS.EMAIL, 'Invalid email format')
-    .max(TEXT_FIELD_LIMITS.EMAIL.MAX)
-    .trim()
-    .toLowerCase()
+  email: z.string().email('Invalid email format').max(TEXT_FIELD_LIMITS.EMAIL.MAX, 'Email too long')
 })
 
 // =============================================================================
-// FORM TYPES & INITIAL STATES
+// TYPE EXPORTS
 // =============================================================================
 
-export type VerifyEmailFormState = z.infer<typeof verifyEmailSchema>
-export type ForgotPasswordFormState = z.infer<typeof forgotPasswordSchema>
-export type ResetPasswordFormState = z.infer<typeof resetPasswordSchema>
+export type VerifyEmailData = z.infer<typeof verifyEmailSchema>
+export type ResendVerificationData = z.infer<typeof resendVerificationSchema>
 
-export const initialVerifyEmailState: VerifyEmailFormState = {
+// =============================================================================
+// INITIAL STATES
+// =============================================================================
+
+export const initialVerifyEmailState: VerifyEmailData = {
   token: ''
 }
 
-export const initialForgotPasswordState: ForgotPasswordFormState = {
+export const initialResendVerificationState: ResendVerificationData = {
   email: ''
-}
-
-export const initialResetPasswordState: ResetPasswordFormState = {
-  token: '',
-  password: '',
-  confirmPassword: ''
 }
