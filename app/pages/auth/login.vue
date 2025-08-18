@@ -27,23 +27,27 @@
           @submit="handleSubmit"
         >
           <template #description>
-            <p class="text-gray-600 dark:text-gray-400 text-center">
-              {{ t('auth.login.subtitle') }}
-            </p>
+            {{ t('auth.login.noAccount') }}
+            <ULink :to="localePath('/auth/register')" class="text-primary font-medium">
+              {{ t('auth.login.register') }} </ULink
+            >.
+          </template>
+
+          <template #password-hint>
+            <ULink
+              :to="localePath('/auth/forgot-password')"
+              class="text-primary font-medium"
+              tabindex="-1"
+            >
+              {{ t('auth.login.forgotPassword') }}
+            </ULink>
           </template>
 
           <template #footer>
-            <div
-              class="text-center text-sm text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4 mt-4"
-            >
-              {{ t('auth.login.noAccount') }}
-              <ULink
-                :to="localePath('/auth/register')"
-                class="text-primary-600 dark:text-primary-400 font-semibold ml-1 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-              >
-                {{ t('auth.login.register') }}
-              </ULink>
-            </div>
+            {{ t('auth.login.didntReceiveEmail') }}
+            <ULink :to="localePath('/auth/resend-verification')" class="text-primary font-medium">
+              {{ t('auth.login.resendVerification') }} </ULink
+            >.
           </template>
         </UAuthForm>
       </UPageCard>
@@ -140,6 +144,15 @@ const handleSubmit = async (event: FormSubmitEvent<LoginFormState>) => {
       error({
         title: t('auth.login.error.title'),
         message: t('auth.login.rateLimit.tooManyAttempts', { minutes, seconds })
+      })
+      return
+    }
+
+    // Handle email not verified (401 with EMAIL_NOT_VERIFIED)
+    if (err?.statusCode === 401 && err?.data?.data?.code === 'EMAIL_NOT_VERIFIED') {
+      error({
+        title: t('auth.login.error.title'),
+        message: t('auth.login.error.emailNotVerified')
       })
       return
     }

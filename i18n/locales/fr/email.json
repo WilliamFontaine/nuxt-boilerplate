@@ -1,0 +1,24 @@
+{
+  "email": {
+    "common": {
+      "appName": "Nuxt Boilerplate",
+      "greeting": "Bonjour {name}"
+    },
+    "passwordReset": {
+      "button": "Réinitialiser le mot de passe",
+      "expires": "Ce lien de réinitialisation expire dans 1 heure.",
+      "footer": "Si vous n'avez pas demandé cette réinitialisation, vous pouvez ignorer cet email en toute sécurité.",
+      "message": "Vous avez demandé la réinitialisation de votre mot de passe. Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe sécurisé.",
+      "subject": "Réinitialisez votre mot de passe",
+      "title": "Réinitialisation de mot de passe"
+    },
+    "verification": {
+      "button": "Vérifier mon compte",
+      "expires": "Ce lien de vérification expire dans 24 heures.",
+      "footer": "Si vous n'avez pas créé ce compte, vous pouvez ignorer cet email en toute sécurité.",
+      "message": "Merci de vous être inscrit ! Cliquez sur le bouton ci-dessous pour vérifier votre compte et commencer à utiliser notre plateforme.",
+      "subject": "Vérifiez votre adresse email",
+      "title": "Vérification de votre compte"
+    }
+  }
+}

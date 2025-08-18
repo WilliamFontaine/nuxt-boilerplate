@@ -3,23 +3,23 @@
     class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
   >
     <div class="w-full max-w-md">
-      <!-- Registration card -->
+      <!-- Reset password card -->
       <UPageCard class="shadow-xl border-0 bg-white dark:bg-gray-900">
         <!-- Back button -->
         <UButton
           color="primary"
           variant="ghost"
-          :label="t('auth.register.cancel')"
+          :label="t('auth.resetPassword.cancel')"
           icon="i-lucide-arrow-left"
           :disabled="isLoading"
           class="w-fit mb-6 cursor-pointer"
-          @click="navigateTo(localePath('/'))"
+          @click="navigateTo(localePath('/auth/login'))"
         />
 
         <!-- Auth form -->
         <UAuthForm
-          :title="t('auth.register.title')"
-          icon="i-lucide-user-plus"
+          :title="t('auth.resetPassword.title')"
+          icon="i-lucide-lock"
           :fields="fields"
           :schema="schema"
           :state="state"
@@ -27,21 +27,14 @@
           @submit="handleSubmit"
         >
           <template #description>
-            {{ t('auth.register.hasAccount') }}
+            {{ t('auth.resetPassword.remembered') }}
             <ULink :to="localePath('/auth/login')" class="text-primary font-medium">
-              {{ t('auth.register.login') }} </ULink
+              {{ t('auth.resetPassword.backToLogin') }} </ULink
             >.
           </template>
 
           <template #footer>
-            {{ t('auth.register.terms.prefix') }}
-            <ULink to="#" class="text-primary font-medium">
-              {{ t('auth.register.terms.terms') }}
-            </ULink>
-            {{ t('auth.register.terms.and') }}
-            <ULink to="#" class="text-primary font-medium">
-              {{ t('auth.register.terms.privacy') }} </ULink
-            >.
+            {{ t('auth.resetPassword.subtitle') }}
           </template>
         </UAuthForm>
       </UPageCard>
@@ -58,6 +51,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 const { t } = useI18n()
 const { success, error } = useNotifications()
 const localePath = useLocalePath()
+const route = useRoute()
 
 // =============================================================================
 // PAGE CONFIGURATION
@@ -67,46 +61,46 @@ definePageMeta({
   middleware: ['guest']
 })
 
-useSeo('register')
+useSeo('resetPassword')
 
 // =============================================================================
 // FORM CONFIGURATION
 // =============================================================================
-const { state, schema } = useRegisterForm()
+const { state, schema } = useResetPasswordForm()
 const isLoading = ref(false)
+
+// Auto-fill token from URL query parameter
+onMounted(() => {
+  const token = route.query.token as string
+  if (token) {
+    state.token = token
+  } else {
+    // Redirect to forgot password if no token
+    navigateTo(localePath('/auth/forgot-password'))
+  }
+})
 
 // Fields configuration
 const fields = computed(() => [
   {
-    name: 'name',
-    type: 'text' as const,
-    label: t('auth.register.name.label'),
-    placeholder: t('auth.register.name.placeholder'),
-    required: true,
-    defaultValue: state.name,
-    autofocus: true
-  },
-  {
-    name: 'email',
-    type: 'email' as const,
-    label: t('auth.register.email.label'),
-    placeholder: t('auth.register.email.placeholder'),
-    required: true,
-    defaultValue: state.email
+    name: 'token',
+    type: 'hidden' as const,
+    defaultValue: (route.query.token as string) || ''
   },
   {
     name: 'password',
     type: 'password' as const,
-    label: t('auth.register.password.label'),
-    placeholder: t('auth.register.password.placeholder'),
+    label: t('auth.resetPassword.password.label'),
+    placeholder: t('auth.resetPassword.password.placeholder'),
     required: true,
-    defaultValue: state.password
+    defaultValue: state.password,
+    autofocus: true
   },
   {
     name: 'confirmPassword',
     type: 'password' as const,
-    label: t('auth.register.confirmPassword.label'),
-    placeholder: t('auth.register.confirmPassword.placeholder'),
+    label: t('auth.resetPassword.confirmPassword.label'),
+    placeholder: t('auth.resetPassword.confirmPassword.placeholder'),
     required: true,
     defaultValue: state.confirmPassword
   }
@@ -114,44 +108,44 @@ const fields = computed(() => [
 
 // Submit button configuration
 const submitConfig = computed(() => ({
-  label: t('auth.register.submit'),
-  icon: 'i-lucide-user-plus',
+  label: t('auth.resetPassword.submit'),
+  icon: 'i-lucide-key',
   loading: isLoading.value,
   disabled: isLoading.value
 }))
 
 // Form submission
-const handleSubmit = async (event: FormSubmitEvent<RegisterFormState>) => {
+const handleSubmit = async (event: FormSubmitEvent<ResetPasswordFormState>) => {
   try {
     isLoading.value = true
 
     const response = await $fetch<ApiResponse<{ message: string; email: string }>>(
-      '/api/auth/register',
+      '/api/auth/reset-password',
       {
         method: 'POST',
         body: event.data
       }
     )
 
-    if (response.statusCode === 201 && response.data) {
-      // Show success message with email verification instruction
+    if (response.statusCode === 200) {
+      // Show success message
       success({
-        title: t('auth.register.success.title'),
-        message: t('auth.register.success.emailSent', { email: response.data.email })
+        title: t('auth.resetPassword.success.title'),
+        message: t('auth.resetPassword.success.message')
       })
 
-      // Redirect to login page so user can login after verification
+      // Redirect to login
       await navigateTo(localePath('/auth/login'))
     }
   } catch (err: any) {
     // Handle specific errors
-    let errorMessage = t('auth.register.error.generic')
-    if (err?.statusCode === 409) {
-      errorMessage = t('auth.register.error.emailExists')
+    let errorMessage = t('auth.resetPassword.error.generic')
+    if (err?.statusCode === 400) {
+      errorMessage = t('auth.resetPassword.error.invalidToken')
     }
 
     error({
-      title: t('auth.register.error.title'),
+      title: t('auth.resetPassword.error.title'),
       message: errorMessage
     })
   } finally {

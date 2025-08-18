@@ -155,14 +155,14 @@ export async function deletePost(id: string, authorId: string): Promise<void> {
 
   if (!existingPost) {
     throw createError({
-      statusCode: 404,
+      statusCode: HTTP_STATUS.NOT_FOUND,
       statusMessage: 'Post not found'
     })
   }
 
   if (existingPost.authorId !== authorId) {
     throw createError({
-      statusCode: 403,
+      statusCode: HTTP_STATUS.FORBIDDEN,
       statusMessage: 'You can only delete your own posts'
     })
   }
@@ -174,12 +174,12 @@ export async function deletePost(id: string, authorId: string): Promise<void> {
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {
       throw createError({
-        statusCode: 404,
+        statusCode: HTTP_STATUS.NOT_FOUND,
         statusMessage: 'Post not found'
       })
     }
     throw createError({
-      statusCode: 500,
+      statusCode: HTTP_STATUS.INTERNAL_ERROR,
       statusMessage: 'Failed to delete post'
     })
   }
