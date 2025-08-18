@@ -37,16 +37,20 @@ export default defineEventHandler(async (event) => {
     // Transform to CreateUserData (remove confirmPassword)
     const { confirmPassword, ...createUserData } = userData
 
-    // Create user using service
+    // Create user using service (user will have emailVerified: false by default)
     const user = await createUser(createUserData)
 
-    // Set user session automatically after registration
-    await setUserSession(event, {
-      user,
-      loggedInAt: new Date()
-    })
+    // Create email verification token
+    const { token } = await createToken(user.id, TokenType.EMAIL_VERIFICATION)
 
-    return createCreatedResponse(user)
+    // Send verification email
+    await sendVerificationEmail(event, user.email, user.name, token)
+
+    // Return success without auto-login
+    return createCreatedResponse({
+      message: 'Account created successfully. Please check your email to verify your account.',
+      email: user.email
+    })
   } catch (error: any) {
     if (error.statusCode) throw error
     throw serverError('Registration failed')

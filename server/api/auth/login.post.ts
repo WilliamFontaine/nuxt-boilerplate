@@ -51,6 +51,20 @@ export default defineEventHandler(async (event) => {
       throw error
     })
 
+    // Check if email is verified
+    if (!user.emailVerified) {
+      await recordLoginAttempt(email, ipAddress, false)
+      throw createError({
+        statusCode: HTTP_STATUS.FORBIDDEN,
+        statusMessage: 'Email not verified',
+        data: {
+          code: 'EMAIL_NOT_VERIFIED',
+          message: 'Please verify your email address before logging in.',
+          email: user.email
+        }
+      })
+    }
+
     // Record successful login
     await recordLoginAttempt(email, ipAddress, true)
 

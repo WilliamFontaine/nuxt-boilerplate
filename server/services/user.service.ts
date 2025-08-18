@@ -16,7 +16,7 @@ export async function createUser(userData: CreateUserData): Promise<PublicUser> 
 
   if (existingUser) {
     throw createError({
-      statusCode: 409,
+      statusCode: HTTP_STATUS.CONFLICT,
       statusMessage: 'User with this email already exists'
     })
   }
@@ -37,12 +37,12 @@ export async function createUser(userData: CreateUserData): Promise<PublicUser> 
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.UNIQUE_CONSTRAINT_FAILED) {
       throw createError({
-        statusCode: 409,
+        statusCode: HTTP_STATUS.CONFLICT,
         statusMessage: 'User with this email already exists'
       })
     }
     throw createError({
-      statusCode: 500,
+      statusCode: HTTP_STATUS.INTERNAL_ERROR,
       statusMessage: 'Failed to create user'
     })
   }
@@ -58,7 +58,7 @@ export async function authenticateUser(email: string, password: string): Promise
 
   if (!user) {
     throw createError({
-      statusCode: 401,
+      statusCode: HTTP_STATUS.UNAUTHORIZED,
       statusMessage: 'Invalid email or password'
     })
   }
@@ -67,7 +67,7 @@ export async function authenticateUser(email: string, password: string): Promise
   const isPasswordValid = await verifyPassword(user.password, password)
   if (!isPasswordValid) {
     throw createError({
-      statusCode: 401,
+      statusCode: HTTP_STATUS.UNAUTHORIZED,
       statusMessage: 'Invalid email or password'
     })
   }

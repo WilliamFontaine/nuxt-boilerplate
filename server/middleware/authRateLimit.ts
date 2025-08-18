@@ -37,7 +37,7 @@ export default defineEventHandler(async (event: H3Event) => {
     const displaySeconds = minutes === 0 && seconds === 0 ? 0 : seconds
 
     throw createError({
-      statusCode: 429,
+      statusCode: HTTP_STATUS.TOO_MANY_REQUESTS,
       statusMessage: 'Too many attempts. Try again later.',
       data: {
         retryAfter: rateLimitInfo.retryAfterSeconds,

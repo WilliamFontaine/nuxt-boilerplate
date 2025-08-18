@@ -6,7 +6,7 @@ import type { H3Event, EventHandlerRequest } from 'h3'
  */
 function createValidationError(message: string, error: ZodError) {
   throw createError({
-    statusCode: 400,
+    statusCode: HTTP_STATUS.BAD_REQUEST,
     statusMessage: 'Validation Failed',
     data: {
       message,
@@ -39,7 +39,7 @@ export async function validateBody<T>(
   } catch (error: any) {
     if (error.statusCode) throw error
     throw createError({
-      statusCode: 400,
+      statusCode: HTTP_STATUS.BAD_REQUEST,
       statusMessage: 'Bad Request'
     })
   }
@@ -69,7 +69,7 @@ export async function validateParams<T>(
   } catch (error: any) {
     if (error.statusCode) throw error
     throw createError({
-      statusCode: 400,
+      statusCode: HTTP_STATUS.BAD_REQUEST,
       statusMessage: 'Bad Request'
     })
   }
@@ -99,7 +99,7 @@ export async function validateQuery<T>(
   } catch (error: any) {
     if (error.statusCode) throw error
     throw createError({
-      statusCode: 400,
+      statusCode: HTTP_STATUS.BAD_REQUEST,
       statusMessage: 'Bad Request'
     })
   }

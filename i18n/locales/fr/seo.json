@@ -11,6 +11,14 @@
           "title": "Erreur Serveur"
         }
       },
+      "forgotPassword": {
+        "description": "Réinitialisez votre mot de passe en toute sécurité grâce à un lien envoyé par email.",
+        "og": {
+          "description": "Récupérez l'accès à votre compte en quelques clics.",
+          "title": "Mot de passe oublié - Nuxt Boilerplate"
+        },
+        "title": "Mot de passe oublié"
+      },
       "home": {
         "description": "Bienvenue sur Nuxt Boilerplate - Un point de départ moderne pour votre prochaine application Vue.js avec Nuxt 3.",
         "og": {
@@ -34,13 +42,36 @@
           "title": "Inscription - Nuxt Boilerplate"
         },
         "title": "Inscription"
+      },
+      "resendVerification": {
+        "description": "Recevez un nouveau lien de vérification si vous n'avez pas reçu l'email.",
+        "og": {
+          "description": "Demandez un nouveau lien de vérification pour votre compte.",
+          "title": "Renvoyer la vérification - Nuxt Boilerplate"
+        },
+        "title": "Renvoyer la vérification"
+      },
+      "resetPassword": {
+        "description": "Créez un nouveau mot de passe sécurisé pour votre compte.",
+        "og": {
+          "description": "Définissez un nouveau mot de passe pour sécuriser votre compte.",
+          "title": "Réinitialiser le mot de passe - Nuxt Boilerplate"
+        },
+        "title": "Réinitialiser le mot de passe"
+      },
+      "verifyEmail": {
+        "description": "Confirmez votre adresse email pour activer votre compte.",
+        "og": {
+          "description": "Vérifiez votre adresse email pour accéder à toutes les fonctionnalités.",
+          "title": "Vérification d'email - Nuxt Boilerplate"
+        },
+        "title": "Vérification d'email"
       }
     },
     "site": {
       "description": "Un point de départ simple et efficace pour les applications Nuxt 3 avec TypeScript, Pinia et des outils modernes.",
       "keywords": "nuxt, vue, typescript, pinia, boilerplate, template, démarrage",
-      "name": "Nuxt Boilerplate",
-      "titleTemplate": "%s | Nuxt Boilerplate"
+      "name": "Nuxt Boilerplate"
     }
   }
 }
