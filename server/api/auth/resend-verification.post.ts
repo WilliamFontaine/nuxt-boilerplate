@@ -26,16 +26,11 @@
  *         description: Too many requests
  */
 export default defineEventHandler(async (event) => {
-  try {
-    const { email } = await validateBody(event, resendVerificationSchema)
-    const locale = getCookie(event, 'i18n_redirected') || 'fr'
+  const { email } = await validateBody(event, resendVerificationSchema)
+  const locale = getCookie(event, 'i18n_redirected') || 'fr'
 
-    // Use auth service for business logic
-    const result = await resendVerificationEmail(email, event, locale)
+  // Use auth service for business logic
+  const result = await resendVerificationEmail(email, event, locale)
 
-    return createApiResponse(result, HTTP_STATUS.OK)
-  } catch (error: any) {
-    if (error.statusCode) throw error
-    throw serverError('Failed to resend verification email')
-  }
+  return createApiResponse(result, HTTP_STATUS.OK)
 })

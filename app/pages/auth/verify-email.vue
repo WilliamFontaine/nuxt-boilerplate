@@ -59,7 +59,7 @@
               :label="t('actions.continueNow')"
               icon="i-lucide-arrow-right"
               size="lg"
-              class="w-full"
+              class="w-full justify-center"
               @click="navigateTo(localePath('/'))"
             />
           </div>
@@ -83,7 +83,7 @@
               :label="t('auth.verifyEmail.error.retry')"
               icon="i-lucide-refresh-cw"
               size="lg"
-              class="w-full"
+              class="w-full justify-center"
               @click="retryVerification"
             />
 
@@ -93,7 +93,7 @@
               :label="t('auth.verifyEmail.error.resendLink')"
               icon="i-lucide-mail"
               size="lg"
-              class="w-full"
+              class="w-full justify-center"
               @click="navigateTo(localePath('/auth/resend-verification'))"
             />
           </div>
@@ -117,7 +117,7 @@
               :label="t('auth.verifyEmail.noToken.resendButton')"
               icon="i-lucide-mail"
               size="lg"
-              class="w-full"
+              class="w-full justify-center"
               @click="navigateTo(localePath('/auth/resend-verification'))"
             />
 
@@ -127,7 +127,7 @@
               :label="t('auth.verifyEmail.noToken.backButton')"
               icon="i-lucide-arrow-left"
               size="lg"
-              class="w-full"
+              class="w-full justify-center"
               @click="navigateTo(localePath('/auth/login'))"
             />
           </div>
@@ -144,6 +144,7 @@
 const { t } = useI18n()
 const { fetch: fetchUser } = useUserSession()
 const { success } = useNotifications()
+const { getErrorCode } = useApiError()
 const localePath = useLocalePath()
 const route = useRoute()
 
@@ -207,17 +208,25 @@ const performVerification = async (token: string) => {
       startRedirectCountdown()
     }
   } catch (err: any) {
+    const errorCode = getErrorCode(err)
+
     verificationState.value = 'error'
 
-    // Handle specific errors
-    if (err?.statusCode === 400) {
-      errorMessage.value = t('auth.verifyEmail.error.invalidToken')
-    } else if (err?.statusCode === 404) {
-      errorMessage.value = t('auth.verifyEmail.error.tokenNotFound')
-    } else if (err?.statusCode === 410) {
-      errorMessage.value = t('auth.verifyEmail.error.tokenExpired')
-    } else {
-      errorMessage.value = t('auth.verifyEmail.error.generic')
+    switch (errorCode) {
+      case ERROR_CODES.AUTH.INVALID_TOKEN:
+        errorMessage.value = t('auth.verifyEmail.error.invalidToken')
+        break
+
+      case ERROR_CODES.AUTH.TOKEN_EXPIRED:
+        errorMessage.value = t('auth.verifyEmail.error.tokenExpired')
+        break
+
+      case ERROR_CODES.VALIDATION.ERROR:
+        errorMessage.value = t('auth.verifyEmail.error.validationError')
+        break
+
+      default:
+        errorMessage.value = t('auth.verifyEmail.error.generic')
     }
   }
 }

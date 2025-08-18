@@ -15,10 +15,7 @@ export async function createUser(userData: CreateUserData): Promise<PublicUser> 
   })
 
   if (existingUser) {
-    throw createError({
-      statusCode: HTTP_STATUS.CONFLICT,
-      statusMessage: 'User with this email already exists'
-    })
+    throw conflictError(ERROR_CODES.USER.EMAIL_ALREADY_EXISTS)
   }
 
   // Hash password using auto-imported function from nuxt-auth-utils
@@ -36,15 +33,9 @@ export async function createUser(userData: CreateUserData): Promise<PublicUser> 
     return toPublicUser(user)
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.UNIQUE_CONSTRAINT_FAILED) {
-      throw createError({
-        statusCode: HTTP_STATUS.CONFLICT,
-        statusMessage: 'User with this email already exists'
-      })
+      throw conflictError(ERROR_CODES.USER.EMAIL_ALREADY_EXISTS)
     }
-    throw createError({
-      statusCode: HTTP_STATUS.INTERNAL_ERROR,
-      statusMessage: 'Failed to create user'
-    })
+    throw serverError(ERROR_CODES.SERVER.DATABASE_ERROR, 'Failed to create user')
   }
 }
 
@@ -57,19 +48,13 @@ export async function authenticateUser(email: string, password: string): Promise
   })
 
   if (!user) {
-    throw createError({
-      statusCode: HTTP_STATUS.UNAUTHORIZED,
-      statusMessage: 'Invalid email or password'
-    })
+    throw unauthorizedError(ERROR_CODES.AUTH.INVALID_CREDENTIALS)
   }
 
   // Verify password using auto-imported function from nuxt-auth-utils
   const isPasswordValid = await verifyPassword(user.password, password)
   if (!isPasswordValid) {
-    throw createError({
-      statusCode: HTTP_STATUS.UNAUTHORIZED,
-      statusMessage: 'Invalid email or password'
-    })
+    throw unauthorizedError(ERROR_CODES.AUTH.INVALID_CREDENTIALS)
   }
 
   return toPublicUser(user)

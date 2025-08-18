@@ -1,0 +1,120 @@
+/**
+ * Organized error codes by category
+ */
+export const ERROR_CODES = {
+  // Authentication & Authorization
+  AUTH: {
+    INVALID_CREDENTIALS: 'AUTH_INVALID_CREDENTIALS',
+    EMAIL_NOT_VERIFIED: 'AUTH_EMAIL_NOT_VERIFIED',
+    TOKEN_EXPIRED: 'AUTH_TOKEN_EXPIRED',
+    INVALID_TOKEN: 'AUTH_INVALID_TOKEN',
+    SESSION_EXPIRED: 'AUTH_SESSION_EXPIRED',
+    UNAUTHORIZED: 'AUTH_UNAUTHORIZED',
+    ACCESS_DENIED: 'AUTH_ACCESS_DENIED'
+  },
+
+  // Rate Limiting
+  RATE_LIMIT: {
+    EXCEEDED: 'RATE_LIMIT_EXCEEDED',
+    TOO_MANY_ATTEMPTS: 'RATE_LIMIT_TOO_MANY_ATTEMPTS',
+    ACCOUNT_LOCKED: 'RATE_LIMIT_ACCOUNT_LOCKED'
+  },
+
+  // User Management
+  USER: {
+    NOT_FOUND: 'USER_NOT_FOUND',
+    ALREADY_EXISTS: 'USER_ALREADY_EXISTS',
+    EMAIL_ALREADY_EXISTS: 'USER_EMAIL_ALREADY_EXISTS',
+    INVALID_DATA: 'USER_INVALID_DATA'
+  },
+
+  // Resource Management
+  RESOURCE: {
+    NOT_FOUND: 'RESOURCE_NOT_FOUND',
+    ALREADY_EXISTS: 'RESOURCE_ALREADY_EXISTS',
+    INSUFFICIENT_PERMISSIONS: 'RESOURCE_INSUFFICIENT_PERMISSIONS',
+    LOCKED: 'RESOURCE_LOCKED'
+  },
+
+  // Validation
+  VALIDATION: {
+    ERROR: 'VALIDATION_ERROR',
+    INVALID_INPUT: 'VALIDATION_INVALID_INPUT',
+    MISSING_FIELD: 'VALIDATION_MISSING_FIELD',
+    INVALID_FORMAT: 'VALIDATION_INVALID_FORMAT'
+  },
+
+  // Server Errors
+  SERVER: {
+    INTERNAL_ERROR: 'SERVER_INTERNAL_ERROR',
+    DATABASE_ERROR: 'SERVER_DATABASE_ERROR',
+    EXTERNAL_SERVICE_ERROR: 'SERVER_EXTERNAL_SERVICE_ERROR'
+  },
+
+  // Generic HTTP
+  HTTP: {
+    BAD_REQUEST: 'HTTP_BAD_REQUEST',
+    FORBIDDEN: 'HTTP_FORBIDDEN',
+    NOT_FOUND: 'HTTP_NOT_FOUND',
+    CONFLICT: 'HTTP_CONFLICT',
+    UNPROCESSABLE_ENTITY: 'HTTP_UNPROCESSABLE_ENTITY'
+  }
+} as const
+
+export type ErrorCode =
+  | (typeof ERROR_CODES.AUTH)[keyof typeof ERROR_CODES.AUTH]
+  | (typeof ERROR_CODES.RATE_LIMIT)[keyof typeof ERROR_CODES.RATE_LIMIT]
+  | (typeof ERROR_CODES.USER)[keyof typeof ERROR_CODES.USER]
+  | (typeof ERROR_CODES.RESOURCE)[keyof typeof ERROR_CODES.RESOURCE]
+  | (typeof ERROR_CODES.VALIDATION)[keyof typeof ERROR_CODES.VALIDATION]
+  | (typeof ERROR_CODES.SERVER)[keyof typeof ERROR_CODES.SERVER]
+  | (typeof ERROR_CODES.HTTP)[keyof typeof ERROR_CODES.HTTP]
+
+/**
+ * Default error messages (English) for server-side
+ */
+export const ERROR_MESSAGES: Record<ErrorCode, string> = {
+  // Auth
+  [ERROR_CODES.AUTH.INVALID_CREDENTIALS]: 'Invalid email or password',
+  [ERROR_CODES.AUTH.EMAIL_NOT_VERIFIED]: 'Email address not verified',
+  [ERROR_CODES.AUTH.TOKEN_EXPIRED]: 'Token has expired',
+  [ERROR_CODES.AUTH.INVALID_TOKEN]: 'Invalid token',
+  [ERROR_CODES.AUTH.SESSION_EXPIRED]: 'Session has expired',
+  [ERROR_CODES.AUTH.UNAUTHORIZED]: 'Unauthorized access',
+  [ERROR_CODES.AUTH.ACCESS_DENIED]: 'Access denied',
+
+  // Rate Limit
+  [ERROR_CODES.RATE_LIMIT.EXCEEDED]: 'Rate limit exceeded',
+  [ERROR_CODES.RATE_LIMIT.TOO_MANY_ATTEMPTS]: 'Too many attempts',
+  [ERROR_CODES.RATE_LIMIT.ACCOUNT_LOCKED]: 'Account temporarily locked',
+
+  // User
+  [ERROR_CODES.USER.NOT_FOUND]: 'User not found',
+  [ERROR_CODES.USER.ALREADY_EXISTS]: 'User already exists',
+  [ERROR_CODES.USER.EMAIL_ALREADY_EXISTS]: 'Email already exists',
+  [ERROR_CODES.USER.INVALID_DATA]: 'Invalid user data',
+
+  // Resource
+  [ERROR_CODES.RESOURCE.NOT_FOUND]: 'Resource not found',
+  [ERROR_CODES.RESOURCE.ALREADY_EXISTS]: 'Resource already exists',
+  [ERROR_CODES.RESOURCE.INSUFFICIENT_PERMISSIONS]: 'Insufficient permissions',
+  [ERROR_CODES.RESOURCE.LOCKED]: 'Resource is locked',
+
+  // Validation
+  [ERROR_CODES.VALIDATION.ERROR]: 'Validation error',
+  [ERROR_CODES.VALIDATION.INVALID_INPUT]: 'Invalid input',
+  [ERROR_CODES.VALIDATION.MISSING_FIELD]: 'Missing required field',
+  [ERROR_CODES.VALIDATION.INVALID_FORMAT]: 'Invalid format',
+
+  // Server
+  [ERROR_CODES.SERVER.INTERNAL_ERROR]: 'Internal server error',
+  [ERROR_CODES.SERVER.DATABASE_ERROR]: 'Database error',
+  [ERROR_CODES.SERVER.EXTERNAL_SERVICE_ERROR]: 'External service error',
+
+  // HTTP
+  [ERROR_CODES.HTTP.BAD_REQUEST]: 'Bad request',
+  [ERROR_CODES.HTTP.FORBIDDEN]: 'Forbidden',
+  [ERROR_CODES.HTTP.NOT_FOUND]: 'Not found',
+  [ERROR_CODES.HTTP.CONFLICT]: 'Conflict',
+  [ERROR_CODES.HTTP.UNPROCESSABLE_ENTITY]: 'Unprocessable entity'
+}

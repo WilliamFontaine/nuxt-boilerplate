@@ -16,7 +16,16 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const ipAddress = getClientIP(event)
 
-  const rateLimitInfo = await checkLoginAttempt(email, ipAddress)
+  let rateLimitInfo
+  try {
+    rateLimitInfo = await checkLoginAttempt(email, ipAddress)
+  } catch (error) {
+    // If rate limit check fails (e.g., DB down), don't block the request
+    // Log the error but allow the request to proceed
+    // eslint-disable-next-line no-console
+    console.error('Rate limit check failed:', error)
+    return
+  }
 
   if (rateLimitInfo.isBlocked) {
     setResponseStatus(event, 429)
@@ -36,16 +45,16 @@ export default defineEventHandler(async (event: H3Event) => {
     const displayMinutes = minutes === 0 && seconds === 0 ? 1 : minutes
     const displaySeconds = minutes === 0 && seconds === 0 ? 0 : seconds
 
-    throw createError({
-      statusCode: HTTP_STATUS.TOO_MANY_REQUESTS,
-      statusMessage: 'Too many attempts. Try again later.',
-      data: {
+    rateLimitError(
+      ERROR_CODES.RATE_LIMIT.TOO_MANY_ATTEMPTS,
+      'Too many attempts. Try again later.',
+      {
         retryAfter: rateLimitInfo.retryAfterSeconds,
         blockedUntil: rateLimitInfo.blockedUntil,
         minutes: displayMinutes,
         seconds: displaySeconds
       }
-    })
+    )
   }
 
   // Store rate limit info in context for potential use in login route

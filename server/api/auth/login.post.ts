@@ -28,55 +28,11 @@
  *         description: Too many attempts
  */
 export default defineEventHandler(async (event) => {
-  try {
-    const { email, password } = await validateBody(event, loginSchema)
-    const ipAddress = getClientIP(event)
+  const { email, password } = await validateBody(event, loginSchema)
+  const ipAddress = getClientIP(event)
 
-    // Authenticate user using service
-    const user = await authenticateUser(email, password).catch(async (error) => {
-      // Get rate limit info BEFORE recording the attempt
-      const currentRateLimitInfo = await checkLoginAttempt(email, ipAddress)
+  // Use auth service for complete login business logic
+  const result = await loginUser(email, password, ipAddress, event)
 
-      await recordLoginAttempt(email, ipAddress, false)
-
-      // If there were remaining attempts before this failure, calculate what's left
-      if (currentRateLimitInfo.remainingAttempts !== undefined) {
-        const remainingAfterThisAttempt = Math.max(0, currentRateLimitInfo.remainingAttempts - 1)
-        error.data = {
-          ...error.data,
-          remainingAttempts: remainingAfterThisAttempt
-        }
-      }
-
-      throw error
-    })
-
-    // Check if email is verified
-    if (!user.emailVerified) {
-      await recordLoginAttempt(email, ipAddress, false)
-      throw createError({
-        statusCode: HTTP_STATUS.FORBIDDEN,
-        statusMessage: 'Email not verified',
-        data: {
-          code: 'EMAIL_NOT_VERIFIED',
-          message: 'Please verify your email address before logging in.',
-          email: user.email
-        }
-      })
-    }
-
-    // Record successful login
-    await recordLoginAttempt(email, ipAddress, true)
-
-    // Set user session
-    await setUserSession(event, {
-      user,
-      loggedInAt: new Date()
-    })
-
-    return createApiResponse(user, HTTP_STATUS.OK, 'Login successful')
-  } catch (error: any) {
-    if (error.statusCode) throw error
-    throw serverError('Login failed')
-  }
+  return createApiResponse(result.user, HTTP_STATUS.OK, result.message)
 })

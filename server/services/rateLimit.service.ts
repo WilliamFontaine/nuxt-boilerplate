@@ -21,65 +21,75 @@ export async function checkLoginAttempt(
   blockedUntil?: Date
   retryAfterSeconds?: number
 }> {
-  const now = new Date()
+  try {
+    const now = new Date()
 
-  const loginAttempt = await prisma.loginAttempt.findUnique({
-    where: {
-      email_ipAddress: {
-        email: email.toLowerCase(),
-        ipAddress
+    const loginAttempt = await prisma.loginAttempt.findUnique({
+      where: {
+        email_ipAddress: {
+          email: email.toLowerCase(),
+          ipAddress
+        }
+      }
+    })
+
+    const windowStart = new Date(now.getTime() - WINDOW_MS)
+
+    if (loginAttempt) {
+      // If blocking has expired or attempt window has expired, reset the entry
+      if (
+        (loginAttempt.blockedUntil && loginAttempt.blockedUntil <= now) ||
+        loginAttempt.lastAttemptAt < windowStart
+      ) {
+        await prisma.loginAttempt.update({
+          where: {
+            id: loginAttempt.id
+          },
+          data: {
+            attemptCount: 1,
+            lastAttemptAt: now,
+            blockedUntil: null
+          }
+        })
+        return { isBlocked: false }
       }
     }
-  })
 
-  const windowStart = new Date(now.getTime() - WINDOW_MS)
+    // Check if still blocked
+    if (loginAttempt?.blockedUntil && loginAttempt.blockedUntil > now) {
+      const retryAfterSeconds = Math.ceil(
+        (loginAttempt.blockedUntil.getTime() - now.getTime()) / 1000
+      )
 
-  if (loginAttempt) {
-    // If blocking has expired or attempt window has expired, reset the entry
-    if (
-      (loginAttempt.blockedUntil && loginAttempt.blockedUntil <= now) ||
-      loginAttempt.lastAttemptAt < windowStart
-    ) {
-      await prisma.loginAttempt.update({
-        where: {
-          id: loginAttempt.id
-        },
-        data: {
-          attemptCount: 1,
-          lastAttemptAt: now,
-          blockedUntil: null
-        }
-      })
-      return { isBlocked: false }
+      return {
+        isBlocked: true,
+        blockedUntil: loginAttempt.blockedUntil,
+        retryAfterSeconds
+      }
     }
-  }
 
-  // Check if still blocked
-  if (loginAttempt?.blockedUntil && loginAttempt.blockedUntil > now) {
-    const retryAfterSeconds = Math.ceil(
-      (loginAttempt.blockedUntil.getTime() - now.getTime()) / 1000
-    )
-
-    return {
-      isBlocked: true,
-      blockedUntil: loginAttempt.blockedUntil,
-      retryAfterSeconds
+    // Return remaining attempts info
+    if (loginAttempt && loginAttempt.lastAttemptAt >= windowStart) {
+      const remainingAttempts = MAX_ATTEMPTS - loginAttempt.attemptCount
+      return {
+        isBlocked: false,
+        remainingAttempts: remainingAttempts > 0 ? remainingAttempts : 0
+      }
     }
-  }
 
-  // Return remaining attempts info
-  if (loginAttempt && loginAttempt.lastAttemptAt >= windowStart) {
-    const remainingAttempts = MAX_ATTEMPTS - loginAttempt.attemptCount
+    // No attempts yet or window expired - return max attempts
     return {
       isBlocked: false,
-      remainingAttempts: remainingAttempts > 0 ? remainingAttempts : 0
+      remainingAttempts: MAX_ATTEMPTS
     }
-  }
-
-  // No attempts yet or window expired - return max attempts
-  return {
-    isBlocked: false,
-    remainingAttempts: MAX_ATTEMPTS
+  } catch (error: any) {
+    // If rate limit check fails, don't block the request (fail open)
+    // eslint-disable-next-line no-console
+    console.error('Rate limit check failed:', error)
+    return {
+      isBlocked: false,
+      remainingAttempts: MAX_ATTEMPTS
+    }
   }
 }
 
@@ -91,54 +101,61 @@ export async function recordLoginAttempt(
   ipAddress: string,
   success: boolean
 ): Promise<void> {
-  const now = new Date()
+  try {
+    const now = new Date()
 
-  if (success) {
-    await prisma.loginAttempt.deleteMany({
+    if (success) {
+      await prisma.loginAttempt.deleteMany({
+        where: {
+          email: email.toLowerCase(),
+          ipAddress
+        }
+      })
+      return
+    }
+
+    const loginAttempt = await prisma.loginAttempt.findUnique({
       where: {
-        email: email.toLowerCase(),
-        ipAddress
+        email_ipAddress: {
+          email: email.toLowerCase(),
+          ipAddress
+        }
       }
     })
-    return
-  }
 
-  const loginAttempt = await prisma.loginAttempt.findUnique({
-    where: {
-      email_ipAddress: {
-        email: email.toLowerCase(),
-        ipAddress
-      }
+    if (!loginAttempt) {
+      await prisma.loginAttempt.create({
+        data: {
+          email: email.toLowerCase(),
+          ipAddress,
+          attemptCount: 1,
+          lastAttemptAt: now
+        }
+      })
+      return
     }
-  })
 
-  if (!loginAttempt) {
-    await prisma.loginAttempt.create({
+    const windowStart = new Date(now.getTime() - WINDOW_MS)
+    const attemptCount =
+      loginAttempt.lastAttemptAt >= windowStart ? loginAttempt.attemptCount + 1 : 1
+
+    const blockedUntil = attemptCount >= MAX_ATTEMPTS ? new Date(now.getTime() + WINDOW_MS) : null
+
+    await prisma.loginAttempt.update({
+      where: {
+        id: loginAttempt.id
+      },
       data: {
-        email: email.toLowerCase(),
-        ipAddress,
-        attemptCount: 1,
-        lastAttemptAt: now
+        attemptCount,
+        lastAttemptAt: now,
+        blockedUntil
       }
     })
-    return
+  } catch (error: any) {
+    // If recording fails, log but don't throw (non-critical)
+    // eslint-disable-next-line no-console
+    console.error('Failed to record login attempt:', error)
   }
-
-  const windowStart = new Date(now.getTime() - WINDOW_MS)
-  const attemptCount = loginAttempt.lastAttemptAt >= windowStart ? loginAttempt.attemptCount + 1 : 1
-
-  const blockedUntil = attemptCount >= MAX_ATTEMPTS ? new Date(now.getTime() + WINDOW_MS) : null
-
-  await prisma.loginAttempt.update({
-    where: {
-      id: loginAttempt.id
-    },
-    data: {
-      attemptCount,
-      lastAttemptAt: now,
-      blockedUntil
-    }
-  })
 }
 
 /**
