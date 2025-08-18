@@ -29,7 +29,7 @@
  */
 export default defineEventHandler(async (event) => {
   try {
-    const { email, password } = await validateBody(event, loginUserSchema)
+    const { email, password } = await validateBody(event, loginSchema)
     const ipAddress = getClientIP(event)
 
     // Authenticate user using service
