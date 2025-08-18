@@ -1,26 +1,49 @@
 import type { ZodType, ZodError } from 'zod'
 import type { H3Event, EventHandlerRequest } from 'h3'
 
+// =============================================================================
+// PRIVATE HELPERS
+// =============================================================================
+
 /**
  * Create a validation error from Zod result
+ * @private
  */
-function createValidationError(message: string, error: ZodError) {
-  throw createError({
-    statusCode: HTTP_STATUS.BAD_REQUEST,
-    statusMessage: 'Validation Failed',
-    data: {
-      message,
-      errors: error.issues
-    }
+function createValidationError(message: string, error: ZodError): never {
+  throw validationError(ERROR_CODES.VALIDATION.ERROR, message, undefined, {
+    errors: error.issues,
+    details: error.issues
   })
 }
+
+/**
+ * Generic validation function
+ * @private
+ */
+async function validateData<T>(
+  data: unknown,
+  schema: ZodType<T>,
+  errorMessage: string
+): Promise<T> {
+  const result = schema.safeParse(data)
+
+  if (!result.success) {
+    createValidationError(errorMessage, result.error)
+  }
+
+  return result.data!
+}
+
+// =============================================================================
+// PUBLIC VALIDATION FUNCTIONS
+// =============================================================================
 
 /**
  * Validate the request body against a Zod schema
  * @param event - The H3 event containing the request
  * @param schema - The Zod schema to validate against
  * @returns The validated data
- * @throws {Error} If validation fails, an error with status code 400 is thrown
+ * @throws {ApiError} If validation fails
  * @template T - The type of the data in the schema
  */
 export async function validateBody<T>(
@@ -29,19 +52,10 @@ export async function validateBody<T>(
 ): Promise<T> {
   try {
     const body = await readBody(event)
-    const result = schema.safeParse(body)
-
-    if (!result.success) {
-      createValidationError('Request body validation failed', result.error)
-    }
-
-    return result.data!
+    return await validateData(body, schema, 'Request body validation failed')
   } catch (error: any) {
     if (error.statusCode) throw error
-    throw createError({
-      statusCode: HTTP_STATUS.BAD_REQUEST,
-      statusMessage: 'Bad Request'
-    })
+    throw badRequestError(ERROR_CODES.HTTP.BAD_REQUEST, 'Invalid request body')
   }
 }
 
@@ -50,7 +64,7 @@ export async function validateBody<T>(
  * @param event - The H3 event containing the request
  * @param schema - The Zod schema to validate against
  * @returns The validated parameters
- * @throws {Error} If validation fails, an error with status code 400 is thrown
+ * @throws {ApiError} If validation fails
  * @template T - The type of the data in the schema
  */
 export async function validateParams<T>(
@@ -59,19 +73,10 @@ export async function validateParams<T>(
 ): Promise<T> {
   try {
     const params = getRouterParams(event)
-    const result = schema.safeParse(params)
-
-    if (!result.success) {
-      createValidationError('Parameter validation failed', result.error)
-    }
-
-    return result.data!
+    return await validateData(params, schema, 'Parameter validation failed')
   } catch (error: any) {
     if (error.statusCode) throw error
-    throw createError({
-      statusCode: HTTP_STATUS.BAD_REQUEST,
-      statusMessage: 'Bad Request'
-    })
+    throw badRequestError(ERROR_CODES.HTTP.BAD_REQUEST, 'Invalid request parameters')
   }
 }
 
@@ -80,7 +85,7 @@ export async function validateParams<T>(
  * @param event - The H3 event containing the request
  * @param schema - The Zod schema to validate against
  * @returns The validated query parameters
- * @throws {Error} If validation fails, an error with status code 400 is thrown
+ * @throws {ApiError} If validation fails
  * @template T - The type of the data in the schema
  */
 export async function validateQuery<T>(
@@ -89,18 +94,9 @@ export async function validateQuery<T>(
 ): Promise<T> {
   try {
     const query = getQuery(event)
-    const result = schema.safeParse(query)
-
-    if (!result.success) {
-      createValidationError('Query validation failed', result.error)
-    }
-
-    return result.data!
+    return await validateData(query, schema, 'Query validation failed')
   } catch (error: any) {
     if (error.statusCode) throw error
-    throw createError({
-      statusCode: HTTP_STATUS.BAD_REQUEST,
-      statusMessage: 'Bad Request'
-    })
+    throw badRequestError(ERROR_CODES.HTTP.BAD_REQUEST, 'Invalid query parameters')
   }
 }

@@ -97,11 +97,32 @@ export async function sendVerificationEmail(
 
   const mail = useNodeMailer()
 
-  await mail.sendMail({
-    to: email,
-    subject: t('email.verification.subject'),
-    html
-  })
+  try {
+    await mail.sendMail({
+      to: email,
+      subject: t('email.verification.subject'),
+      html
+    })
+  } catch (error: any) {
+    // Handle invalid email format errors
+    if (
+      error.code === 'EENVELOPE' ||
+      error.responseCode === 553 ||
+      error.response?.includes('Invalid email')
+    ) {
+      throw validationError(
+        ERROR_CODES.VALIDATION.INVALID_FORMAT,
+        'Invalid email address format',
+        'email'
+      )
+    }
+
+    // Re-throw other errors
+    throw serverError(
+      ERROR_CODES.SERVER.EXTERNAL_SERVICE_ERROR,
+      'Failed to send verification email'
+    )
+  }
 }
 
 /**
@@ -134,9 +155,30 @@ export async function sendPasswordResetEmail(
 
   const mail = useNodeMailer()
 
-  await mail.sendMail({
-    to: email,
-    subject: t('email.passwordReset.subject'),
-    html
-  })
+  try {
+    await mail.sendMail({
+      to: email,
+      subject: t('email.passwordReset.subject'),
+      html
+    })
+  } catch (error: any) {
+    // Handle invalid email format errors
+    if (
+      error.code === 'EENVELOPE' ||
+      error.responseCode === 553 ||
+      error.response?.includes('Invalid email')
+    ) {
+      throw validationError(
+        ERROR_CODES.VALIDATION.INVALID_FORMAT,
+        'Invalid email address format',
+        'email'
+      )
+    }
+
+    // Re-throw other errors
+    throw serverError(
+      ERROR_CODES.SERVER.EXTERNAL_SERVICE_ERROR,
+      'Failed to send password reset email'
+    )
+  }
 }

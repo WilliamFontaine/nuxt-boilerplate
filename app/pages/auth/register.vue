@@ -57,6 +57,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 // =============================================================================
 const { t } = useI18n()
 const { success, error } = useNotifications()
+const { getErrorCode } = useApiError()
 const localePath = useLocalePath()
 
 // =============================================================================
@@ -121,7 +122,7 @@ const submitConfig = computed(() => ({
 }))
 
 // Form submission
-const handleSubmit = async (event: FormSubmitEvent<RegisterFormState>) => {
+const handleSubmit = async (event: FormSubmitEvent<RegisterData>) => {
   try {
     isLoading.value = true
 
@@ -144,16 +145,37 @@ const handleSubmit = async (event: FormSubmitEvent<RegisterFormState>) => {
       await navigateTo(localePath('/auth/login'))
     }
   } catch (err: any) {
-    // Handle specific errors
-    let errorMessage = t('auth.register.error.generic')
-    if (err?.statusCode === 409) {
-      errorMessage = t('auth.register.error.emailExists')
-    }
+    const errorCode = getErrorCode(err)
 
-    error({
-      title: t('auth.register.error.title'),
-      message: errorMessage
-    })
+    switch (errorCode) {
+      case ERROR_CODES.USER.EMAIL_ALREADY_EXISTS:
+        error({
+          title: t('auth.register.error.title'),
+          message: t('auth.register.error.emailExists')
+        })
+        break
+
+      case ERROR_CODES.VALIDATION.ERROR:
+      case ERROR_CODES.VALIDATION.INVALID_INPUT:
+        error({
+          title: t('auth.register.error.title'),
+          message: t('auth.register.error.validation')
+        })
+        break
+
+      case ERROR_CODES.VALIDATION.INVALID_FORMAT:
+        error({
+          title: t('auth.register.error.title'),
+          message: t('auth.register.error.invalidEmail')
+        })
+        break
+
+      default:
+        error({
+          title: t('auth.register.error.title'),
+          message: t('auth.register.error.generic')
+        })
+    }
   } finally {
     isLoading.value = false
   }

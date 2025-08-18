@@ -15,6 +15,5 @@
 export default defineEventHandler(async (event) => {
   // User is already authenticated by middleware and available in context
   const user = event.context.user
-
   return createApiResponse(user, HTTP_STATUS.OK, 'User session retrieved')
 })

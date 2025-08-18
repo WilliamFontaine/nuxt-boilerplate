@@ -22,28 +22,23 @@
  *         description: Invalid or expired token
  */
 export default defineEventHandler(async (event) => {
-  try {
-    const { token } = await validateBody(event, verifyEmailSchema)
+  const { token } = await validateBody(event, verifyEmailSchema)
 
-    // Use auth service for business logic
-    const verifiedUser = await verifyUserEmail(token)
+  // Use auth service for business logic
+  const verifiedUser = await verifyUserEmail(token)
 
-    // Always login the user after successful verification
-    await setUserSession(event, {
+  // Always login the user after successful verification
+  await setUserSession(event, {
+    user: verifiedUser,
+    loggedInAt: new Date()
+  })
+
+  return createApiResponse(
+    {
+      message: 'Email verified successfully',
       user: verifiedUser,
-      loggedInAt: new Date()
-    })
-
-    return createApiResponse(
-      {
-        message: 'Email verified successfully',
-        user: verifiedUser,
-        loggedIn: true
-      },
-      HTTP_STATUS.OK
-    )
-  } catch (error: any) {
-    if (error.statusCode) throw error
-    throw serverError('Email verification failed')
-  }
+      loggedIn: true
+    },
+    HTTP_STATUS.OK
+  )
 })

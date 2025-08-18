@@ -68,9 +68,8 @@ import * as uiLocales from '@nuxt/ui/locale'
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const { loggedIn, user, clear } = useUserSession()
-const { locale, locales, setLocale } = useI18n()
+const { locale, locales, setLocale, t } = useI18n()
 const localePath = useLocalePath()
-const { t } = useI18n()
 const { success } = useNotifications()
 
 // Functions
@@ -87,7 +86,9 @@ const handleLogout = async () => {
 
     await navigateTo(localePath('/'))
   } catch {
-    // Handle logout error silently
+    // Handle logout error silently for all cases
+    clear()
+    await navigateTo(localePath('/'))
   }
 }
 

@@ -75,6 +75,10 @@
         "short": "Short"
       }
     },
+    "error": {
+      "unauthorized": "You don't have permission to perform this action",
+      "notFound": "The article could not be found or has been deleted"
+    },
     "fields": {
       "content": {
         "label": "Article content",
@@ -204,6 +208,8 @@
       },
       "error": {
         "emailExists": "This email address is already in use",
+        "invalidEmail": "The email address is invalid. Please check and try again.",
+        "validation": "Invalid input data. Please check and try again.",
         "generic": "An error occurred during registration",
         "title": "Registration error"
       },
@@ -322,7 +328,8 @@
         "retry": "Try again",
         "title": "Verification failed",
         "tokenExpired": "This verification link has expired. Please request a new one.",
-        "tokenNotFound": "This verification link doesn't exist or has already been used."
+        "tokenNotFound": "This verification link doesn't exist or has already been used.",
+        "validationError": "The verification data is invalid. Please request a new link."
       },
       "loading": {
         "subtitle": "Please wait while we verify your email address...",

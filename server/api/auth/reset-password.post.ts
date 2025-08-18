@@ -29,15 +29,10 @@
  *         description: Invalid token or validation error
  */
 export default defineEventHandler(async (event) => {
-  try {
-    const { token, password } = await validateBody(event, resetPasswordSchema)
+  const { token, password } = await validateBody(event, resetPasswordSchema)
 
-    // Use auth service for business logic
-    const result = await resetUserPassword(token, password)
+  // Use auth service for business logic
+  const result = await resetUserPassword(token, password)
 
-    return createApiResponse(result, HTTP_STATUS.OK)
-  } catch (error: any) {
-    if (error.statusCode) throw error
-    throw serverError('Password reset failed')
-  }
+  return createApiResponse(result, HTTP_STATUS.OK)
 })

@@ -54,9 +54,6 @@ export default defineEventHandler(async (event) => {
     // Attach user to context for easy access in handlers
     event.context.user = session.user
   } catch {
-    throw createError({
-      statusCode: HTTP_STATUS.UNAUTHORIZED,
-      statusMessage: 'Authentication required'
-    })
+    throw unauthorizedError(ERROR_CODES.AUTH.UNAUTHORIZED, 'Authentication required')
   }
 })
