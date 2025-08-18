@@ -1,5 +1,6 @@
 {
   "actions": {
+    "continueNow": "Continuer maintenant",
     "delete": "Supprimer",
     "edit": "Modifier",
     "loadMore": "Charger plus",
@@ -43,8 +44,7 @@
           "message": "Votre article a été supprimé avec succès",
           "title": "Article supprimé avec succès"
         },
-        "title": "Supprimer l'article",
-        "tooltip": "Supprimer cet article"
+        "title": "Supprimer l'article"
       },
       "edit": {
         "autoSaveInfo": "Les modifications sont sauvegardées automatiquement",
@@ -103,10 +103,10 @@
     }
   },
   "auth": {
-    "login": {
-      "autoSaveInfo": "Vos informations seront traitées en toute sécurité",
-      "backToHome": "Retour à l'accueil",
+    "forgotPassword": {
+      "backToLogin": "Retour à la connexion",
       "cancel": "Annuler",
+      "description": "Réinitialisez votre mot de passe",
       "email": {
         "label": "Adresse email",
         "placeholder": "Entrez votre adresse email",
@@ -117,13 +117,39 @@
         }
       },
       "error": {
+        "generic": "Impossible d'envoyer l'email de réinitialisation",
+        "title": "Erreur",
+        "tooManyRequests": "Trop de demandes. Réessayez dans {minutes}min {seconds}s."
+      },
+      "remembered": "Vous vous souvenez de votre mot de passe ?",
+      "submit": "Envoyer le lien",
+      "subtitle": "Entrez votre adresse email pour recevoir un lien de réinitialisation",
+      "success": {
+        "message": "Si l'adresse email existe dans notre système, vous recevrez un lien de réinitialisation sous peu.",
+        "title": "Email envoyé"
+      },
+      "title": "Mot de passe oublié"
+    },
+    "login": {
+      "autoSaveInfo": "Vos informations seront traitées en toute sécurité",
+      "backToHome": "Retour à l'accueil",
+      "cancel": "Annuler",
+      "didntReceiveEmail": "Vous n'avez pas reçu l'email ?",
+      "email": {
+        "label": "Adresse email",
+        "placeholder": "Entrez votre adresse email",
+        "validation": {
+          "invalid": "L'adresse email n'est pas valide",
+          "maxLength": "L'adresse email ne peut pas dépasser 254 caractères",
+          "required": "L'adresse email est requise"
+        }
+      },
+      "error": {
+        "emailNotVerified": "Votre email n'est pas vérifié. Vérifiez votre boîte de réception ou demandez un nouveau lien.",
         "invalidCredentials": "Email ou mot de passe incorrect",
         "title": "Erreur de connexion"
       },
-      "rateLimit": {
-        "tooManyAttempts": "Trop de tentatives infructueuses. Réessayez dans {minutes}min {seconds}s.",
-        "warning": "Dernière tentative avant blocage | Il vous reste {count} tentative | Il vous reste {count} tentatives"
-      },
+      "forgotPassword": "Mot de passe oublié ?",
       "noAccount": "Pas encore de compte ?",
       "password": {
         "label": "Mot de passe",
@@ -134,7 +160,12 @@
           "required": "Le mot de passe est requis"
         }
       },
+      "rateLimit": {
+        "tooManyAttempts": "Trop de tentatives infructueuses. Réessayez dans {minutes}min {seconds}s.",
+        "warning": "Dernière tentative avant blocage | Il vous reste {count} tentative | Il vous reste {count} tentatives"
+      },
       "register": "S'inscrire",
+      "resendVerification": "Renvoyer la vérification",
       "submit": "Se connecter",
       "subtitle": "Connectez-vous à votre compte",
       "success": {
@@ -200,10 +231,116 @@
       "submit": "S'inscrire",
       "subtitle": "Créez votre compte",
       "success": {
-        "message": "Votre compte a été créé avec succès",
+        "emailSent": "Un email de vérification vous a été envoyé à {email}. Vérifiez votre boîte de réception.",
+        "message": "Un email de vérification vous a été envoyé. Vérifiez votre boîte de réception.",
         "title": "Inscription réussie"
       },
+      "terms": {
+        "and": "et notre",
+        "prefix": "En vous inscrivant, vous acceptez nos",
+        "privacy": "Politique de confidentialité",
+        "terms": "Conditions d'utilisation"
+      },
       "title": "Inscription"
+    },
+    "resendVerification": {
+      "alreadyVerified": "Votre email est déjà vérifié ?",
+      "backToLogin": "Retour à la connexion",
+      "cancel": "Annuler",
+      "email": {
+        "label": "Adresse email",
+        "placeholder": "Entrez votre adresse email",
+        "validation": {
+          "invalid": "L'adresse email n'est pas valide",
+          "maxLength": "L'adresse email ne peut pas dépasser 254 caractères",
+          "required": "L'adresse email est requise"
+        }
+      },
+      "error": {
+        "alreadyVerified": "Cette adresse email est déjà vérifiée.",
+        "generic": "Impossible d'envoyer l'email de vérification",
+        "title": "Erreur",
+        "tooManyRequests": "Trop de demandes. Réessayez dans {minutes}min {seconds}s.",
+        "userNotFound": "Aucun compte trouvé avec cette adresse email."
+      },
+      "submit": "Renvoyer l'email",
+      "subtitle": "Entrez votre adresse email pour recevoir un nouveau lien de vérification",
+      "success": {
+        "message": "Un nouvel email de vérification a été envoyé s'il existe un compte avec cette adresse.",
+        "title": "Email envoyé"
+      },
+      "title": "Renvoyer la vérification"
+    },
+    "resetPassword": {
+      "backToLogin": "Retour à la connexion",
+      "cancel": "Annuler",
+      "confirmPassword": {
+        "label": "Confirmer le mot de passe",
+        "placeholder": "Confirmez votre nouveau mot de passe",
+        "validation": {
+          "match": "Les mots de passe ne correspondent pas",
+          "required": "La confirmation du mot de passe est requise"
+        }
+      },
+      "description": "Choisissez un nouveau mot de passe",
+      "error": {
+        "generic": "Impossible de réinitialiser le mot de passe",
+        "invalidToken": "Ce lien de réinitialisation est invalide ou a expiré.",
+        "title": "Erreur"
+      },
+      "password": {
+        "label": "Nouveau mot de passe",
+        "placeholder": "Entrez votre nouveau mot de passe",
+        "validation": {
+          "maxLength": "Le mot de passe ne peut pas dépasser 128 caractères",
+          "minLength": "Le mot de passe doit contenir au moins 8 caractères",
+          "pattern": "Le mot de passe doit inclure : 1 majuscule, 1 minuscule et 1 chiffre",
+          "required": "Le mot de passe est requis"
+        }
+      },
+      "remembered": "Vous vous souvenez de votre mot de passe ?",
+      "submit": "Réinitialiser le mot de passe",
+      "subtitle": "Entrez votre nouveau mot de passe",
+      "success": {
+        "loginButton": "Se connecter",
+        "message": "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter.",
+        "title": "Mot de passe réinitialisé"
+      },
+      "title": "Réinitialiser le mot de passe",
+      "token": {
+        "validation": {
+          "required": "Le token est requis"
+        }
+      }
+    },
+    "verifyEmail": {
+      "cancel": "Retour à l'accueil",
+      "error": {
+        "generic": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+        "invalidToken": "Le lien de vérification est invalide ou corrompu.",
+        "resendLink": "Demander un nouveau lien",
+        "retry": "Réessayer",
+        "title": "Échec de la vérification",
+        "tokenExpired": "Ce lien de vérification a expiré. Demandez un nouveau lien.",
+        "tokenNotFound": "Ce lien de vérification n'existe pas ou a déjà été utilisé."
+      },
+      "loading": {
+        "subtitle": "Nous vérifions votre email, veuillez patienter...",
+        "title": "Vérification en cours"
+      },
+      "noToken": {
+        "backButton": "Retour à la connexion",
+        "resendButton": "Demander un nouveau lien",
+        "subtitle": "Vous devez accéder à cette page via le lien reçu dans votre email de vérification.",
+        "title": "Lien de vérification manquant"
+      },
+      "success": {
+        "message": "Votre adresse email a été vérifiée et vous êtes maintenant connecté.",
+        "redirecting": "Redirection automatique dans {seconds} secondes...",
+        "subtitle": "Félicitations ! Votre adresse email a été confirmée et votre compte est maintenant actif.",
+        "title": "Email vérifié avec succès !"
+      },
+      "title": "Vérification d'email"
     }
   },
   "error": {
@@ -245,11 +382,9 @@
       "grid": "Grille",
       "label": "Mode d'affichage",
       "list": "Liste"
-    },
-    "items": "éléments"
+    }
   },
   "stats": {
-    "subtitle": "Aperçu des données",
     "title": "Statistiques",
     "totalPosts": "Total des articles"
   }
