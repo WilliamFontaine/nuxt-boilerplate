@@ -54,16 +54,12 @@ export async function checkTokenRateLimit(
 
       const actionName = getTokenActionName(tokenType)
 
-      throw createError({
-        statusCode: HTTP_STATUS.TOO_MANY_REQUESTS,
-        statusMessage: 'Too many requests',
-        data: {
-          message: `Please wait ${displayMinutes}min ${displaySeconds}s before requesting another ${actionName}.`,
-          retryAfter: Math.max(1, totalSeconds), // at least 1 second
-          remainingMinutes: displayMinutes,
-          remainingSeconds: displaySeconds,
-          remainingMs
-        }
+      rateLimitError(ERROR_CODES.RATE_LIMIT.EXCEEDED, 'Too many requests', {
+        message: `Please wait ${displayMinutes}min ${displaySeconds}s before requesting another ${actionName}.`,
+        retryAfter: Math.max(1, totalSeconds), // at least 1 second
+        remainingMinutes: displayMinutes,
+        remainingSeconds: displaySeconds,
+        remainingMs
       })
     }
   }

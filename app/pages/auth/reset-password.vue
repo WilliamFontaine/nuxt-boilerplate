@@ -50,6 +50,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 // =============================================================================
 const { t } = useI18n()
 const { success, error } = useNotifications()
+const { getErrorCode } = useApiError()
 const localePath = useLocalePath()
 const route = useRoute()
 
@@ -115,7 +116,7 @@ const submitConfig = computed(() => ({
 }))
 
 // Form submission
-const handleSubmit = async (event: FormSubmitEvent<ResetPasswordFormState>) => {
+const handleSubmit = async (event: FormSubmitEvent<ResetPasswordData>) => {
   try {
     isLoading.value = true
 
@@ -138,16 +139,31 @@ const handleSubmit = async (event: FormSubmitEvent<ResetPasswordFormState>) => {
       await navigateTo(localePath('/auth/login'))
     }
   } catch (err: any) {
-    // Handle specific errors
-    let errorMessage = t('auth.resetPassword.error.generic')
-    if (err?.statusCode === 400) {
-      errorMessage = t('auth.resetPassword.error.invalidToken')
-    }
+    const errorCode = getErrorCode(err)
 
-    error({
-      title: t('auth.resetPassword.error.title'),
-      message: errorMessage
-    })
+    switch (errorCode) {
+      case ERROR_CODES.AUTH.INVALID_TOKEN:
+      case ERROR_CODES.AUTH.TOKEN_EXPIRED:
+        error({
+          title: t('auth.resetPassword.error.title'),
+          message: t('auth.resetPassword.error.invalidToken')
+        })
+        break
+
+      case ERROR_CODES.VALIDATION.ERROR:
+      case ERROR_CODES.VALIDATION.INVALID_INPUT:
+        error({
+          title: t('auth.resetPassword.error.title'),
+          message: t('auth.resetPassword.error.validation')
+        })
+        break
+
+      default:
+        error({
+          title: t('auth.resetPassword.error.title'),
+          message: t('auth.resetPassword.error.generic')
+        })
+    }
   } finally {
     isLoading.value = false
   }

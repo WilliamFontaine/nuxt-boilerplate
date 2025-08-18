@@ -120,6 +120,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 const { t } = useI18n()
 const { user } = useUserSession()
 const { success, error } = useNotifications()
+const { getErrorCode } = useApiError()
 const localePath = useLocalePath()
 
 interface Props {
@@ -201,7 +202,7 @@ onUnmounted(() => {
   stopOpenWatcher()
 })
 
-const handleSubmit = async (event: FormSubmitEvent<PostFormState>) => {
+const handleSubmit = async (event: FormSubmitEvent<CreatePostData | UpdatePostData>) => {
   if (isEditing.value && !props.post) return
 
   isLoading.value = true
@@ -228,18 +229,46 @@ const handleSubmit = async (event: FormSubmitEvent<PostFormState>) => {
     }
     emit('close', { success: true })
     open.value = false
-  } catch {
+  } catch (err: any) {
+    const errorCode = getErrorCode(err)
+
     const errorTitle = isEditing.value
       ? t('articleForm.actions.edit.error.title')
       : t('articleForm.actions.create.error.title')
-    const errorMessage = isEditing.value
-      ? t('articleForm.actions.edit.error.message')
-      : t('articleForm.actions.create.error.message')
 
-    error({
-      title: errorTitle,
-      message: errorMessage
-    })
+    switch (errorCode) {
+      case ERROR_CODES.AUTH.UNAUTHORIZED:
+        error({
+          title: errorTitle,
+          message: t('articleForm.error.unauthorized')
+        })
+        break
+
+      case ERROR_CODES.VALIDATION.ERROR:
+      case ERROR_CODES.VALIDATION.INVALID_INPUT:
+        error({
+          title: errorTitle,
+          message: t('articleForm.error.validation')
+        })
+        break
+
+      case ERROR_CODES.RESOURCE.NOT_FOUND:
+        error({
+          title: errorTitle,
+          message: t('articleForm.error.notFound')
+        })
+        break
+
+      default: {
+        const errorMessage = isEditing.value
+          ? t('articleForm.actions.edit.error.message')
+          : t('articleForm.actions.create.error.message')
+        error({
+          title: errorTitle,
+          message: errorMessage
+        })
+      }
+    }
   } finally {
     isLoading.value = false
   }

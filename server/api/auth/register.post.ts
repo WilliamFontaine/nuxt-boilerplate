@@ -31,28 +31,23 @@
  *         description: User already exists
  */
 export default defineEventHandler(async (event) => {
-  try {
-    const userData = await validateBody(event, registerSchema)
+  const userData = await validateBody(event, registerSchema)
 
-    // Transform to CreateUserData (remove confirmPassword)
-    const { confirmPassword, ...createUserData } = userData
+  // Transform to CreateUserData (remove confirmPassword)
+  const { confirmPassword, ...createUserData } = userData
 
-    // Create user using service (user will have emailVerified: false by default)
-    const user = await createUser(createUserData)
+  // Create user using service (user will have emailVerified: false by default)
+  const user = await createUser(createUserData)
 
-    // Create email verification token
-    const { token } = await createToken(user.id, TokenType.EMAIL_VERIFICATION)
+  // Create email verification token
+  const { token } = await createToken(user.id, TokenType.EMAIL_VERIFICATION)
 
-    // Send verification email
-    await sendVerificationEmail(event, user.email, user.name, token)
+  // Send verification email
+  await sendVerificationEmail(event, user.email, user.name, token)
 
-    // Return success without auto-login
-    return createCreatedResponse({
-      message: 'Account created successfully. Please check your email to verify your account.',
-      email: user.email
-    })
-  } catch (error: any) {
-    if (error.statusCode) throw error
-    throw serverError('Registration failed')
-  }
+  // Return success without auto-login
+  return createCreatedResponse({
+    message: 'Account created successfully. Please check your email to verify your account.',
+    email: user.email
+  })
 })
