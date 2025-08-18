@@ -11,6 +11,14 @@
           "title": "Server Error"
         }
       },
+      "forgotPassword": {
+        "description": "Reset your password securely with a link sent to your email.",
+        "og": {
+          "description": "Recover access to your account in just a few clicks.",
+          "title": "Forgot Password - Nuxt Boilerplate"
+        },
+        "title": "Forgot Password"
+      },
       "home": {
         "description": "Welcome to Nuxt Boilerplate - A modern starting point for your next Vue.js application with Nuxt 3.",
         "og": {
@@ -34,13 +42,36 @@
           "title": "Sign Up - Nuxt Boilerplate"
         },
         "title": "Sign Up"
+      },
+      "resendVerification": {
+        "description": "Request a new verification link if you didn't receive the email.",
+        "og": {
+          "description": "Request a new verification link for your account.",
+          "title": "Resend Verification - Nuxt Boilerplate"
+        },
+        "title": "Resend Verification"
+      },
+      "resetPassword": {
+        "description": "Create a new secure password for your account.",
+        "og": {
+          "description": "Set a new password to secure your account.",
+          "title": "Reset Password - Nuxt Boilerplate"
+        },
+        "title": "Reset Password"
+      },
+      "verifyEmail": {
+        "description": "Confirm your email address to activate your account.",
+        "og": {
+          "description": "Verify your email address to access all features.",
+          "title": "Email Verification - Nuxt Boilerplate"
+        },
+        "title": "Email Verification"
       }
     },
     "site": {
       "description": "A simple and efficient starting point for Nuxt 3 applications with TypeScript, Pinia, and modern tooling.",
       "keywords": "nuxt, vue, typescript, pinia, boilerplate, starter",
-      "name": "Nuxt Boilerplate",
-      "titleTemplate": "%s | Nuxt Boilerplate"
+      "name": "Nuxt Boilerplate"
     }
   }
 }

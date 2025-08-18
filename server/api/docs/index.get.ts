@@ -5,7 +5,7 @@ export default defineEventHandler(async () => {
   // Check if documentation is accessible
   if (!isSwaggerEnabled()) {
     throw createError({
-      statusCode: 403,
+      statusCode: HTTP_STATUS.FORBIDDEN,
       statusMessage: 'API documentation is not available in production'
     })
   }

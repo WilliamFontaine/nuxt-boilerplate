@@ -12,26 +12,23 @@ import { z } from 'zod'
 // =============================================================================
 
 /**
- * Complete User entity (matches database schema)
- */
-export interface User {
-  id: string
-  email: string
-  password: string
-  name: string
-  createdAt: string
-  updatedAt: string
-}
-
-/**
  * Public User entity (without sensitive fields)
  */
 export interface PublicUser {
   id: string
   email: string
   name: string
+  emailVerified: boolean
+  emailVerifiedAt: string | null
   createdAt: string
   updatedAt: string
+}
+
+/**
+ * Complete User entity (matches database schema)
+ */
+export interface User extends PublicUser {
+  password: string // Sensitive field, not included in PublicUser
 }
 
 // =============================================================================
@@ -203,12 +200,15 @@ export function toPublicUser(user: {
   email: string
   password: string
   name: string
+  emailVerified: boolean
+  emailVerifiedAt: Date | null
   createdAt: Date
   updatedAt: Date
 }): PublicUser {
   const { password, ...rest } = user
   return {
     ...rest,
+    emailVerifiedAt: rest.emailVerifiedAt?.toISOString() || null,
     createdAt: rest.createdAt.toISOString(),
     updatedAt: rest.updatedAt.toISOString()
   }

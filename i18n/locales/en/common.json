@@ -1,5 +1,6 @@
 {
   "actions": {
+    "continueNow": "Continue now",
     "delete": "Delete",
     "edit": "Edit",
     "loadMore": "Load more",
@@ -43,8 +44,7 @@
           "message": "Your article has been deleted successfully",
           "title": "Post deleted successfully"
         },
-        "title": "Delete article",
-        "tooltip": "Delete this article"
+        "title": "Delete article"
       },
       "edit": {
         "autoSaveInfo": "Changes will be saved automatically",
@@ -103,10 +103,10 @@
     }
   },
   "auth": {
-    "login": {
-      "autoSaveInfo": "Your information will be processed securely",
-      "backToHome": "Back to home",
+    "forgotPassword": {
+      "backToLogin": "Back to login",
       "cancel": "Cancel",
+      "description": "Reset your password",
       "email": {
         "label": "Email address",
         "placeholder": "Enter your email address",
@@ -117,13 +117,39 @@
         }
       },
       "error": {
+        "generic": "Unable to send password reset email",
+        "title": "Error",
+        "tooManyRequests": "Too many requests. Try again in {minutes}min {seconds}s."
+      },
+      "remembered": "Remember your password?",
+      "submit": "Send reset link",
+      "subtitle": "Enter your email address to receive a reset link",
+      "success": {
+        "message": "If the email address exists in our system, you will receive a reset link shortly.",
+        "title": "Email sent"
+      },
+      "title": "Forgot password"
+    },
+    "login": {
+      "autoSaveInfo": "Your information will be processed securely",
+      "backToHome": "Back to home",
+      "cancel": "Cancel",
+      "didntReceiveEmail": "Didn't receive the email?",
+      "email": {
+        "label": "Email address",
+        "placeholder": "Enter your email address",
+        "validation": {
+          "invalid": "Email address is not valid",
+          "maxLength": "Email address cannot exceed 254 characters",
+          "required": "Email address is required"
+        }
+      },
+      "error": {
+        "emailNotVerified": "Your email is not verified. Check your inbox or request a new link.",
         "invalidCredentials": "Invalid email or password",
         "title": "Login error"
       },
-      "rateLimit": {
-        "tooManyAttempts": "Too many failed attempts. Try again in {minutes}min {seconds}s.",
-        "warning": "Last attempt before blocking | {count} attempt remaining | {count} attempts remaining"
-      },
+      "forgotPassword": "Forgot password?",
       "noAccount": "Don't have an account?",
       "password": {
         "label": "Password",
@@ -134,7 +160,12 @@
           "required": "Password is required"
         }
       },
+      "rateLimit": {
+        "tooManyAttempts": "Too many failed attempts. Try again in {minutes}min {seconds}s.",
+        "warning": "Last attempt before blocking | {count} attempt remaining | {count} attempts remaining"
+      },
       "register": "Sign up",
+      "resendVerification": "Resend verification",
       "submit": "Sign in",
       "subtitle": "Sign in to your account",
       "success": {
@@ -200,10 +231,116 @@
       "submit": "Sign up",
       "subtitle": "Create your account",
       "success": {
-        "message": "Your account has been created successfully",
+        "emailSent": "A verification email has been sent to {email}. Check your inbox.",
+        "message": "A verification email has been sent to you. Check your inbox.",
         "title": "Registration successful"
       },
+      "terms": {
+        "and": "and",
+        "prefix": "By signing up, you agree to our",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service"
+      },
       "title": "Sign up"
+    },
+    "resendVerification": {
+      "alreadyVerified": "Already verified?",
+      "backToLogin": "Back to login",
+      "cancel": "Cancel",
+      "email": {
+        "label": "Email address",
+        "placeholder": "Enter your email address",
+        "validation": {
+          "invalid": "Email address is not valid",
+          "maxLength": "Email address cannot exceed 254 characters",
+          "required": "Email address is required"
+        }
+      },
+      "error": {
+        "alreadyVerified": "This email address is already verified.",
+        "generic": "Unable to send verification email",
+        "title": "Error",
+        "tooManyRequests": "Too many requests. Try again in {minutes}min {seconds}s.",
+        "userNotFound": "No account found with this email address."
+      },
+      "submit": "Resend email",
+      "subtitle": "Enter your email address to receive a new verification link",
+      "success": {
+        "message": "A new verification email has been sent if an account exists with this address.",
+        "title": "Email sent"
+      },
+      "title": "Resend verification"
+    },
+    "resetPassword": {
+      "backToLogin": "Back to login",
+      "cancel": "Cancel",
+      "confirmPassword": {
+        "label": "Confirm password",
+        "placeholder": "Confirm your new password",
+        "validation": {
+          "match": "Passwords do not match",
+          "required": "Password confirmation is required"
+        }
+      },
+      "description": "Choose a new password",
+      "error": {
+        "generic": "Unable to reset password",
+        "invalidToken": "This reset link is invalid or has expired.",
+        "title": "Error"
+      },
+      "password": {
+        "label": "New password",
+        "placeholder": "Enter your new password",
+        "validation": {
+          "maxLength": "Password cannot exceed 128 characters",
+          "minLength": "Password must be at least 8 characters long",
+          "pattern": "Password must include: 1 uppercase letter, 1 lowercase letter, and 1 number",
+          "required": "Password is required"
+        }
+      },
+      "remembered": "Remember your password?",
+      "submit": "Reset password",
+      "subtitle": "Enter your new password",
+      "success": {
+        "loginButton": "Sign in",
+        "message": "Your password has been reset successfully. You can now sign in.",
+        "title": "Password reset"
+      },
+      "title": "Reset password",
+      "token": {
+        "validation": {
+          "required": "Token is required"
+        }
+      }
+    },
+    "verifyEmail": {
+      "cancel": "Back to home",
+      "error": {
+        "generic": "An unexpected error occurred. Please try again.",
+        "invalidToken": "The verification link is invalid or corrupted.",
+        "resendLink": "Request new link",
+        "retry": "Try again",
+        "title": "Verification failed",
+        "tokenExpired": "This verification link has expired. Please request a new one.",
+        "tokenNotFound": "This verification link doesn't exist or has already been used."
+      },
+      "loading": {
+        "subtitle": "Please wait while we verify your email address...",
+        "title": "Verifying your email"
+      },
+      "noToken": {
+        "backButton": "Back to login",
+        "resendButton": "Request new link",
+        "subtitle": "You need to access this page via the link received in your verification email.",
+        "title": "Verification link missing"
+      },
+      "success": {
+        "message": "Your email address has been verified and you are now signed in.",
+        "redirecting": "Automatically redirecting in {seconds} seconds...",
+        "subtitle": "Congratulations! Your email address has been confirmed and your account is now active.",
+        "title": "Email verified successfully!"
+      },
+      "title": "Email verification"
     }
   },
   "error": {
@@ -245,11 +382,9 @@
       "grid": "Grid",
       "label": "Display mode",
       "list": "List"
-    },
-    "items": "items"
+    }
   },
   "stats": {
-    "subtitle": "Data overview",
     "title": "Statistics",
     "totalPosts": "Total articles"
   }

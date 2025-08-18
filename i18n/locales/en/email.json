@@ -1,0 +1,24 @@
+{
+  "email": {
+    "common": {
+      "appName": "Nuxt Boilerplate",
+      "greeting": "Hello {name}"
+    },
+    "passwordReset": {
+      "button": "Reset password",
+      "expires": "This reset link expires in 1 hour.",
+      "footer": "If you didn't request this reset, you can safely ignore this email.",
+      "message": "You requested a password reset. Click the button below to create a new secure password.",
+      "subject": "Reset your password",
+      "title": "Password Reset"
+    },
+    "verification": {
+      "button": "Verify my account",
+      "expires": "This verification link expires in 24 hours.",
+      "footer": "If you didn't create this account, you can safely ignore this email.",
+      "message": "Thanks for signing up! Click the button below to verify your account and start using our platform.",
+      "subject": "Verify your email address",
+      "title": "Account Verification"
+    }
+  }
+}

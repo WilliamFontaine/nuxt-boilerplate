@@ -24,6 +24,10 @@ export default defineEventHandler(async (event) => {
   const publicRoutes = [
     { path: '/api/auth/login', methods: ['POST'] },
     { path: '/api/auth/register', methods: ['POST'] },
+    { path: '/api/auth/verify-email', methods: ['POST'] },
+    { path: '/api/auth/resend-verification', methods: ['POST'] },
+    { path: '/api/auth/forgot-password', methods: ['POST'] },
+    { path: '/api/auth/reset-password', methods: ['POST'] },
     { pathPrefix: '/api/posts', methods: ['GET'] }, // Allow /api/posts and subpaths
     { pathPrefix: '/api/docs', methods: ['GET'] } // Allow /api/docs and subpaths
   ]
@@ -51,7 +55,7 @@ export default defineEventHandler(async (event) => {
     event.context.user = session.user
   } catch {
     throw createError({
-      statusCode: 401,
+      statusCode: HTTP_STATUS.UNAUTHORIZED,
       statusMessage: 'Authentication required'
     })
   }
