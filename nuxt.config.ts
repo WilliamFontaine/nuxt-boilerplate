@@ -19,46 +19,49 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
     'nuxt-auth-utils',
-    'nuxt-mcp'
+    'nuxt-mcp',
+    'nuxt-nodemailer'
   ],
 
-  // App Configuration
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'fr'
-      },
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'format-detection', content: 'telephone=no' }
-      ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
-    }
+  // Nodemailer Configuration
+  nodemailer: {
+    host: process.env.NUXT_NODEMAILER_HOST,
+    port: parseInt(process.env.NUXT_NODEMAILER_PORT || '587'),
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.NUXT_NODEMAILER_AUTH_USER,
+      pass: process.env.NUXT_NODEMAILER_AUTH_PASS
+    },
+    from: process.env.NUXT_NODEMAILER_FROM || process.env.NUXT_NODEMAILER_AUTH_USER
   },
+
 
   // I18n Configuration
   i18n: {
+    langDir: 'locales',
     locales: [
       {
         code: 'en',
         name: 'English',
-        files: ['en/common.json', 'en/seo.json'],
+        files: ['en/common.json', 'en/seo.json', 'en/email.json'],
         language: 'en-US'
       },
       {
         code: 'fr',
         name: 'Français',
-        files: ['fr/common.json', 'fr/seo.json'],
+        files: ['fr/common.json', 'fr/seo.json', 'fr/email.json'],
         language: 'fr-FR'
       }
     ],
     defaultLocale: 'fr',
-    strategy: 'prefix_except_default',
+    strategy: 'prefix',
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       redirectOn: 'root'
+    },
+    experimental: {
+      localeDetector: 'localeDetector.ts'
     }
   },
 
@@ -129,6 +132,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/api/**': {
+      cors: true,
       headers: {
         'Access-Control-Max-Age': '86400'
       }
@@ -139,6 +143,21 @@ export default defineNuxtConfig({
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     defaultLocale: 'fr'
+  },
+
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'fr'
+      },
+      titleTemplate: '%s | Nuxt Boilerplate',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'format-detection', content: 'telephone=no' }
+      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    }
   },
 
   seo: {
