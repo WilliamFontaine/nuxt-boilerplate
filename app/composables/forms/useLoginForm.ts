@@ -1,9 +1,9 @@
 export const useLoginForm = () => {
   const { t } = useI18n()
 
-  const state = reactive<LoginFormState>({ ...initialLoginState })
+  const state = reactive<LoginData>({ ...initialLoginState })
 
-  const setState = (data: Partial<LoginFormState> | null) => {
+  const setState = (data: Partial<LoginData> | null) => {
     if (!data) return
     Object.assign(state, data)
   }

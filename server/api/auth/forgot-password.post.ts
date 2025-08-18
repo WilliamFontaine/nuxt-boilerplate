@@ -1,5 +1,3 @@
-import { forgotPasswordSchema } from '@@/shared/models/token'
-
 /**
  * @openapi
  * /api/auth/forgot-password:

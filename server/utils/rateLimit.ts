@@ -1,5 +1,4 @@
 import prisma from '@@/lib/prisma'
-import { TokenType } from '~~/shared/types/token'
 
 /**
  * Mapping of token types to their user-friendly action names

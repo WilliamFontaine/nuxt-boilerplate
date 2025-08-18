@@ -1,8 +1,7 @@
 /**
  * User Model
  *
- * This file contains all User-related types, validation schemas, and constants
- * organized in logical sections for maintainability.
+ * This file contains User-related types, interfaces and validation schemas
  */
 
 import { z } from 'zod'
@@ -36,30 +35,24 @@ export interface User extends PublicUser {
 // =============================================================================
 
 /**
- * User validation schemas using Zod
- * Uses Zod's default messages (in English)
- * Translations are handled client-side in composables
+ * Login validation schema
  */
+export const loginSchema = z.object({
+  email: z.email('Invalid email format').max(TEXT_FIELD_LIMITS.EMAIL.MAX),
+  password: z.string().min(1, 'Password is required')
+})
 
 /**
- * Schema for user registration
+ * Registration validation schema
  */
-export const registerUserSchema = z
+export const registerSchema = z
   .object({
-    email: z
-      .string()
-      .regex(VALIDATION_PATTERNS.EMAIL, 'Invalid email format')
-      .max(TEXT_FIELD_LIMITS.EMAIL.MAX)
-      .trim()
-      .toLowerCase(),
+    email: z.email('Invalid email format').max(TEXT_FIELD_LIMITS.EMAIL.MAX),
     password: z
       .string()
       .min(TEXT_FIELD_LIMITS.PASSWORD.MIN)
       .max(TEXT_FIELD_LIMITS.PASSWORD.MAX)
-      .regex(
-        VALIDATION_PATTERNS.PASSWORD,
-        'Password must contain at least one lowercase letter, one uppercase letter, and one number'
-      ),
+      .regex(VALIDATION_PATTERNS.PASSWORD, 'Password must contain lowercase, uppercase and number'),
     confirmPassword: z.string(),
     name: z.string().min(TEXT_FIELD_LIMITS.NAME.MIN).max(TEXT_FIELD_LIMITS.NAME.MAX).trim()
   })
@@ -69,127 +62,69 @@ export const registerUserSchema = z
   })
 
 /**
- * Schema for server-side user registration (without confirmPassword)
+ * Create user schema (server-side, no confirmPassword)
  */
-export const createUserSchema = z.object({
-  email: z
-    .string()
-    .regex(VALIDATION_PATTERNS.EMAIL, 'Invalid email format')
-    .max(TEXT_FIELD_LIMITS.EMAIL.MAX)
-    .trim()
-    .toLowerCase(),
-  password: z
-    .string()
-    .min(TEXT_FIELD_LIMITS.PASSWORD.MIN)
-    .max(TEXT_FIELD_LIMITS.PASSWORD.MAX)
-    .regex(
-      VALIDATION_PATTERNS.PASSWORD,
-      'Password must contain at least one lowercase letter, one uppercase letter, and one number'
-    ),
-  name: z.string().min(TEXT_FIELD_LIMITS.NAME.MIN).max(TEXT_FIELD_LIMITS.NAME.MAX).trim()
+export const createUserSchema = registerSchema.omit({ confirmPassword: true })
+
+/**
+ * Forgot password schema
+ */
+export const forgotPasswordSchema = z.object({
+  email: z.email('Invalid email format')
 })
 
 /**
- * Schema for user login
+ * Reset password schema
  */
-export const loginUserSchema = z.object({
-  email: z
-    .string()
-    .regex(VALIDATION_PATTERNS.EMAIL, 'Invalid email format')
-    .max(TEXT_FIELD_LIMITS.EMAIL.MAX)
-    .trim()
-    .toLowerCase(),
-  password: z.string().min(1, 'Password is required')
-})
-
-/**
- * Schema for updating user profile
- */
-export const updateUserSchema = z.object({
-  email: z
-    .string()
-    .regex(VALIDATION_PATTERNS.EMAIL, 'Invalid email format')
-    .max(TEXT_FIELD_LIMITS.EMAIL.MAX)
-    .trim()
-    .toLowerCase()
-    .optional(),
-  name: z.string().min(TEXT_FIELD_LIMITS.NAME.MIN).max(TEXT_FIELD_LIMITS.NAME.MAX).trim().optional()
-})
-
-/**
- * Schema for password change
- */
-export const changePasswordSchema = z
+export const resetPasswordSchema = z
   .object({
-    currentPassword: z.string().min(1, 'Current password is required'),
-    newPassword: z
+    token: z.string().length(64),
+    password: z
       .string()
       .min(TEXT_FIELD_LIMITS.PASSWORD.MIN)
       .max(TEXT_FIELD_LIMITS.PASSWORD.MAX)
-      .regex(
-        VALIDATION_PATTERNS.PASSWORD,
-        'Password must contain at least one lowercase letter, one uppercase letter, and one number'
-      ),
-    confirmNewPassword: z.string()
+      .regex(VALIDATION_PATTERNS.PASSWORD),
+    confirmPassword: z.string()
   })
-  .refine((data) => data.currentPassword !== data.newPassword, {
-    message: 'New password must be different from current password',
-    path: ['newPassword']
-  })
-  .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: 'Password confirmation does not match',
-    path: ['confirmNewPassword']
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword']
   })
 
 // =============================================================================
-// DERIVED TYPES
+// TYPE EXPORTS
 // =============================================================================
 
-/**
- * User data types inferred from validation schemas
- */
-export type RegisterUserData = z.infer<typeof registerUserSchema>
+export type LoginData = z.infer<typeof loginSchema>
+export type RegisterData = z.infer<typeof registerSchema>
 export type CreateUserData = z.infer<typeof createUserSchema>
-export type LoginUserData = z.infer<typeof loginUserSchema>
-export type UpdateUserData = z.infer<typeof updateUserSchema>
-export type ChangePasswordData = z.infer<typeof changePasswordSchema>
-
-/**
- * User form states (client-side)
- */
-export type RegisterFormState = RegisterUserData
-export type LoginFormState = LoginUserData
-export type ProfileFormState = UpdateUserData
-export type PasswordFormState = ChangePasswordData
+export type ForgotPasswordData = z.infer<typeof forgotPasswordSchema>
+export type ResetPasswordData = z.infer<typeof resetPasswordSchema>
 
 // =============================================================================
-// CONSTANTS & DEFAULTS
+// INITIAL STATES
 // =============================================================================
 
-/**
- * Initial state for user forms
- */
-export const initialRegisterState: RegisterFormState = {
+export const initialLoginState: LoginData = {
+  email: '',
+  password: ''
+}
+
+export const initialRegisterState: RegisterData = {
   email: '',
   password: '',
   confirmPassword: '',
   name: ''
 }
 
-export const initialLoginState: LoginFormState = {
-  email: '',
-  password: ''
+export const initialForgotPasswordState: ForgotPasswordData = {
+  email: ''
 }
 
-export const initialProfileState: ProfileFormState = {
-  email: '',
-  name: ''
-}
-
-export const initialPasswordState: PasswordFormState = {
-  currentPassword: '',
-  newPassword: '',
-  confirmNewPassword: ''
+export const initialResetPasswordState: ResetPasswordData = {
+  token: '',
+  password: '',
+  confirmPassword: ''
 }
 
 /**
