@@ -45,6 +45,8 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
+const { getErrorCode } = useApiError()
+const { success, error } = useNotifications()
 
 interface Props {
   post?: Post
@@ -63,17 +65,36 @@ const handleDelete = async () => {
   loading.value = true
   try {
     await $fetch(`/api/posts/${props.post.id}`, { method: 'DELETE' })
-    useNotifications().success({
+    success({
       title: t('articleForm.actions.delete.success.title'),
       message: t('articleForm.actions.delete.success.message')
     })
     emit('close', { success: true })
     open.value = false
-  } catch {
-    useNotifications().error({
-      title: t('articleForm.actions.delete.error.title'),
-      message: t('articleForm.actions.delete.error.message')
-    })
+  } catch (err: any) {
+    const errorCode = getErrorCode(err)
+
+    switch (errorCode) {
+      case ERROR_CODES.AUTH.UNAUTHORIZED:
+        error({
+          title: t('articleForm.actions.delete.error.title'),
+          message: t('articleForm.error.unauthorized')
+        })
+        break
+
+      case ERROR_CODES.RESOURCE.NOT_FOUND:
+        error({
+          title: t('articleForm.actions.delete.error.title'),
+          message: t('articleForm.error.notFound')
+        })
+        break
+
+      default:
+        error({
+          title: t('articleForm.actions.delete.error.title'),
+          message: t('articleForm.actions.delete.error.message')
+        })
+    }
   } finally {
     loading.value = false
   }

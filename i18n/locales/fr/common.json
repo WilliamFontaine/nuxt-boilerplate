@@ -75,6 +75,10 @@
         "short": "Court"
       }
     },
+    "error": {
+      "unauthorized": "Vous n'avez pas l'autorisation d'effectuer cette action",
+      "notFound": "L'article n'a pas pu être trouvé ou a été supprimé"
+    },
     "fields": {
       "content": {
         "label": "Contenu de l'article",
@@ -204,6 +208,8 @@
       },
       "error": {
         "emailExists": "Cette adresse email est déjà utilisée",
+        "invalidEmail": "L'adresse email est invalide. Veuillez vérifier et réessayer.",
+        "validation": "Les données saisies sont invalides. Veuillez vérifier et réessayer.",
         "generic": "Une erreur est survenue lors de l'inscription",
         "title": "Erreur d'inscription"
       },
@@ -322,7 +328,8 @@
         "retry": "Réessayer",
         "title": "Échec de la vérification",
         "tokenExpired": "Ce lien de vérification a expiré. Demandez un nouveau lien.",
-        "tokenNotFound": "Ce lien de vérification n'existe pas ou a déjà été utilisé."
+        "tokenNotFound": "Ce lien de vérification n'existe pas ou a déjà été utilisé.",
+        "validationError": "Les données de vérification sont invalides. Veuillez demander un nouveau lien."
       },
       "loading": {
         "subtitle": "Nous vérifions votre email, veuillez patienter...",

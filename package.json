@@ -42,7 +42,7 @@
     "tag:major": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version major && git push --follow-tags"
   },
   "dependencies": {
-    "@iconify-json/lucide": "^1.2.62",
+    "@iconify-json/lucide": "^1.2.63",
     "@iconify-json/openmoji": "^1.2.14",
     "@nuxt/image": "1.11.0",
     "@nuxt/ui": "4.0.0-alpha.0",

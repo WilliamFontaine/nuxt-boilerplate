@@ -64,6 +64,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 const { t } = useI18n()
 const { fetch: fetchUser } = useUserSession()
 const { success, error } = useNotifications()
+const { getErrorData, getErrorCode } = useApiError()
 const localePath = useLocalePath()
 
 // =============================================================================
@@ -112,7 +113,7 @@ const submitConfig = computed(() => ({
 }))
 
 // Form submission
-const handleSubmit = async (event: FormSubmitEvent<LoginFormState>) => {
+const handleSubmit = async (event: FormSubmitEvent<LoginData>) => {
   try {
     isLoading.value = true
 
@@ -135,43 +136,49 @@ const handleSubmit = async (event: FormSubmitEvent<LoginFormState>) => {
       await navigateTo(localePath('/'))
     }
   } catch (err: any) {
-    // Handle rate limiting (429)
-    if (err?.statusCode === 429) {
-      const data = err.data?.data || err.data || {}
-      const minutes = data.minutes || 0
-      const seconds = data.seconds || 0
+    const errorCode = getErrorCode(err)
+    const data = getErrorData(err)
 
-      error({
-        title: t('auth.login.error.title'),
-        message: t('auth.login.rateLimit.tooManyAttempts', { minutes, seconds })
-      })
-      return
+    switch (errorCode) {
+      case ERROR_CODES.RATE_LIMIT.EXCEEDED:
+      case ERROR_CODES.RATE_LIMIT.TOO_MANY_ATTEMPTS:
+        error({
+          title: t('auth.login.error.title'),
+          message: t('auth.login.rateLimit.tooManyAttempts', {
+            minutes: data.minutes || 0,
+            seconds: data.seconds || 0
+          })
+        })
+        break
+
+      case ERROR_CODES.AUTH.EMAIL_NOT_VERIFIED:
+        error({
+          title: t('auth.login.error.title'),
+          message: t('auth.login.error.emailNotVerified')
+        })
+        break
+
+      case ERROR_CODES.AUTH.INVALID_CREDENTIALS:
+        // Check for remaining attempts data
+        if (data.remainingAttempts !== undefined) {
+          error({
+            title: t('auth.login.error.title'),
+            message: t('auth.login.rateLimit.warning', { count: data.remainingAttempts })
+          })
+        } else {
+          error({
+            title: t('auth.login.error.title'),
+            message: t('auth.login.error.invalidCredentials')
+          })
+        }
+        break
+
+      default:
+        error({
+          title: t('auth.login.error.title'),
+          message: t('auth.login.error.invalidCredentials')
+        })
     }
-
-    // Handle email not verified (401 with EMAIL_NOT_VERIFIED)
-    if (err?.statusCode === 401 && err?.data?.data?.code === 'EMAIL_NOT_VERIFIED') {
-      error({
-        title: t('auth.login.error.title'),
-        message: t('auth.login.error.emailNotVerified')
-      })
-      return
-    }
-
-    // Handle remaining attempts warning (401 with remainingAttempts)
-    const remainingAttempts = err?.data?.data?.remainingAttempts
-    if (err?.statusCode === 401 && remainingAttempts !== undefined) {
-      error({
-        title: t('auth.login.error.title'),
-        message: t('auth.login.rateLimit.warning', { count: remainingAttempts })
-      })
-      return
-    }
-
-    // Fallback for all other errors (should rarely happen)
-    error({
-      title: t('auth.login.error.title'),
-      message: t('auth.login.error.invalidCredentials')
-    })
   } finally {
     isLoading.value = false
   }

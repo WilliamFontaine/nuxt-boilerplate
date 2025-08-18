@@ -4,10 +4,7 @@ import { isSwaggerEnabled } from '@@/lib/swagger'
 export default defineEventHandler(async (event) => {
   // Check if documentation is accessible
   if (!isSwaggerEnabled()) {
-    throw createError({
-      statusCode: HTTP_STATUS.FORBIDDEN,
-      statusMessage: 'API documentation is not available in production'
-    })
+    forbiddenError(ERROR_CODES.HTTP.FORBIDDEN, 'API documentation is not available in production')
   }
 
   // Set Content-Type for HTML

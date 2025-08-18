@@ -32,15 +32,9 @@ export async function createPost(
     }
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.FOREIGN_KEY_CONSTRAINT_FAILED) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Invalid author ID'
-      })
+      throw badRequestError(ERROR_CODES.VALIDATION.INVALID_INPUT, 'Invalid author ID')
     }
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to create post'
-    })
+    throw serverError(ERROR_CODES.SERVER.DATABASE_ERROR, 'Failed to create post')
   }
 }
 
@@ -101,17 +95,14 @@ export async function updatePost(
   })
 
   if (!existingPost) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: 'Post not found'
-    })
+    throw notFoundError(ERROR_CODES.RESOURCE.NOT_FOUND, 'Post not found')
   }
 
   if (existingPost.authorId !== authorId) {
-    throw createError({
-      statusCode: 403,
-      statusMessage: 'You can only edit your own posts'
-    })
+    throw forbiddenError(
+      ERROR_CODES.RESOURCE.INSUFFICIENT_PERMISSIONS,
+      'You can only edit your own posts'
+    )
   }
 
   try {
@@ -131,15 +122,9 @@ export async function updatePost(
     }
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: 'Post not found'
-      })
+      throw notFoundError(ERROR_CODES.RESOURCE.NOT_FOUND, 'Post not found')
     }
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to update post'
-    })
+    throw serverError(ERROR_CODES.SERVER.DATABASE_ERROR, 'Failed to update post')
   }
 }
 
@@ -154,17 +139,14 @@ export async function deletePost(id: string, authorId: string): Promise<void> {
   })
 
   if (!existingPost) {
-    throw createError({
-      statusCode: HTTP_STATUS.NOT_FOUND,
-      statusMessage: 'Post not found'
-    })
+    throw notFoundError(ERROR_CODES.RESOURCE.NOT_FOUND, 'Post not found')
   }
 
   if (existingPost.authorId !== authorId) {
-    throw createError({
-      statusCode: HTTP_STATUS.FORBIDDEN,
-      statusMessage: 'You can only delete your own posts'
-    })
+    throw forbiddenError(
+      ERROR_CODES.RESOURCE.INSUFFICIENT_PERMISSIONS,
+      'You can only delete your own posts'
+    )
   }
 
   try {
@@ -173,14 +155,8 @@ export async function deletePost(id: string, authorId: string): Promise<void> {
     })
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {
-      throw createError({
-        statusCode: HTTP_STATUS.NOT_FOUND,
-        statusMessage: 'Post not found'
-      })
+      throw notFoundError(ERROR_CODES.RESOURCE.NOT_FOUND, 'Post not found')
     }
-    throw createError({
-      statusCode: HTTP_STATUS.INTERNAL_ERROR,
-      statusMessage: 'Failed to delete post'
-    })
+    throw serverError(ERROR_CODES.SERVER.DATABASE_ERROR, 'Failed to delete post')
   }
 }

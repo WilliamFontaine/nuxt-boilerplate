@@ -50,6 +50,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 // =============================================================================
 const { t } = useI18n()
 const { success, error } = useNotifications()
+const { getErrorCode, getErrorData } = useApiError()
 const localePath = useLocalePath()
 
 // =============================================================================
@@ -90,7 +91,7 @@ const submitConfig = computed(() => ({
 }))
 
 // Form submission
-const handleSubmit = async (event: FormSubmitEvent<ForgotPasswordFormState>) => {
+const handleSubmit = async (event: FormSubmitEvent<ForgotPasswordData>) => {
   try {
     isLoading.value = true
 
@@ -112,42 +113,41 @@ const handleSubmit = async (event: FormSubmitEvent<ForgotPasswordFormState>) => 
       // Stay on the same page, user can try again if needed
     }
   } catch (err: any) {
-    // Handle rate limiting (429)
-    if (err?.statusCode === 429) {
-      // Try different ways to access the error data
-      const errorData = err?.data?.data || err?.data || {}
-      const minutes = errorData?.remainingMinutes || 0
-      const seconds = errorData?.remainingSeconds || 0
+    const errorCode = getErrorCode(err)
+    const data = getErrorData(err)
 
-      error({
-        title: t('auth.resendVerification.error.title'),
-        message: t('auth.resendVerification.error.tooManyRequests', { minutes, seconds })
-      })
-      return
+    switch (errorCode) {
+      case ERROR_CODES.RATE_LIMIT.EXCEEDED:
+      case ERROR_CODES.RATE_LIMIT.TOO_MANY_ATTEMPTS:
+        error({
+          title: t('auth.resendVerification.error.title'),
+          message: t('auth.resendVerification.error.tooManyRequests', {
+            minutes: data.remainingMinutes || 0,
+            seconds: data.remainingSeconds || 0
+          })
+        })
+        break
+
+      case ERROR_CODES.USER.NOT_FOUND:
+        error({
+          title: t('auth.resendVerification.error.title'),
+          message: t('auth.resendVerification.error.userNotFound')
+        })
+        break
+
+      case ERROR_CODES.USER.INVALID_DATA:
+        error({
+          title: t('auth.resendVerification.error.title'),
+          message: t('auth.resendVerification.error.alreadyVerified')
+        })
+        break
+
+      default:
+        error({
+          title: t('auth.resendVerification.error.title'),
+          message: t('auth.resendVerification.error.generic')
+        })
     }
-
-    // Handle user not found or already verified
-    if (err?.statusCode === 404) {
-      error({
-        title: t('auth.resendVerification.error.title'),
-        message: t('auth.resendVerification.error.userNotFound')
-      })
-      return
-    }
-
-    if (err?.statusCode === 400) {
-      error({
-        title: t('auth.resendVerification.error.title'),
-        message: t('auth.resendVerification.error.alreadyVerified')
-      })
-      return
-    }
-
-    // Handle other errors
-    error({
-      title: t('auth.resendVerification.error.title'),
-      message: t('auth.resendVerification.error.generic')
-    })
   } finally {
     isLoading.value = false
   }
