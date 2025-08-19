@@ -30,6 +30,13 @@ npm run lint           # run ESLint + Prettier
 npm test               # run unit + E2E tests
 docker compose up -d   # start PostgreSQL
 npx prisma migrate dev # run DB migrations
+
+# Changelog & Releases
+npm run changelog:preview  # preview unreleased changes
+npm run changelog         # generate full changelog
+npm run release:patch     # create patch release (0.0.1)
+npm run release:minor     # create minor release (0.1.0)
+npm run release:major     # create major release (1.0.0)
 ```
 
 ## Architecture & Patterns
