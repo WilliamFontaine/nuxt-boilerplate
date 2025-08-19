@@ -30,6 +30,9 @@ model User {
   // Relations
   posts     Post[]
   tokens    Token[]
+
+  // Essential index only
+  @@index([emailVerified])
 }
 
 model LoginAttempt {
@@ -61,6 +64,7 @@ model Token {
   
   @@index([token])
   @@index([expiresAt])
+  @@index([userId, type])
 }
 
 model Post {
@@ -73,4 +77,9 @@ model Post {
 
   // Relations
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // Essential indexes only
+  @@index([createdAt])
+  @@index([authorId])
 }
+

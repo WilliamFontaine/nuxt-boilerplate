@@ -87,3 +87,10 @@ export async function renderEmailTemplate(
     throw new Error('Email template rendering failed')
   }
 }
+
+/**
+ * Clear template cache (useful for development)
+ */
+export function clearTemplateCache(): void {
+  templateCache.clear()
+}

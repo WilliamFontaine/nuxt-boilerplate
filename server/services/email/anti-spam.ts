@@ -1,6 +1,7 @@
 import { randomBytes } from 'crypto'
+
 /**
- * Email deliverability utilities to avoid spam filters
+ * Anti-spam utilities for email deliverability
  */
 
 /**
@@ -32,21 +33,28 @@ export function htmlToPlainText(html: string): string {
 }
 
 /**
- * Generate essential anti-spam headers
+ * Generate enhanced anti-spam headers for better deliverability
  */
 export function getAntiSpamHeaders(fromDomain?: string): Record<string, string> {
   return {
     'X-Mailer': 'Nuxt Boilerplate',
     'Message-ID': generateMessageId(fromDomain),
-    'X-Priority': '3'
+    'X-Priority': '3',
+    'X-MSMail-Priority': 'Normal',
+    Importance: 'Normal',
+    'MIME-Version': '1.0',
+    'X-Auto-Response-Suppress': 'DR, RN, NRN, OOF, AutoReply',
+    'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    'X-Entity-ID': `nuxt-${Date.now()}`,
+    Precedence: 'bulk',
+    'X-Report-Abuse': `Please report abuse for this message to abuse@${fromDomain || 'localhost'}`
   }
 }
 
 /**
- * Basic email content validation (simplified for boilerplate)
+ * Basic email content validation
  */
 export function validateEmailContent(subject: string, content: string): void {
-  // For boilerplate: just ensure content exists
   if (!subject.trim() || !content.trim()) {
     throw new Error('Email subject and content are required')
   }
