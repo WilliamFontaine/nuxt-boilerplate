@@ -358,55 +358,61 @@ export default defineEventHandler(async (event) => {
 
 ## 🔄 CI/CD Pipeline
 
+### Automated Release & Deployment
+
+The project includes automated workflows for releases and deployments:
+
+**Release Workflow** (`.github/workflows/release.yml`):
+
+- Triggered on tag push (`v*.*.*`)
+- Generates changelog with git-cliff using conventional commits
+- Creates GitHub Release with generated changelog
+
+**Deploy Workflow** (`.github/workflows/deploy.yml`):
+
+- Triggered on tag push (`v*.*.*`)
+- Builds and pushes Docker image to GitHub Container Registry
+- Includes migration verification
+
+**Usage**:
+
+```bash
+# Create and push a release
+npm run release:patch  # Creates v0.0.1, pushes tag, triggers workflows
+npm run release:minor  # Creates v0.1.0, pushes tag, triggers workflows
+npm run release:major  # Creates v1.0.0, pushes tag, triggers workflows
+```
+
 ### GitHub Actions
 
 ```yaml
-# .github/workflows/deploy.yml
-name: Deploy to Production
+# .github/workflows/deploy.yml (simplified)
+name: Build, Push and Deploy Docker Image
 
 on:
   push:
-    branches: [main]
+    tags: ['v*.*.*']
+
+permissions:
+  packages: write
 
 jobs:
-  test:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5.0.0
+      - run: |
+          if [ ! -d "prisma/migrations" ]; then
+            echo "❌ No migrations found"
+            exit 1
+          fi
+      - uses: docker/setup-buildx-action@v3.11.1
+      - uses: docker/login-action@v3.5.0
         with:
-          node-version: '22'
-          cache: 'npm'
-
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test:unit
-      - run: npx playwright install --with-deps
-      - run: npm run test:e2e
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - run: npm ci
-      - run: npm run build
-
-      # Deploy to your platform
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--prod'
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # ... build and push steps
 ```
 
 ### GitLab CI

@@ -32,11 +32,10 @@ docker compose up -d   # start PostgreSQL
 npx prisma migrate dev # run DB migrations
 
 # Changelog & Releases
-npm run changelog:preview  # preview unreleased changes
-npm run changelog         # generate full changelog
-npm run release:patch     # create patch release (0.0.1)
-npm run release:minor     # create minor release (0.1.0)
-npm run release:major     # create major release (1.0.0)
+npm run changelog         # generate local changelog (optional)
+npm run release:patch     # create patch release + push tag (0.0.1)
+npm run release:minor     # create minor release + push tag (0.1.0)
+npm run release:major     # create major release + push tag (1.0.0)
 ```
 
 ## Architecture & Patterns
@@ -70,6 +69,14 @@ npm run release:major     # create major release (1.0.0)
 - Test database isolation using `TEST_DATABASE_URL`
 - Component testing with Vue Test Utils and proper mocking
 - Code quality with ESLint, Prettier, and conventional commits
+
+**Release & Deployment:**
+
+- Automated changelog generation using git-cliff with conventional commits
+- GitHub Actions workflows for release (GitHub Release) and deploy (Docker)
+- Tag-triggered releases: push tag → GitHub Release with changelog → Docker build/deploy
+- CHANGELOG.md generated automatically in GitHub Releases (not committed to repo)
+- Semantic versioning with `npm version` commands
 
 ## Environment Variables
 

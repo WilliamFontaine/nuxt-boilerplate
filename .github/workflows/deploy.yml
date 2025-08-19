@@ -1,77 +1,45 @@
 name: Build, Push and Deploy Docker Image
 
-# Trigger workflow when a version tag is pushed (e.g., v1.0.0)
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    tags: ['v*.*.*']
 
-# Required permissions for GitHub Actions
 permissions:
-  contents: write # Write to create releases
-  packages: write # Push to GitHub Container Registry
+  packages: write
 
 jobs:
-  # Build and push the Docker image to GitHub Container Registry
   build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-
     steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout code
-        uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@v5.0.0
 
-      # Step 2: Verify migrations exist
-      - name: Check migrations
-        run: |
+      - run: |
           if [ ! -d "prisma/migrations" ]; then
-            echo "❌ No migrations found in prisma/migrations"
+            echo "❌ No migrations found"
             exit 1
           fi
           echo "✅ Migrations found"
 
-      # Step 3: Set up Docker Buildx for multi-architecture builds
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.11.1
-
-      # Step 4: Log in to GitHub Container Registry
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3.5.0
+      - uses: docker/setup-buildx-action@v3.11.1
+      - uses: docker/login-action@v3.5.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 5: Extract the tag name and repository owner (lowercase)
-      - name: Extract tag name and repository owner
-        run: |
+      - run: |
           echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
           echo "REPO_OWNER_LOWER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      # Step 6: Build and push the Docker image
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6.18.0
+      - uses: docker/build-push-action@v6.18.0
         with:
-          context: . # Use the current directory as build context
-          push: true # Push the image after building
+          context: .
+          push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
             ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:${{ env.TAG_NAME }}
             ghcr.io/${{ env.REPO_OWNER_LOWER }}/nuxt-boilerplate:latest
-
-      # Step 7: Create GitHub Release with changelog
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2.3.2
-        with:
-          tag_name: ${{ env.TAG_NAME }}
-          name: Release ${{ env.TAG_NAME }}
-          body_path: CHANGELOG.md
-          draft: false
-          prerelease: false
 
   # Deploy the application to the production server
   deploy:
