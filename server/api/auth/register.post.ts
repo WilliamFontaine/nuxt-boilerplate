@@ -43,7 +43,8 @@ export default defineEventHandler(async (event) => {
   const { token } = await createToken(user.id, TokenType.EMAIL_VERIFICATION)
 
   // Send verification email
-  await sendVerificationEmail(event, user.email, user.name, token)
+  const locale = getCookie(event, 'i18n_redirected') || 'fr'
+  await sendVerificationEmail(event, user.email, user.name, token, locale)
 
   // Return success without auto-login
   return createCreatedResponse({
