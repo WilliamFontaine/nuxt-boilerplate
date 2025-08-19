@@ -34,7 +34,7 @@
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "db:seed": "prisma db seed",
-    "changelog:generate": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
+    "changelog:generate": "conventional-changelog -n .changelogrc.ts -i CHANGELOG.md -s",
     "changelog:preview": "conventional-changelog -p conventionalcommits -u",
     "version:check": "echo \"Current version: $(node -p \"require('./package.json').version\")\" && git status --porcelain",
     "tag:patch": "npm run changelog:generate && git add CHANGELOG.md && git commit --no-verify -m \"chore: update changelog\" || true && npm version patch && git push --follow-tags",

@@ -1,0 +1,56 @@
+name: 🚀 Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🏷️ Get tag information
+        id: tag
+        run: |
+          echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: 📄 Extract changelog for this version
+        id: changelog
+        run: |
+          if [ -f "CHANGELOG.md" ]; then
+            # Extract changelog section for current version
+            awk '/^## \[?'"${{ steps.tag.outputs.version }}"'\]?/ {flag=1; next} /^## / && flag {exit} flag' CHANGELOG.md > current_changelog.md
+            if [ -s current_changelog.md ]; then
+              echo "changelog_exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "changelog_exists=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "changelog_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🎉 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: ${{ steps.tag.outputs.tag }}
+          body_path: ${{ steps.changelog.outputs.changelog_exists == 'true' && 'current_changelog.md' || '' }}
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(steps.tag.outputs.tag, 'alpha') || contains(steps.tag.outputs.tag, 'beta') || contains(steps.tag.outputs.tag, 'rc') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ✅ Release created
+        run: |
+          echo "🎉 Release ${{ steps.tag.outputs.tag }} has been created!"
+          echo "📋 Release notes: ${{ steps.changelog.outputs.changelog_exists == 'true' && 'From CHANGELOG.md' || 'Auto-generated' }}"
