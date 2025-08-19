@@ -43,6 +43,11 @@ export const useRegisterForm = () => {
       })
   )
 
+  const isValid = computed(() => {
+    const result = schema.value.safeParse(state)
+    return result.success
+  })
+
   const validate = () => schema.value.safeParse(state)
 
   return {
@@ -50,6 +55,7 @@ export const useRegisterForm = () => {
     setState,
     resetState,
     schema,
+    isValid,
     validate
   }
 }

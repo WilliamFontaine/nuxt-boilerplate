@@ -8,7 +8,11 @@
         },
         "500": {
           "description": "We're experiencing technical difficulties. Please try again later.",
-          "title": "Server Error"
+          "title": "Server Error",
+          "og": {
+            "description": "A temporary technical error has occurred.",
+            "title": "Server Error - Nuxt Boilerplate"
+          }
         }
       },
       "forgotPassword": {

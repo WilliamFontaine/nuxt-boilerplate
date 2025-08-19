@@ -83,13 +83,31 @@ export default defineNuxtConfig({
   css: ['/assets/css/main.css'],
 
   imports: {
-    dirs: ['../shared/**', 'composables/**'],
-    imports: [{ name: 'z', from: 'zod' }]
+    // Selective auto-imports for better tree-shaking
+    dirs: [
+      // App composables
+      'composables/**',
+      // All shared resources
+      '../shared/**'
+    ],
+    imports: [
+      // Essential third-party imports
+      { name: 'z', from: 'zod' }
+    ]
   },
 
   nitro: {
     imports: {
-      dirs: ['shared/**', 'server/constants/**', 'server/services/**']
+      // Server-side auto-imports
+      dirs: [
+        // All shared resources available on server
+        'shared/**',
+        // Server-specific imports
+        'server/constants/**',
+        'server/services/**',
+        'server/utils/**',
+        'server/types/**'
+      ]
     }
   },
 
@@ -98,6 +116,9 @@ export default defineNuxtConfig({
       alias: {
         '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js'
       }
+    },
+    build: {
+      chunkSizeWarningLimit: 600
     }
   },
 
@@ -137,8 +158,8 @@ export default defineNuxtConfig({
     },
 
     rateLimiter: {
-      tokensPerInterval: 150,
-      interval: 300000,
+      tokensPerInterval: parseInt(process.env.NUXT_RATE_LIMIT_GLOBAL_MAX || '150'),
+      interval: parseInt(process.env.NUXT_RATE_LIMIT_GLOBAL_WINDOW || '5') * 60 * 1000,
       throwError: true
     },
 

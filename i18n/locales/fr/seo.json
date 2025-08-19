@@ -8,7 +8,11 @@
         },
         "500": {
           "description": "Nous rencontrons des difficultés techniques. Veuillez réessayer plus tard.",
-          "title": "Erreur Serveur"
+          "title": "Erreur Serveur",
+          "og": {
+            "description": "Une erreur technique temporaire s'est produite.",
+            "title": "Erreur Serveur - Nuxt Boilerplate"
+          }
         }
       },
       "forgotPassword": {

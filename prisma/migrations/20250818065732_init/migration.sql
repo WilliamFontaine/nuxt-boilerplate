@@ -60,6 +60,9 @@ CREATE TABLE "public"."Post" (
 CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
 
 -- CreateIndex
+CREATE INDEX "User_emailVerified_idx" ON "public"."User"("emailVerified");
+
+-- CreateIndex
 CREATE INDEX "LoginAttempt_email_idx" ON "public"."LoginAttempt"("email");
 
 -- CreateIndex
@@ -79,6 +82,15 @@ CREATE INDEX "Token_token_idx" ON "public"."Token"("token");
 
 -- CreateIndex
 CREATE INDEX "Token_expiresAt_idx" ON "public"."Token"("expiresAt");
+
+-- CreateIndex
+CREATE INDEX "Token_userId_type_idx" ON "public"."Token"("userId", "type");
+
+-- CreateIndex  
+CREATE INDEX "Post_createdAt_idx" ON "public"."Post"("createdAt");
+
+-- CreateIndex
+CREATE INDEX "Post_authorId_idx" ON "public"."Post"("authorId");
 
 -- AddForeignKey
 ALTER TABLE "public"."Token" ADD CONSTRAINT "Token_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
