@@ -54,9 +54,9 @@
 
       <template #right>
         <ULocaleSelect
-          v-model="locale"
-          :locales="Object.values(availableUiLocales)"
-          @update:model-value="setLocale($event)"
+          :model-value="locale"
+          :locales="availableLocales"
+          @update:model-value="(newLocale: string) => navigateTo(switchLocalePath(newLocale))"
         />
       </template>
     </UFooter>
@@ -64,15 +64,17 @@
 </template>
 
 <script lang="ts" setup>
-import * as uiLocales from '@nuxt/ui/locale'
 import type { DropdownMenuItem } from '@nuxt/ui'
 
 const { loggedIn, user, clear } = useUserSession()
-const { locale, locales, setLocale, t } = useI18n()
+const { locale, locales, t } = useI18n()
 const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
 const { success } = useNotifications()
 
-// Functions
+// Available locales for the selector
+const availableLocales = computed(() => locales.value.map((l) => ({ code: l.code, name: l.name })))
+
 const handleLogout = async () => {
   try {
     clear()
@@ -96,13 +98,6 @@ const handleLogout = async () => {
 const appNameParts = computed(() => {
   const name = t('app.name')
   return name.split(' ')
-})
-
-const availableUiLocales = computed(() => {
-  const availableLocaleCodes = locales.value.map((l: any) => l.code)
-  return Object.fromEntries(
-    Object.entries(uiLocales).filter(([code]) => availableLocaleCodes.includes(code))
-  ) as typeof uiLocales
 })
 
 const items = ref<DropdownMenuItem[][]>([

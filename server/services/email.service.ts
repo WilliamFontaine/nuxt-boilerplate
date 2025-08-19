@@ -1,8 +1,16 @@
 import type { H3Event } from 'h3'
 
 /**
- * Email Service - Simple HTML templates with server-side i18n
+ * Email Service - Handlebars templates with i18n support
  */
+
+/**
+ * Email route configurations
+ */
+const EMAIL_ROUTES = {
+  verification: 'auth/verify-email',
+  passwordReset: 'auth/reset-password'
+} as const
 
 /**
  * Get base URL from event or environment
@@ -18,53 +26,96 @@ function getBaseUrl(event?: H3Event): string {
 }
 
 /**
- * Generate email HTML from common template
+ * Send email with Handlebars template
  */
-function generateEmailHtml(params: {
-  appName: string
-  title: string
-  userName: string
-  actionUrl: string
-  greeting: string
-  message: string
-  button: string
-  footer: string
-  expires: string
-}): string {
-  return `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body style="margin: 0; padding: 20px; background-color: #f5f5f5; font-family: Arial, sans-serif;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; padding: 40px;">
-    <h1 style="margin: 0 0 10px 0; font-size: 24px; color: #333;">${params.appName}</h1>
-    <h2 style="margin: 0 0 20px 0; font-size: 18px; color: #666;">${params.title}</h2>
+async function sendEmailTemplate(
+  templateType: EmailTemplateType,
+  email: string,
+  locale: string,
+  data: EmailTemplateData,
+  subject: string,
+  event: H3Event
+): Promise<void> {
+  try {
+    const html = await renderEmailTemplate(templateType, locale, data, event)
+    const mail = useNodeMailer()
 
-    <p style="margin: 0 0 15px 0; font-size: 16px; color: #333;">
-      ${params.greeting}
-    </p>
+    // Validate email content for spam triggers
+    validateEmailContent(subject, html)
 
-    <p style="margin: 0 0 30px 0; font-size: 14px; color: #666; line-height: 1.5;">
-      ${params.message}
-    </p>
+    // Enhanced email options to avoid spam
+    const fromDomain = process.env.NUXT_NODEMAILER_FROM?.split('@')[1]
+    const plainText = htmlToPlainText(html)
 
-    <div style="text-align: center; margin: 30px 0;">
-      <a href="${params.actionUrl}" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">
-        ${params.button}
-      </a>
-    </div>
+    const mailOptions = {
+      to: email,
+      subject,
+      html,
+      text: plainText,
+      headers: getAntiSpamHeaders(fromDomain),
+      replyTo: process.env.NUXT_NODEMAILER_FROM || process.env.NUXT_NODEMAILER_AUTH_USER,
+      envelope: {
+        from: process.env.NUXT_NODEMAILER_FROM || process.env.NUXT_NODEMAILER_AUTH_USER,
+        to: email
+      }
+    }
 
-    <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+    await mail.sendMail(mailOptions)
+  } catch (error: any) {
+    // eslint-disable-next-line no-console
+    console.error('Email send failed:', error.message)
 
-    <p style="margin: 0 0 5px 0; font-size: 12px; color: #999;">${params.footer}</p>
-    <p style="margin: 0; font-size: 12px; color: #999;">${params.expires}</p>
-  </div>
-</body>
-</html>
-  `.trim()
+    if (error.message === 'Email template rendering failed') {
+      throw serverError(ERROR_CODES.SERVER.INTERNAL_ERROR, 'Failed to render email template')
+    }
+
+    if (
+      error.code === 'EENVELOPE' ||
+      error.responseCode === 553 ||
+      error.response?.includes('Invalid email')
+    ) {
+      throw validationError(
+        ERROR_CODES.VALIDATION.INVALID_FORMAT,
+        'Invalid email address format',
+        'email'
+      )
+    }
+
+    throw serverError(
+      ERROR_CODES.SERVER.EXTERNAL_SERVICE_ERROR,
+      `Failed to send ${templateType} email`
+    )
+  }
+}
+
+/**
+ * Send email with template type
+ */
+async function sendEmail(
+  templateType: EmailTemplateType,
+  event: H3Event,
+  email: string,
+  name: string,
+  token: string,
+  locale: string
+): Promise<void> {
+  const baseUrl = getBaseUrl(event)
+  const t = await useTranslation(event)
+  const actionUrl = `${baseUrl}/${locale}/${EMAIL_ROUTES[templateType]}?token=${token}`
+
+  const data: EmailTemplateData = {
+    name,
+    actionUrl
+  }
+
+  await sendEmailTemplate(
+    templateType,
+    email,
+    locale,
+    data,
+    t(`email.${templateType}.subject`),
+    event
+  )
 }
 
 /**
@@ -75,54 +126,9 @@ export async function sendVerificationEmail(
   email: string,
   name: string,
   token: string,
-  locale: string = 'fr'
+  locale: string
 ): Promise<void> {
-  const baseUrl = getBaseUrl(event)
-  const verificationUrl = `${baseUrl}/${locale}/auth/verify-email?token=${token}`
-
-  const t = await useTranslation(event)
-
-  // Generate HTML email
-  const html = generateEmailHtml({
-    appName: t('email.common.appName'),
-    title: t('email.verification.title'),
-    userName: name,
-    actionUrl: verificationUrl,
-    greeting: t('email.common.greeting', { name }),
-    message: t('email.verification.message'),
-    button: t('email.verification.button'),
-    footer: t('email.verification.footer'),
-    expires: t('email.verification.expires')
-  })
-
-  const mail = useNodeMailer()
-
-  try {
-    await mail.sendMail({
-      to: email,
-      subject: t('email.verification.subject'),
-      html
-    })
-  } catch (error: any) {
-    // Handle invalid email format errors
-    if (
-      error.code === 'EENVELOPE' ||
-      error.responseCode === 553 ||
-      error.response?.includes('Invalid email')
-    ) {
-      throw validationError(
-        ERROR_CODES.VALIDATION.INVALID_FORMAT,
-        'Invalid email address format',
-        'email'
-      )
-    }
-
-    // Re-throw other errors
-    throw serverError(
-      ERROR_CODES.SERVER.EXTERNAL_SERVICE_ERROR,
-      'Failed to send verification email'
-    )
-  }
+  await sendEmail('verification', event, email, name, token, locale)
 }
 
 /**
@@ -133,52 +139,7 @@ export async function sendPasswordResetEmail(
   email: string,
   name: string,
   token: string,
-  locale: string = 'fr'
+  locale: string
 ): Promise<void> {
-  const baseUrl = getBaseUrl(event)
-  const resetUrl = `${baseUrl}/${locale}/auth/reset-password?token=${token}`
-
-  const t = await useTranslation(event)
-
-  // Generate HTML email
-  const html = generateEmailHtml({
-    appName: t('email.common.appName'),
-    title: t('email.passwordReset.title'),
-    userName: name,
-    actionUrl: resetUrl,
-    greeting: t('email.common.greeting', { name }),
-    message: t('email.passwordReset.message'),
-    button: t('email.passwordReset.button'),
-    footer: t('email.passwordReset.footer'),
-    expires: t('email.passwordReset.expires')
-  })
-
-  const mail = useNodeMailer()
-
-  try {
-    await mail.sendMail({
-      to: email,
-      subject: t('email.passwordReset.subject'),
-      html
-    })
-  } catch (error: any) {
-    // Handle invalid email format errors
-    if (
-      error.code === 'EENVELOPE' ||
-      error.responseCode === 553 ||
-      error.response?.includes('Invalid email')
-    ) {
-      throw validationError(
-        ERROR_CODES.VALIDATION.INVALID_FORMAT,
-        'Invalid email address format',
-        'email'
-      )
-    }
-
-    // Re-throw other errors
-    throw serverError(
-      ERROR_CODES.SERVER.EXTERNAL_SERVICE_ERROR,
-      'Failed to send password reset email'
-    )
-  }
+  await sendEmail('passwordReset', event, email, name, token, locale)
 }
