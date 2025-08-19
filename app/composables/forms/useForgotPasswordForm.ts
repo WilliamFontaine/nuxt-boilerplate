@@ -24,6 +24,11 @@ export const useForgotPasswordForm = () => {
     })
   )
 
+  const isValid = computed(() => {
+    const result = schema.value.safeParse(state)
+    return result.success
+  })
+
   const validate = () => schema.value.safeParse(state)
 
   return {
@@ -31,6 +36,7 @@ export const useForgotPasswordForm = () => {
     setState,
     resetState,
     schema,
+    isValid,
     validate
   }
 }

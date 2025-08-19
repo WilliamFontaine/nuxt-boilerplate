@@ -20,8 +20,6 @@ export default defineEventHandler(async (event: H3Event) => {
   try {
     rateLimitInfo = await checkLoginAttempt(email, ipAddress)
   } catch (error) {
-    // If rate limit check fails (e.g., DB down), don't block the request
-    // Log the error but allow the request to proceed
     // eslint-disable-next-line no-console
     console.error('Rate limit check failed:', error)
     return
@@ -33,17 +31,9 @@ export default defineEventHandler(async (event: H3Event) => {
       setHeader(event, 'Retry-After', rateLimitInfo.retryAfterSeconds)
     }
 
-    // Calculate accurate remaining time from blockedUntil
-    const now = new Date()
-    const totalSeconds = rateLimitInfo.blockedUntil
-      ? Math.ceil((rateLimitInfo.blockedUntil.getTime() - now.getTime()) / 1000)
-      : rateLimitInfo.retryAfterSeconds || 0
-    const minutes = Math.floor(Math.max(0, totalSeconds) / 60)
-    const seconds = Math.max(0, totalSeconds) % 60
-
-    // Ensure we always show at least 1 minute if blocked
-    const displayMinutes = minutes === 0 && seconds === 0 ? 1 : minutes
-    const displaySeconds = minutes === 0 && seconds === 0 ? 0 : seconds
+    const totalSeconds = rateLimitInfo.retryAfterSeconds || 60
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
 
     rateLimitError(
       ERROR_CODES.RATE_LIMIT.TOO_MANY_ATTEMPTS,
@@ -51,12 +41,13 @@ export default defineEventHandler(async (event: H3Event) => {
       {
         retryAfter: rateLimitInfo.retryAfterSeconds,
         blockedUntil: rateLimitInfo.blockedUntil,
-        minutes: displayMinutes,
-        seconds: displaySeconds
+        minutes,
+        seconds,
+        remainingMinutes: minutes,
+        remainingSeconds: seconds
       }
     )
   }
 
-  // Store rate limit info in context for potential use in login route
   event.context.rateLimitInfo = rateLimitInfo
 })
