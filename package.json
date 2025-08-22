@@ -2,7 +2,7 @@
   "name": "nuxt-boilerplate",
   "private": true,
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "William Fontaine",
   "license": "MIT",
   "homepage": "https://github.com/WilliamFontaine/nuxt-boilerplate",
