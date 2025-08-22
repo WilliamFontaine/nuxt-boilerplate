@@ -1,21 +1,21 @@
-# Server Configuration
+# Server Deployment
 
-⚠️ **TEST ENVIRONMENT ONLY - NOT FOR PRODUCTION**
+⚠️ **TESTING/STAGING ONLY** - Basic configuration for development and testing purposes.  
+**DO NOT use as-is for production** without proper security hardening, SSL certificates, firewalls, monitoring, backups, and security reviews.
 
-This is a basic demonstration setup for testing purposes. DO NOT use in production without proper security hardening (SSL, firewalls, secure passwords, monitoring, backups, etc.).
+Quick server deployment with Docker, HAProxy and PostgreSQL.  
+**→ See [`/docs/deployment-guide.md`](../docs/deployment-guide.md) for complete documentation**
 
-## Files to create
+## Setup
 
-1. `docker-compose.server.yml` - HAProxy + PostgreSQL services
-2. `haproxy.cfg` - Proxy configuration
-3. `Dockerfile.haproxy` - HAProxy build file
-4. `.env` - Environment variables (database URL, etc.)
+1. **Copy server files** to production server
+2. **Configure `.env`** (see `/.env.example` for all variables)
+3. **Start infrastructure**: `docker-compose -f docker-compose.server.yml up -d`
+4. **Deploy app**: `npm run release:patch` (triggers automated deployment)
 
-## Process
+## HTTP vs HTTPS
 
-1. Create files on server (copy content from INSTALL.md)
-2. Set secure database password in `.env`
-3. Run `docker-compose -f docker-compose.server.yml up -d`
-4. Deploy app via CI tags
-
-See [INSTALL.md](INSTALL.md) for complete file contents and steps.
+| Environment        | Config              | Variables               |
+| ------------------ | ------------------- | ----------------------- |
+| HTTP (staging)     | `haproxy.cfg`       | Default                 |
+| HTTPS (production) | `haproxy-https.cfg` | `NUXT_FORCE_HTTPS=true` |
