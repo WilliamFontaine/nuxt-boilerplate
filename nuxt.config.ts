@@ -145,7 +145,10 @@ export default defineNuxtConfig({
       },
       xContentTypeOptions: 'nosniff',
       xFrameOptions: 'DENY',
-      xXSSProtection: '1; mode=block'
+      xXSSProtection: '1; mode=block',
+      // Disable problematic headers for HTTP deployment
+      crossOriginOpenerPolicy: false,
+      originAgentCluster: false
     },
 
     corsHandler: {
