@@ -1,29 +1,52 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // ========================================
+  // Core Configuration
+  // ========================================
+  compatibilityDate: '2025-07-16',
+
   devtools: {
     enabled: true,
-
     timeline: {
       enabled: true
     }
   },
+
+  // ========================================
+  // Modules
+  // ========================================
   modules: [
+    // UI & Styling
     '@nuxt/ui',
+    '@nuxt/image',
+
+    // Development & Quality
     '@nuxt/eslint',
+    '@nuxt/test-utils/module',
+
+    // Internationalization & SEO
     '@nuxtjs/i18n',
     '@nuxtjs/seo',
-    '@nuxt/image',
-    '@nuxt/test-utils/module',
+
+    // Database & Backend
     '@prisma/nuxt',
+    'nuxt-auth-utils',
+    'nuxt-nodemailer',
+
+    // Security
     'nuxt-security',
+
+    // State Management
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    'nuxt-auth-utils',
-    'nuxt-mcp',
-    'nuxt-nodemailer'
+
+    // Development Tools
+    'nuxt-mcp'
   ],
 
-  // App Configuration
+  // ========================================
+  // App & Meta Configuration
+  // ========================================
   app: {
     head: {
       htmlAttrs: {
@@ -39,19 +62,9 @@ export default defineNuxtConfig({
     }
   },
 
-  // Nodemailer Configuration
-  nodemailer: {
-    host: process.env.NUXT_NODEMAILER_HOST,
-    port: parseInt(process.env.NUXT_NODEMAILER_PORT || '587'),
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.NUXT_NODEMAILER_AUTH_USER,
-      pass: process.env.NUXT_NODEMAILER_AUTH_PASS
-    },
-    from: process.env.NUXT_NODEMAILER_FROM || process.env.NUXT_NODEMAILER_AUTH_USER
-  },
-
-  // I18n Configuration
+  // ========================================
+  // Internationalization (i18n)
+  // ========================================
   i18n: {
     langDir: 'locales',
     locales: [
@@ -80,33 +93,36 @@ export default defineNuxtConfig({
     }
   },
 
+  // ========================================
+  // Styling
+  // ========================================
   css: ['/assets/css/main.css'],
 
+  // ========================================
+  // Auto-imports Configuration
+  // ========================================
   imports: {
     // Selective auto-imports for better tree-shaking
     dirs: [
-      // App composables
-      'composables/**',
-      // All shared resources
-      '../shared/**'
+      'composables/**', // App composables
+      '../shared/**' // Shared resources
     ],
     imports: [
-      // Essential third-party imports
-      { name: 'z', from: 'zod' }
+      { name: 'z', from: 'zod' } // Zod for validation
     ]
   },
 
+  // ========================================
+  // Nitro Server Configuration
+  // ========================================
   nitro: {
     imports: {
-      // Server-side auto-imports
       dirs: [
-        // All shared resources available on server
-        'shared/**',
-        // Server-specific imports
-        'server/constants/**',
-        'server/services/**',
-        'server/utils/**',
-        'server/types/**'
+        'shared/**', // Shared resources
+        'server/constants/**', // Server constants
+        'server/services/**', // Server services
+        'server/utils/**', // Server utilities
+        'server/types/**' // Server types
       ]
     },
     serverAssets: [
@@ -117,6 +133,9 @@ export default defineNuxtConfig({
     ]
   },
 
+  // ========================================
+  // Vite Configuration
+  // ========================================
   vite: {
     resolve: {
       alias: {
@@ -128,9 +147,12 @@ export default defineNuxtConfig({
     }
   },
 
+  // ========================================
   // Security Configuration
+  // ========================================
   security: {
     headers: {
+      // Content Security Policy
       contentSecurityPolicy: {
         'base-uri': ['\'self\''],
         'font-src': ['\'self\'', 'https:', 'data:'],
@@ -140,48 +162,41 @@ export default defineNuxtConfig({
         'object-src': ['\'none\''],
         'script-src': ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\''],
         'style-src': ['\'self\'', 'https:', '\'unsafe-inline\''],
-        'upgrade-insecure-requests': process.env.NUXT_FORCE_HTTPS === 'true'
+        'upgrade-insecure-requests': false
       },
-      crossOriginEmbedderPolicy:
-        process.env.NODE_ENV === 'development'
-          ? 'unsafe-none'
-          : process.env.NUXT_FORCE_HTTPS === 'true'
-            ? 'require-corp'
-            : 'unsafe-none',
+
+      // Other security headers (configured at runtime)
+      crossOriginEmbedderPolicy: 'unsafe-none',
       referrerPolicy: 'no-referrer',
-      strictTransportSecurity:
-        process.env.NUXT_FORCE_HTTPS === 'true'
-          ? {
-              maxAge: 31536000,
-              includeSubdomains: true
-            }
-          : false,
+      strictTransportSecurity: false,
       xContentTypeOptions: 'nosniff',
       xFrameOptions: 'DENY',
       xXSSProtection: '1; mode=block',
-      // Security headers - disabled for HTTP, enabled for HTTPS
-      crossOriginOpenerPolicy: process.env.NUXT_FORCE_HTTPS === 'true' ? 'same-origin' : false,
-      originAgentCluster: process.env.NUXT_FORCE_HTTPS === 'true' ? '?1' : false
+      crossOriginOpenerPolicy: false,
+      originAgentCluster: false
     },
 
+    // CORS Configuration
+    // Note: Dynamic override via server/plugins/runtime-config.ts using NUXT_CORS_ORIGIN
     corsHandler: {
-      origin:
-        process.env.NODE_ENV === 'development'
-          ? ['http://localhost:3000', 'http://127.0.0.1:3000']
-          : process.env.NUXT_CORS_ORIGIN?.split(','),
+      origin: ['http://localhost:3000'], // Default for dev, overridden in production
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
       credentials: true
     },
 
+    // Rate Limiting
     rateLimiter: {
-      tokensPerInterval: parseInt(process.env.NUXT_RATE_LIMIT_GLOBAL_MAX || '150'),
-      interval: parseInt(process.env.NUXT_RATE_LIMIT_GLOBAL_WINDOW || '5') * 60 * 1000,
+      tokensPerInterval: 150, // 150 requests
+      interval: 5 * 60 * 1000, // 5 minutes
       throwError: true
     },
 
     hidePoweredBy: true
   },
 
+  // ========================================
+  // Routing & API Configuration
+  // ========================================
   routeRules: {
     '/api/**': {
       cors: true,
@@ -191,17 +206,40 @@ export default defineNuxtConfig({
     }
   },
 
-  // SEO Configuration
-  site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-    defaultLocale: 'fr'
-  },
-
   seo: {
     meta: {
       twitterCard: 'summary_large_image'
     }
   },
 
-  compatibilityDate: '2025-07-16'
+  // ========================================
+  // Runtime Configuration
+  // ========================================
+  // All values here can be overridden by environment variables at runtime
+  // Format: NUXT_[nested_key] (e.g., NUXT_NODEMAILER_HOST)
+  runtimeConfig: {
+    // ====== Server-only Configuration ======
+
+    // Email Configuration - Used by useMailer() utility
+    nodemailer: {
+      host: '', // NUXT_NODEMAILER_HOST
+      port: 587, // NUXT_NODEMAILER_PORT
+      auth: {
+        user: '', // NUXT_NODEMAILER_AUTH_USER
+        pass: '' // NUXT_NODEMAILER_AUTH_PASS
+      },
+      from: '' // NUXT_NODEMAILER_FROM
+    },
+
+    // Rate Limiting Configuration
+    rateLimit: {
+      loginMax: '', // NUXT_RATE_LIMIT_LOGIN_MAX
+      loginWindow: 15, // NUXT_RATE_LIMIT_LOGIN_WINDOW (minutes)
+      tokenCooldown: 5 // NUXT_RATE_LIMIT_TOKEN_COOLDOWN (minutes)
+    },
+
+    // Security Configuration
+    forceHttps: false, // NUXT_FORCE_HTTPS
+    corsOrigin: '' // NUXT_CORS_ORIGIN
+  }
 })

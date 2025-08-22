@@ -18,17 +18,20 @@ export async function sendEmailTemplate(
   event: H3Event
 ): Promise<void> {
   try {
+    const config = useRuntimeConfig()
     const html = await renderEmailTemplate(templateType, locale, data, event)
+
+    // Get mail transporter with runtime config
     const mail = useNodeMailer()
 
     // Validate email content for spam triggers
     validateEmailContent(subject, html)
 
     // Enhanced email options to avoid spam
-    const fromDomain = process.env.NUXT_NODEMAILER_FROM?.split('@')[1]
+    const fromEmail = config.nodemailer.from
+    const fromDomain = fromEmail.split('@')[1]
     const plainText = htmlToPlainText(html)
 
-    const fromEmail = process.env.NUXT_NODEMAILER_FROM || process.env.NUXT_NODEMAILER_AUTH_USER
     const fromName = 'Nuxt Boilerplate'
 
     const mailOptions = {

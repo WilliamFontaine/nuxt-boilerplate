@@ -13,7 +13,7 @@ export const EMAIL_ROUTES: Record<EmailTemplateType, string> = {
 }
 
 /**
- * Get base URL from event or environment
+ * Get base URL from event or runtime config
  */
 export function getBaseUrl(event?: H3Event): string {
   if (event) {
@@ -22,5 +22,6 @@ export function getBaseUrl(event?: H3Event): string {
     const protocol = headers['x-forwarded-proto'] || 'http'
     return `${protocol}://${host}`
   }
-  return process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const config = useRuntimeConfig()
+  return (config.public.siteUrl as string) || 'http://localhost:3000'
 }

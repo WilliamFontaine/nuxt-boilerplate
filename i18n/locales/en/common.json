@@ -76,8 +76,8 @@
       }
     },
     "error": {
-      "unauthorized": "You don't have permission to perform this action",
-      "notFound": "The article could not be found or has been deleted"
+      "notFound": "The article could not be found or has been deleted",
+      "unauthorized": "You don't have permission to perform this action"
     },
     "fields": {
       "content": {
@@ -208,10 +208,10 @@
       },
       "error": {
         "emailExists": "This email address is already in use",
-        "invalidEmail": "The email address is invalid. Please check and try again.",
-        "validation": "Invalid input data. Please check and try again.",
         "generic": "An error occurred during registration",
-        "title": "Registration error"
+        "invalidEmail": "The email address is invalid. Please check and try again.",
+        "title": "Registration error",
+        "validation": "Invalid input data. Please check and try again."
       },
       "hasAccount": "Already have an account?",
       "login": "Sign in",

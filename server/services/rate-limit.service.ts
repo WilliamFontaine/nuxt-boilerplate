@@ -2,11 +2,16 @@ import prisma from '@@/lib/prisma'
 import type { H3Event } from 'h3'
 
 /**
- * Simple Rate Limiting Configuration
+ * Get Rate Limiting Configuration from runtime config
  */
-const LOGIN_MAX_ATTEMPTS = parseInt(process.env.NUXT_RATE_LIMIT_LOGIN_MAX || '5')
-const LOGIN_WINDOW_MINUTES = parseInt(process.env.NUXT_RATE_LIMIT_LOGIN_WINDOW || '15')
-const TOKEN_COOLDOWN_MINUTES = parseInt(process.env.NUXT_RATE_LIMIT_TOKEN_COOLDOWN || '5')
+function getRateLimitConfig() {
+  const config = useRuntimeConfig()
+  return {
+    loginMaxAttempts: config.rateLimit.loginMax || 5,
+    loginWindowMinutes: config.rateLimit.loginWindow || 15,
+    tokenCooldownMinutes: config.rateLimit.tokenCooldown || 5
+  }
+}
 
 /**
  * Check if user has hit token rate limit (simple version using existing tokens)
@@ -18,7 +23,8 @@ export async function checkTokenRateLimit(userId: string, tokenType: TokenType):
   })
 
   if (recentToken) {
-    const cooldownMs = TOKEN_COOLDOWN_MINUTES * 60 * 1000
+    const { tokenCooldownMinutes } = getRateLimitConfig()
+    const cooldownMs = tokenCooldownMinutes * 60 * 1000
     const timeSinceLastToken = Date.now() - recentToken.createdAt.getTime()
 
     if (timeSinceLastToken < cooldownMs) {
@@ -62,7 +68,8 @@ export async function checkLoginAttempt(
   retryAfterSeconds?: number
 }> {
   try {
-    const windowMs = LOGIN_WINDOW_MINUTES * 60 * 1000
+    const { loginWindowMinutes, loginMaxAttempts } = getRateLimitConfig()
+    const windowMs = loginWindowMinutes * 60 * 1000
     const now = new Date()
     const windowStart = new Date(now.getTime() - windowMs)
 
@@ -72,7 +79,7 @@ export async function checkLoginAttempt(
 
     // No attempts or expired window
     if (!attempt || attempt.lastAttemptAt < windowStart) {
-      return { isBlocked: false, remainingAttempts: LOGIN_MAX_ATTEMPTS }
+      return { isBlocked: false, remainingAttempts: loginMaxAttempts }
     }
 
     // Still blocked
@@ -86,7 +93,7 @@ export async function checkLoginAttempt(
     }
 
     // Within window, check remaining attempts
-    const remainingAttempts = LOGIN_MAX_ATTEMPTS - attempt.attemptCount
+    const remainingAttempts = loginMaxAttempts - attempt.attemptCount
     return {
       isBlocked: false,
       remainingAttempts: Math.max(0, remainingAttempts)
@@ -94,7 +101,8 @@ export async function checkLoginAttempt(
   } catch (error: any) {
     // eslint-disable-next-line no-console
     console.error('Rate limit check failed:', error)
-    return { isBlocked: false, remainingAttempts: LOGIN_MAX_ATTEMPTS }
+    const { loginMaxAttempts } = getRateLimitConfig()
+    return { isBlocked: false, remainingAttempts: loginMaxAttempts }
   }
 }
 
@@ -118,7 +126,8 @@ export async function recordLoginAttempt(
     }
 
     // Record failed attempt
-    const windowMs = LOGIN_WINDOW_MINUTES * 60 * 1000
+    const { loginWindowMinutes, loginMaxAttempts } = getRateLimitConfig()
+    const windowMs = loginWindowMinutes * 60 * 1000
     const windowStart = new Date(now.getTime() - windowMs)
 
     const attempt = await prisma.loginAttempt.findUnique({
@@ -138,8 +147,7 @@ export async function recordLoginAttempt(
     } else {
       // Update existing attempt
       const newCount = attempt.attemptCount + 1
-      const blockedUntil =
-        newCount >= LOGIN_MAX_ATTEMPTS ? new Date(now.getTime() + windowMs) : null
+      const blockedUntil = newCount >= loginMaxAttempts ? new Date(now.getTime() + windowMs) : null
 
       await prisma.loginAttempt.update({
         where: { id: attempt.id },

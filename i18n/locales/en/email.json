@@ -1,35 +1,35 @@
 {
   "email": {
     "common": {
-      "securityTitle": "Security",
       "legalText": "This email was sent by Nuxt Boilerplate",
+      "securityTitle": "Security",
       "unsubscribeText": "If you no longer wish to receive these emails, contact our support."
     },
-    "verification": {
-      "subject": "Verify your email address",
-      "title": "Email Verification",
-      "subtitle": "Verify your email address",
-      "greeting": "Hello {name},",
-      "message1": "Thank you for signing up on our platform. To complete your registration and secure your account, we need to verify that this email address belongs to you.",
-      "message2": "Click the button below to confirm your email address:",
-      "buttonText": "Verify my email",
-      "alternativeText": "Or copy and paste this link in your browser:",
-      "securityNote": "This verification link expires in 24 hours for your security.",
-      "footer1": "Didn't create an account?",
-      "footer2": "If you didn't create an account on Nuxt Boilerplate, you can safely ignore this email."
-    },
     "passwordReset": {
-      "subject": "Reset your password",
-      "title": "Password Reset",
-      "subtitle": "Reset your password",
+      "alternativeText": "Or copy and paste this link in your browser:",
+      "buttonText": "Reset my password",
+      "footer1": "Didn't request this reset?",
+      "footer2": "If you didn't request this reset, your account remains secure and you can ignore this email.",
       "greeting": "Hello {name},",
       "message1": "You have requested to reset your password.",
       "message2": "Click the button below to create a new secure password:",
-      "buttonText": "Reset my password",
-      "alternativeText": "Or copy and paste this link in your browser:",
       "securityNote": "This reset link expires in 1 hour for your security.",
-      "footer1": "Didn't request this reset?",
-      "footer2": "If you didn't request this reset, your account remains secure and you can ignore this email."
+      "subject": "Reset your password",
+      "subtitle": "Reset your password",
+      "title": "Password Reset"
+    },
+    "verification": {
+      "alternativeText": "Or copy and paste this link in your browser:",
+      "buttonText": "Verify my email",
+      "footer1": "Didn't create an account?",
+      "footer2": "If you didn't create an account on Nuxt Boilerplate, you can safely ignore this email.",
+      "greeting": "Hello {name},",
+      "message1": "Thank you for signing up on our platform. To complete your registration and secure your account, we need to verify that this email address belongs to you.",
+      "message2": "Click the button below to confirm your email address:",
+      "securityNote": "This verification link expires in 24 hours for your security.",
+      "subject": "Verify your email address",
+      "subtitle": "Verify your email address",
+      "title": "Email Verification"
     }
   }
 }

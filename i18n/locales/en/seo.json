@@ -4,15 +4,19 @@
       "error": {
         "404": {
           "description": "The page you're looking for doesn't exist. Return to our homepage to continue browsing.",
+          "og": {
+            "description": "The page you're looking for doesn't exist.",
+            "title": "Page Not Found - Nuxt Boilerplate"
+          },
           "title": "Page Not Found"
         },
         "500": {
           "description": "We're experiencing technical difficulties. Please try again later.",
-          "title": "Server Error",
           "og": {
             "description": "A temporary technical error has occurred.",
             "title": "Server Error - Nuxt Boilerplate"
-          }
+          },
+          "title": "Server Error"
         }
       },
       "forgotPassword": {

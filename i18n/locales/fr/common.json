@@ -76,8 +76,8 @@
       }
     },
     "error": {
-      "unauthorized": "Vous n'avez pas l'autorisation d'effectuer cette action",
-      "notFound": "L'article n'a pas pu être trouvé ou a été supprimé"
+      "notFound": "L'article n'a pas pu être trouvé ou a été supprimé",
+      "unauthorized": "Vous n'avez pas l'autorisation d'effectuer cette action"
     },
     "fields": {
       "content": {
@@ -208,10 +208,10 @@
       },
       "error": {
         "emailExists": "Cette adresse email est déjà utilisée",
-        "invalidEmail": "L'adresse email est invalide. Veuillez vérifier et réessayer.",
-        "validation": "Les données saisies sont invalides. Veuillez vérifier et réessayer.",
         "generic": "Une erreur est survenue lors de l'inscription",
-        "title": "Erreur d'inscription"
+        "invalidEmail": "L'adresse email est invalide. Veuillez vérifier et réessayer.",
+        "title": "Erreur d'inscription",
+        "validation": "Les données saisies sont invalides. Veuillez vérifier et réessayer."
       },
       "hasAccount": "Déjà un compte ?",
       "login": "Se connecter",
