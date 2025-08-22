@@ -83,8 +83,9 @@ npm run release:major     # create major release + push tag (1.0.0)
 - `NUXT_DATABASE_URL` for production database connection
 - `TEST_DATABASE_URL` for test database
 - `NUXT_SESSION_PASSWORD` for JWT session encryption (32+ chars)
-- `CORS_ORIGIN` required in production for allowed origins
+- `NUXT_CORS_ORIGIN` required in production for allowed origins
 - `NUXT_PUBLIC_SITE_URL` for SEO canonical URL (defaults to localhost:3000)
+- `NUXT_FORCE_HTTPS` set to "true" for HTTPS deployments (enables full security headers)
 
 ## Auto-imports Configuration
 

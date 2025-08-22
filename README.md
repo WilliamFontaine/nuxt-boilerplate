@@ -11,7 +11,7 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, authentication
 - **🔐 Authentication** with JWT sessions, bcrypt password hashing, and email verification system
 - **🗄️ Prisma ORM** with PostgreSQL and Docker setup
 - **🌍 Internationalization** (French/English) with auto-detection
-- **🛡️ Security** hardening with CORS, CSP, rate limiting
+- **🛡️ Security** hardening with CORS, CSP, rate limiting, and flexible HTTP/HTTPS configuration
 - **🧪 Testing** with Vitest (unit) and Playwright (E2E)
 - **✨ Code Quality** with ESLint, Prettier, and conventional commits
 - **🗂️ State Management** with Pinia and cookie persistence
@@ -94,12 +94,27 @@ npx prisma migrate dev # run DB migrations
 
 Detailed implementation guides in `/docs/`:
 
-- **[Auto-imports Configuration](./docs/auto-imports.md)** - Optimized auto-imports setup
+### 🎯 Implementation Patterns
+
 - **[Form Patterns](./docs/form-patterns.md)** - Form composables and validation
 - **[Component Architecture](./docs/component-architecture.md)** - Vue component patterns
 - **[Database Patterns](./docs/database-patterns.md)** - Prisma usage and optimization
-- **[Security Patterns](./docs/security-patterns.md)** - Authentication and security
+- **[Security Patterns](./docs/security-patterns.md)** - Authentication, HTTPS/HTTP security, CORS
 - **[Testing Patterns](./docs/testing-patterns.md)** - Unit and E2E testing strategies
+- **[Pinia Patterns](./docs/pinia-patterns.md)** - State management with persistence
+- **[Notification System](./docs/notification-system.md)** - Toast system and notifications
+
+### 🌟 System Features
+
+- **[Email System](./docs/email-system.md)** - Handlebars templates and automated delivery
+- **[Internationalization](./docs/internationalization.md)** - Multi-language support
+- **[SEO Patterns](./docs/seo-patterns.md)** - SEO optimization and social media
+- **[Auto-imports Configuration](./docs/auto-imports.md)** - Optimized auto-imports setup
+
+### 🚀 Operations
+
+- **[Deployment Guide](./docs/deployment-guide.md)** - Production deployment strategies
+- **[API Documentation](./docs/api.md)** - Auto-generated API documentation
 
 ## 🎛️ Environment Configuration
 
@@ -120,7 +135,11 @@ NUXT_NODEMAILER_AUTH_PASS="your-app-password"
 NUXT_NODEMAILER_FROM="your-app-name@gmail.com"
 
 # Production Security (required in production)
-CORS_ORIGIN="https://yourdomain.com"
+NUXT_CORS_ORIGIN="https://yourdomain.com"
+NUXT_PUBLIC_SITE_URL="https://yourdomain.com"
+
+# HTTPS Configuration (production only)
+NUXT_FORCE_HTTPS="true"  # Enable full security headers for HTTPS
 ```
 
 ## 🚀 Getting Started Guide
