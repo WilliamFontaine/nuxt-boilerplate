@@ -137,12 +137,19 @@ export default defineNuxtConfig({
         'upgrade-insecure-requests': process.env.NUXT_FORCE_HTTPS === 'true'
       },
       crossOriginEmbedderPolicy:
-        process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
+        process.env.NODE_ENV === 'development'
+          ? 'unsafe-none'
+          : process.env.NUXT_FORCE_HTTPS === 'true'
+            ? 'require-corp'
+            : 'unsafe-none',
       referrerPolicy: 'no-referrer',
-      strictTransportSecurity: {
-        maxAge: 31536000,
-        includeSubdomains: true
-      },
+      strictTransportSecurity:
+        process.env.NUXT_FORCE_HTTPS === 'true'
+          ? {
+              maxAge: 31536000,
+              includeSubdomains: true
+            }
+          : false,
       xContentTypeOptions: 'nosniff',
       xFrameOptions: 'DENY',
       xXSSProtection: '1; mode=block',
