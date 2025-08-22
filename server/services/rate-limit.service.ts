@@ -7,9 +7,9 @@ import type { H3Event } from 'h3'
 function getRateLimitConfig() {
   const config = useRuntimeConfig()
   return {
-    loginMaxAttempts: config.rateLimit.loginMax || 5,
-    loginWindowMinutes: config.rateLimit.loginWindow || 15,
-    tokenCooldownMinutes: config.rateLimit.tokenCooldown || 5
+    loginMaxAttempts: Number(config.rateLimit.loginMax) || 5,
+    loginWindowMinutes: Number(config.rateLimit.loginWindow) || 15,
+    tokenCooldownMinutes: Number(config.rateLimit.tokenCooldown) || 5
   }
 }
 

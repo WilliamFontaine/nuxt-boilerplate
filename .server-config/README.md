@@ -15,7 +15,7 @@ Quick server deployment with Docker, HAProxy and PostgreSQL.
 
 ## HTTP vs HTTPS
 
-| Environment        | Config              | Variables               |
-| ------------------ | ------------------- | ----------------------- |
-| HTTP (staging)     | `haproxy.cfg`       | Default                 |
-| HTTPS (production) | `haproxy-https.cfg` | `NUXT_FORCE_HTTPS=true` |
+| Environment        | Config              | Notes                       |
+| ------------------ | ------------------- | --------------------------- |
+| HTTP (staging)     | `haproxy.cfg`       | Default for testing         |
+| HTTPS (production) | `haproxy-https.cfg` | Use for production with SSL |

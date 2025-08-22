@@ -69,7 +69,7 @@ The application supports flexible security configuration for both HTTP (staging)
 
 **Key Features:**
 
-- ✅ **Conditional security headers** based on `NUXT_FORCE_HTTPS` environment variable
+- ✅ **Security headers** configured for production environments
 - ✅ **HSTS** enabled only for HTTPS deployments
 - ✅ **Cross-Origin policies** adjusted for protocol
 - ✅ **CSP upgrade-insecure-requests** controlled per environment

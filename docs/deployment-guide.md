@@ -72,7 +72,7 @@ The project includes automated workflows for releases and deployments:
 
 - Docker Compose setup (`docker-compose.server.yml`)
 - HAProxy configurations for HTTP (`haproxy.cfg`) and HTTPS (`haproxy-https.cfg`)
-- Flexible security configuration via `NUXT_FORCE_HTTPS` environment variable
+- Security headers configured for production environments
 
 ### GitHub Actions
 

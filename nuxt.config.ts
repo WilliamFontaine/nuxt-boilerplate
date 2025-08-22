@@ -176,13 +176,8 @@ export default defineNuxtConfig({
       originAgentCluster: false
     },
 
-    // CORS Configuration
-    // Note: Dynamic override via server/plugins/runtime-config.ts using NUXT_CORS_ORIGIN
-    corsHandler: {
-      origin: ['http://localhost:3000'], // Default for dev, overridden in production
-      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      credentials: true
-    },
+    // CORS - Disabled, using Nitro's built-in CORS instead (see routeRules)
+    corsHandler: false,
 
     // Rate Limiting
     rateLimiter: {
@@ -199,7 +194,7 @@ export default defineNuxtConfig({
   // ========================================
   routeRules: {
     '/api/**': {
-      cors: true,
+      cors: true, // This enables Nitro's built-in CORS handling
       headers: {
         'Access-Control-Max-Age': '86400'
       }
@@ -233,13 +228,9 @@ export default defineNuxtConfig({
 
     // Rate Limiting Configuration
     rateLimit: {
-      loginMax: '', // NUXT_RATE_LIMIT_LOGIN_MAX
+      loginMax: 5, // NUXT_RATE_LIMIT_LOGIN_MAX
       loginWindow: 15, // NUXT_RATE_LIMIT_LOGIN_WINDOW (minutes)
       tokenCooldown: 5 // NUXT_RATE_LIMIT_TOKEN_COOLDOWN (minutes)
-    },
-
-    // Security Configuration
-    forceHttps: false, // NUXT_FORCE_HTTPS
-    corsOrigin: '' // NUXT_CORS_ORIGIN
+    }
   }
 })

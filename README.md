@@ -134,12 +134,10 @@ NUXT_NODEMAILER_AUTH_USER="your-email@gmail.com"
 NUXT_NODEMAILER_AUTH_PASS="your-app-password"
 NUXT_NODEMAILER_FROM="your-app-name@gmail.com"
 
-# Production Security (required in production)
-NUXT_CORS_ORIGIN="https://yourdomain.com"
+# Production Configuration
 NUXT_PUBLIC_SITE_URL="https://yourdomain.com"
-
-# HTTPS Configuration (production only)
-NUXT_FORCE_HTTPS="true"  # Enable full security headers for HTTPS
+# CORS is handled automatically by Nitro for API routes
+# Use a reverse proxy (nginx/haproxy) for HTTPS in production
 ```
 
 ## 🚀 Getting Started Guide
