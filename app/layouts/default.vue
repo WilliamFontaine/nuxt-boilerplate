@@ -48,7 +48,7 @@
     <UFooter>
       <template #left>
         <p class="text-sm text-neutral-600 dark:text-neutral-400">
-          {{ t('app.footer') }}
+          {{ t('app.footer') }} • v{{ appVersion }}
         </p>
       </template>
 
@@ -98,6 +98,11 @@ const handleLogout = async () => {
 const appNameParts = computed(() => {
   const name = t('app.name')
   return name.split(' ')
+})
+
+const appVersion = computed(() => {
+  const config = useRuntimeConfig()
+  return config.public.version || '1.0.0'
 })
 
 const items = ref<DropdownMenuItem[][]>([

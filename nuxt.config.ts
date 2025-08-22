@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import packageJson from './package.json'
+
 export default defineNuxtConfig({
   // ========================================
   // Core Configuration
@@ -231,6 +233,11 @@ export default defineNuxtConfig({
       loginMax: 5, // NUXT_RATE_LIMIT_LOGIN_MAX
       loginWindow: 15, // NUXT_RATE_LIMIT_LOGIN_WINDOW (minutes)
       tokenCooldown: 5 // NUXT_RATE_LIMIT_TOKEN_COOLDOWN (minutes)
+    },
+
+    // ====== Public Configuration (accessible on client-side) ======
+    public: {
+      version: packageJson.version
     }
   }
 })
