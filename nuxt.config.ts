@@ -134,7 +134,7 @@ export default defineNuxtConfig({
         'object-src': ['\'none\''],
         'script-src': ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\''],
         'style-src': ['\'self\'', 'https:', '\'unsafe-inline\''],
-        'upgrade-insecure-requests': false
+        'upgrade-insecure-requests': process.env.NUXT_FORCE_HTTPS === 'true'
       },
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
@@ -146,9 +146,9 @@ export default defineNuxtConfig({
       xContentTypeOptions: 'nosniff',
       xFrameOptions: 'DENY',
       xXSSProtection: '1; mode=block',
-      // Disable problematic headers for HTTP deployment
-      crossOriginOpenerPolicy: false,
-      originAgentCluster: false
+      // Security headers - disabled for HTTP, enabled for HTTPS
+      crossOriginOpenerPolicy: process.env.NUXT_FORCE_HTTPS === 'true' ? 'same-origin' : false,
+      originAgentCluster: process.env.NUXT_FORCE_HTTPS === 'true' ? '?1' : false
     },
 
     corsHandler: {
