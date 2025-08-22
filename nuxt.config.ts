@@ -152,7 +152,7 @@ export default defineNuxtConfig({
       origin:
         process.env.NODE_ENV === 'development'
           ? ['http://localhost:3000', 'http://127.0.0.1:3000']
-          : process.env.CORS_ORIGIN?.split(','),
+          : process.env.NUXT_CORS_ORIGIN?.split(','),
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
       credentials: true
     },
