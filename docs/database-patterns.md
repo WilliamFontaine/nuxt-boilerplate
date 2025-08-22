@@ -18,17 +18,7 @@ shared/
 
 ### Client Singleton
 
-Database client managed through `lib/prisma.ts` using global singleton pattern:
-
-```typescript
-import { PrismaClient } from '@prisma/client'
-
-const prismaClientSingleton = () => {
-  return new PrismaClient()
-}
-
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
-```
+**Implementation**: See `lib/prisma.ts` for complete Prisma client singleton setup.
 
 **Benefits:**
 
@@ -38,178 +28,73 @@ const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 
 ### Usage Pattern
 
-Import using absolute path alias:
-
-```typescript
-import prisma from '@@/lib/prisma'
-
-// Query examples
-const posts = await prisma.post.findMany()
-const post = await prisma.post.findUnique({ where: { id: 1 } })
-const newPost = await prisma.post.create({ data: { title, content } })
-```
+**Usage**: Import via `@@/lib/prisma` alias. See API routes in `server/api/` for query examples.
 
 ## 📊 Schema Definition
 
 ### Current Model
 
-```prisma
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-```
+**Implementation**: See `prisma/schema.prisma` for complete database schema definition.
 
 ### TypeScript Integration
 
-Shared models mirror Prisma schema:
-
-```typescript
-// shared/models/post.ts
-export interface Post {
-  id: number
-  title: string
-  content: string
-  createdAt: string
-  updatedAt: string
-}
-```
+**Implementation**: See `shared/models/` for TypeScript interfaces that mirror the Prisma schema.
 
 ## 🐳 Docker Setup
 
 ### Development Environment
 
-```bash
-# Start PostgreSQL
-docker compose up -d
-
-# Database accessible at:
-# - PostgreSQL: localhost:5432
-# - Prisma Studio: localhost:5555
-```
+**Setup**: Use `docker compose up -d` to start PostgreSQL. Database accessible at localhost:5432, Prisma Studio at localhost:5555.
 
 ### Environment Variables
 
-```env
-# Main database (development/production)
-NUXT_DATABASE_URL="postgresql://user:password@localhost:5432/database"
-
-# Test database (optional, defaults to test_database)
-TEST_DATABASE_URL="postgresql://user:password@localhost:5432/test_database"
-```
+**Configuration**: See `.env.example` for database environment variables configuration.
 
 ## 🔄 Migration Workflow
 
 ### Development Workflow
 
-```bash
-# 1. Modify schema in prisma/schema.prisma
-# 2. Generate and apply migration
-npx prisma migrate dev --name describe_your_changes
-
-# 3. Generate Prisma client
-npm run db:generate
-
-# 4. Update TypeScript models if needed
-# Edit shared/models/*.ts to match schema
-```
+1. Modify schema in `prisma/schema.prisma`
+2. Generate and apply migration: `npx prisma migrate dev --name describe_your_changes`
+3. Generate Prisma client: `npm run db:generate`
+4. Update TypeScript models in `shared/models/` if needed
 
 ### Production Deployment
 
-```bash
-# Apply pending migrations
-npx prisma migrate deploy
-
-# Generate client
-npx prisma generate
-```
+1. Apply pending migrations: `npx prisma migrate deploy`
+2. Generate client: `npx prisma generate`
 
 ## 🛠️ Available Commands
 
 ### Database Operations
 
-```bash
-npm run db:generate        # Generate Prisma client
-npm run db:push           # Push schema to database (prototyping)
-npm run db:studio         # Open Prisma Studio UI
-npx prisma migrate dev    # Create and apply migration
-npx prisma migrate reset  # Reset database (⚠️ data loss)
-```
+- `npm run db:generate` - Generate Prisma client
+- `npm run db:push` - Push schema to database (prototyping)
+- `npm run db:studio` - Open Prisma Studio UI
+- `npx prisma migrate dev` - Create and apply migration
+- `npx prisma migrate reset` - Reset database (⚠️ data loss)
 
 ### Schema Management
 
-```bash
-npx prisma db pull        # Pull schema from existing database
-npx prisma format         # Format schema file
-npx prisma validate       # Validate schema syntax
-```
+- `npx prisma db pull` - Pull schema from existing database
+- `npx prisma format` - Format schema file
+- `npx prisma validate` - Validate schema syntax
 
 ## 🚀 API Integration
 
 ### Server Route Example
 
-```typescript
-// server/api/posts/index.get.ts
-import prisma from '@@/lib/prisma'
-
-export default defineEventHandler(async () => {
-  try {
-    const posts = await prisma.post.findMany({
-      orderBy: { createdAt: 'desc' }
-    })
-
-    return { statusCode: 200, data: posts }
-  } catch (error) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to fetch posts'
-    })
-  }
-})
-```
+**Implementation**: See `server/api/posts/` for complete CRUD API examples with Prisma integration.
 
 ### Error Handling
 
-```typescript
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-
-try {
-  await prisma.post.create({ data })
-} catch (error) {
-  if (error instanceof PrismaClientKnownRequestError) {
-    if (error.code === 'P2002') {
-      // Unique constraint violation
-      throw createError({
-        statusCode: 409,
-        statusMessage: 'Record already exists'
-      })
-    }
-  }
-  throw createError({
-    statusCode: 500,
-    statusMessage: 'Database operation failed'
-  })
-}
-```
+**Implementation**: See API routes for Prisma error handling patterns with proper HTTP status codes.
 
 ## 🧪 Testing
 
 ### Test Database Isolation
 
-Tests use separate database to avoid conflicts:
-
-```typescript
-// tests/setup/vitest.ts
-import { exec } from 'child_process'
-
-beforeAll(async () => {
-  // Reset test database before tests
-  await exec('npx prisma migrate reset --force')
-})
-```
+**Implementation**: Tests use separate `TEST_DATABASE_URL` for isolation when implemented.
 
 ## 🔍 Best Practices
 

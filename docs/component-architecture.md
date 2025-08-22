@@ -25,70 +25,21 @@ app/components/
 
 ### 1. Props & Events Pattern
 
-```vue
-<script setup lang="ts">
-// Type-safe props
-interface Props {
-  post: Post
-  loading?: boolean
-}
-
-const props = defineProps<Props>()
-
-// Type-safe events
-const emit = defineEmits<{
-  (e: 'delete', post: Post): void
-  (e: 'refresh'): void
-}>()
-</script>
-```
+**Implementation**: See components in `app/components/features/post/` for complete prop and event type definitions.
 
 ### 2. v-model Pattern
 
-```vue
-<script setup lang="ts">
-// Single v-model
-const modelValue = defineModel<string>({ required: true })
-
-// Named v-model
-const open = defineModel<boolean>('open', { required: true })
-</script>
-```
+**Implementation**: See `app/components/ui/form/` for v-model patterns and `app/components/features/post/CreateModal.vue` for named models.
 
 ### 3. Composable Integration
 
-```vue
-<script setup lang="ts">
-const { t } = useI18n()
-const { success, error } = useNotifications()
-const { state, schema } = usePostForm()
-</script>
-```
+**Implementation**: See components for composable integration patterns with useI18n, useNotifications, and form composables.
 
 ## 🎨 Component Categories
 
 ### Display Components
 
-**PostCard.vue** - Card component for displaying posts:
-
-```vue
-<template>
-  <UCard>
-    <template #header>
-      <div class="flex items-center justify-between">
-        <h3>{{ post.title }}</h3>
-        <div class="flex gap-1">
-          <!-- Action buttons with tooltips -->
-        </div>
-      </div>
-    </template>
-
-    <p class="whitespace-pre-wrap leading-relaxed">
-      {{ post.content }}
-    </p>
-  </UCard>
-</template>
-```
+**Implementation**: See `app/components/features/post/Card.vue` for complete post display component with Nuxt UI integration.
 
 **Features:**
 
@@ -99,36 +50,7 @@ const { state, schema } = usePostForm()
 
 ### Modal Components
 
-**CreateModal.vue** - Modal for creating/editing posts using Nuxt UI Pro patterns:
-
-```vue
-<template>
-  <UModal v-model:open="open" :dismissible="!isLoading">
-    <template #body>
-      <UForm ref="formRef" :state="state" :schema="schema" @submit="handleSubmit">
-        <div class="space-y-6">
-          <UiFormInput
-            v-model="state.title"
-            name="title"
-            :label="t('articleForm.fields.title.label')"
-            required
-          />
-          <UiFormTextarea
-            v-model="state.content"
-            name="content"
-            :label="t('articleForm.fields.content.label')"
-            required
-          />
-        </div>
-      </UForm>
-    </template>
-
-    <template #footer>
-      <!-- Footer with analytics and action buttons -->
-    </template>
-  </UModal>
-</template>
-```
+**Implementation**: See `app/components/features/post/CreateModal.vue` for complete modal component with form integration.
 
 **Features:**
 
@@ -139,125 +61,35 @@ const { state, schema } = usePostForm()
 
 ### Form Field Components
 
-**Consistent field pattern:**
-
-```vue
-<template>
-  <UFormField :label="label" :name="name" :required="required">
-    <UInput
-      :value="modelValue"
-      :placeholder="placeholder"
-      @input="$emit('update:modelValue', $event.target.value)"
-    />
-
-    <template #error="{ error }">
-      <span class="text-red-400 text-sm">{{ error }}</span>
-    </template>
-  </UFormField>
-</template>
-
-<script setup lang="ts">
-defineProps<{
-  modelValue?: string
-  label: string
-  name: string
-  placeholder?: string
-  required?: boolean
-}>()
-
-defineEmits<(e: 'update:modelValue', value: string) => void>()
-</script>
-```
+**Implementation**: See `app/components/ui/form/` directory for consistent field component patterns with UFormField integration.
 
 ## 🎭 Styling Patterns
 
 ### Nuxt UI Pro v4 Integration
 
-```vue
-<template>
-  <!-- Primary colors for main actions -->
-  <UButton color="primary" variant="solid" />
-
-  <!-- Red colors for destructive actions -->
-  <UButton color="red" variant="solid" />
-
-  <!-- Secondary colors for secondary actions -->
-  <UButton color="secondary" variant="outline" />
-</template>
-```
+**Implementation**: See components for consistent color and variant usage patterns with Nuxt UI components.
 
 ### Responsive Design
 
-```vue
-<template>
-  <div class="flex items-center justify-between">
-    <!-- Mobile-first approach with responsive utilities -->
-    <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-      {{ title }}
-    </h3>
-  </div>
-</template>
-```
+**Implementation**: Components follow mobile-first responsive design with Tailwind CSS utilities and dark mode support.
 
 ### Dark Mode Support
 
-```vue
-<template>
-  <!-- Automatic dark mode with Tailwind -->
-  <p class="text-neutral-600 dark:text-neutral-400">
-    {{ content }}
-  </p>
-</template>
-```
+**Implementation**: All components include dark mode variants using Tailwind's dark: prefix classes.
 
 ## 🔧 State Management
 
 ### Local State
 
-```vue
-<script setup lang="ts">
-// Reactive refs for component state
-const showModal = ref(false)
-const isLoading = ref(false)
-
-// Reactive objects for complex state
-const formState = reactive({
-  title: '',
-  content: ''
-})
-</script>
-```
+**Implementation**: Components use Vue's reactive refs and reactive objects for local state management.
 
 ### Computed Properties
 
-```vue
-<script setup lang="ts">
-const isValid = computed(() => {
-  return formState.title.length > 0 && formState.content.length > 0
-})
-
-const buttonLabel = computed(() => {
-  return isLoading.value ? t('form.saving') : t('form.save')
-})
-</script>
-```
+**Implementation**: Components leverage Vue's computed properties for reactive derived state and dynamic content.
 
 ### Watchers
 
-```vue
-<script setup lang="ts">
-// Watch props for state updates
-watch(
-  () => props.post,
-  (newPost) => {
-    if (newPost) {
-      setState(newPost)
-    }
-  },
-  { immediate: true }
-)
-</script>
-```
+**Implementation**: Components use Vue watchers for reactive state updates based on prop changes and external data.
 
 ## 🚀 Best Practices
 

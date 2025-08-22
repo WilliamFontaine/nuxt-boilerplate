@@ -16,6 +16,13 @@ Detailed implementation patterns and advanced usage for experienced developers.
 - **[🛡️ Security Patterns](./security-patterns.md)** - Authentication, authorization, and security hardening
 - **[🧪 Testing Patterns](./testing-patterns.md)** - Unit and E2E testing strategies with Vitest and Playwright
 
+### System Features
+
+- **[📧 Email System](./email-system.md)** - Handlebars templates, i18n support, and automated delivery
+- **[🌍 Internationalization](./internationalization.md)** - Multi-language support with automatic locale detection
+- **[🔍 SEO Patterns](./seo-patterns.md)** - SEO optimization with i18n integration and social media support
+- **[🔄 Auto-imports](./auto-imports.md)** - Optimized auto-imports configuration and tree-shaking
+
 ### Operations & Deployment
 
 - **[🚀 Deployment Guide](./deployment-guide.md)** - Production deployment, CI/CD, and monitoring
@@ -23,88 +30,3 @@ Detailed implementation patterns and advanced usage for experienced developers.
 ### API Reference
 
 - **[📡 API](./api.md)** - OpenAPI specification and implementation details
-
-## 🎨 Design Patterns
-
-### Form Architecture
-
-**Composable-driven approach** with reactive validation:
-
-```typescript
-// Form state management
-const { state, validate, resetState } = usePostForm()
-
-// Field composition
-<FieldInput v-model="state.title" :schema="schema.title" />
-```
-
-### Component Composition
-
-**Slot-based architecture** for maximum flexibility:
-
-```vue
-<UModal v-model:open="showModal">
-  <template #body>
-    <slot name="content" :loading="isLoading" />
-  </template>
-</UModal>
-```
-
-### Database Patterns
-
-**Singleton + Error Handling**:
-
-```typescript
-import prisma from '@@/lib/prisma'
-
-try {
-  const result = await prisma.post.findMany()
-  return { statusCode: 200, data: result }
-} catch (error) {
-  if (error instanceof PrismaClientKnownRequestError) {
-    // Handle specific Prisma errors
-  }
-}
-```
-
-## 🔧 Advanced Techniques
-
-### Custom Validation Schemas
-
-```typescript
-const dynamicSchema = computed(() => {
-  return z.object({
-    title: z.string({ required_error: t('validation.required') }).refine(
-      async (value) => {
-        // Custom async validation
-        return await checkUniqueness(value)
-      },
-      { message: t('validation.unique') }
-    )
-  })
-})
-```
-
-### Complex Component Patterns
-
-```vue
-<!-- Higher-order component pattern -->
-<script setup lang="ts" generic="T extends Record<string, any>">
-interface Props<T> {
-  data: T
-  transform: (item: T) => unknown
-}
-</script>
-```
-
-### API Error Handling
-
-```typescript
-// Centralized error handling
-export const handleApiError = (error: unknown) => {
-  if (error instanceof H3Error) {
-    return { statusCode: error.statusCode, message: error.message }
-  }
-  return { statusCode: 500, message: 'Internal server error' }
-}
-```

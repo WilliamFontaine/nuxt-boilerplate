@@ -10,20 +10,7 @@ Deep dive into form architecture with Nuxt UI Pro v4, UAuthForm, custom validati
 
 Manages form state, validation, and submission logic for posts:
 
-```typescript
-const { state, setState, resetState, isValid, validate } = usePostForm()
-
-// Reactive state
-state.title = 'My Post'
-state.content = 'Post content...'
-
-// Validation
-const { isValid, errors } = await validate()
-
-// State management
-setState({ title: 'Updated' })
-resetState()
-```
+**Implementation**: See `app/composables/forms/usePostForm.ts` for complete form state management.
 
 **Features:**
 
@@ -38,49 +25,7 @@ resetState()
 
 All field components follow this pattern:
 
-```vue
-<template>
-  <UFormField :label="label" :name="name" :required="required">
-    <UInput
-      :model-value="modelValue"
-      :placeholder="placeholder"
-      color="primary"
-      variant="outline"
-      class="w-full transition-all duration-300 focus:ring-primary-500/50"
-      @update:model-value="$emit('update:modelValue', $event)"
-    />
-
-    <template #error="{ error }">
-      <span class="text-red-500 dark:text-red-400 text-sm font-medium flex items-center gap-2">
-        <UIcon name="i-lucide-alert-circle" class="w-4 h-4" />
-        {{ error }}
-      </span>
-    </template>
-  </UFormField>
-</template>
-
-<script setup lang="ts">
-interface InputProps {
-  modelValue?: string
-  label: string
-  name: string
-  placeholder?: string
-  required?: boolean
-}
-
-defineProps<InputProps>()
-defineEmits<(e: 'update:modelValue', value: string) => void>()
-const { t } = useI18n()
-
-interface Props {
-  label: string
-  placeholder?: string
-  error?: string
-}
-
-const model = defineModel<string>({ required: true })
-</script>
-```
+**Implementation**: See field components in `app/components/ui/form/` for the complete pattern.
 
 ### Available Fields
 
@@ -95,86 +40,21 @@ const model = defineModel<string>({ required: true })
 
 Forms use Zod schemas with i18n integration:
 
-```typescript
-const schema = computed(() =>
-  z.object({
-    title: z
-      .string({ required_error: t('form.post.title.required') })
-      .min(TEXT_FIELD_LIMITS.TITLE.MIN, t('form.post.title.minLength'))
-      .max(TEXT_FIELD_LIMITS.TITLE.MAX, t('form.post.title.maxLength'))
-      .trim()
-  })
-)
-```
+**Implementation**: See `shared/models/` for complete Zod schemas with i18n integration.
 
 ### Validation Constants
 
-Shared validation limits in `shared/constants/validation.ts`:
-
-```typescript
-export const TEXT_FIELD_LIMITS = {
-  TITLE: { MIN: 3, MAX: 100 },
-  CONTENT: { MIN: 10, MAX: 2000 }
-}
-```
+**Implementation**: See `shared/constants/validation.ts` for validation limits and constants.
 
 ## 🌍 Internationalization
 
 Form validation messages support multiple languages:
 
-```json
-// i18n/locales/en.json
-{
-  "form": {
-    "post": {
-      "title": {
-        "required": "Title is required",
-        "minLength": "Title must be at least 3 characters",
-        "maxLength": "Title cannot exceed 100 characters"
-      }
-    }
-  }
-}
-```
+**Implementation**: See `i18n/locales/*/common.json` for validation message translations.
 
 ## 🚀 Usage Example
 
-```vue
-<template>
-  <form @submit.prevent="handleSubmit">
-    <FieldInput
-      v-model="state.title"
-      :label="t('form.post.title.label')"
-      :placeholder="t('form.post.title.placeholder')"
-      :error="titleError"
-    />
-
-    <FieldTextarea
-      v-model="state.content"
-      :label="t('form.post.content.label')"
-      :placeholder="t('form.post.content.placeholder')"
-      :error="contentError"
-    />
-
-    <UButton type="submit" :disabled="!isValid">
-      {{ t('form.submit') }}
-    </UButton>
-  </form>
-</template>
-
-<script setup lang="ts">
-const { t } = useI18n()
-
-const { state, isValid, validate } = usePostForm()
-
-const handleSubmit = async () => {
-  const { isValid: valid, errors } = await validate()
-  if (valid) {
-    // Submit form
-  }
-}
-</script>
-```
+**Implementation**: See form usage patterns in components that use the usePostForm composable.
 
 ## ✨ Benefits
 

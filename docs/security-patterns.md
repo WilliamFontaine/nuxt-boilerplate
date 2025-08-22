@@ -1,6 +1,6 @@
 # 🛡️ Security Implementation
 
-Complete security hardening implementation using nuxt-security, authentication patterns, and secure development practices.
+Complete security hardening implementation using nuxt-security, authentication patterns, flexible HTTP/HTTPS configuration, and secure development practices.
 
 ## 🔐 Authentication System
 
@@ -8,18 +8,7 @@ Complete security hardening implementation using nuxt-security, authentication p
 
 Built with `nuxt-auth-utils` for secure session handling:
 
-```typescript
-// server/api/auth/login.post.ts
-const session = {
-  user: {
-    id: user.id,
-    email: user.email,
-    name: user.name
-  }
-}
-
-await setUserSession(event, session)
-```
+**Implementation**: See `server/api/auth/login.post.ts` for complete JWT session management.
 
 **Features:**
 
@@ -30,56 +19,17 @@ await setUserSession(event, session)
 
 ### Password Security
 
-```typescript
-import bcrypt from 'bcrypt'
-
-// Registration
-const hashedPassword = await bcrypt.hash(password, 12)
-
-// Login verification
-const isValid = await bcrypt.compare(password, user.password)
-```
+**Implementation**: See `server/api/auth/` routes for bcrypt password hashing and verification patterns.
 
 ### Session Protection
 
-Access current user session:
-
-```typescript
-// In composables/pages
-const { user, loggedIn, clear } = useUserSession()
-
-// In server routes
-const session = await getUserSession(event)
-if (!session.user) {
-  throw createError({
-    statusCode: 401,
-    statusMessage: 'Unauthorized'
-  })
-}
-```
+**Implementation**: Use `useUserSession()` composable from nuxt-auth-utils and see `server/api/` routes for session management patterns.
 
 ## 🚫 API Route Protection
 
 ### Global Auth Middleware
 
-Automatic protection for all API routes:
-
-```typescript
-// server/middleware/auth.global.ts
-export default defineEventHandler(async (event) => {
-  if (isMethod(event, 'GET') || isPublicRoute(event.node.req.url)) {
-    return
-  }
-
-  const session = await getUserSession(event)
-  if (!session.user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Authentication required'
-    })
-  }
-})
-```
+**Implementation**: See `server/middleware/auth.global.ts` for automatic API route protection.
 
 **Protected by default:**
 
@@ -96,139 +46,68 @@ export default defineEventHandler(async (event) => {
 
 Client-side route protection:
 
-```typescript
-// app/middleware/auth.ts - Protect authenticated pages
-export default defineNuxtRouteMiddleware((to) => {
-  const { loggedIn } = useUserSession()
+**Implementation**:
 
-  if (!loggedIn.value) {
-    return navigateTo('/auth/login')
-  }
-})
-
-// app/middleware/guest.ts - Redirect authenticated users
-export default defineNuxtRouteMiddleware(() => {
-  const { loggedIn } = useUserSession()
-
-  if (loggedIn.value) {
-    return navigateTo('/')
-  }
-})
-```
+- **Protected routes**: `app/middleware/auth.ts`
+- **Guest routes**: `app/middleware/guest.ts`
 
 ## 🛡️ Security Headers
 
 ### CSP (Content Security Policy)
 
-```typescript
-// nuxt.config.ts
-security: {
-  headers: {
-    contentSecurityPolicy: {
-      'base-uri': ["'self'"],
-      'font-src': ["'self'", 'https:', 'data:'],
-      'form-action': ["'self'"],
-      'frame-ancestors': ["'none'"],
-      'img-src': ["'self'", 'data:', 'https:'],
-      'object-src': ["'none'"],
-      'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      'style-src': ["'self'", 'https:', "'unsafe-inline'"],
-      'upgrade-insecure-requests': true
-    }
-  }
-}
-```
+**Configuration**: See `nuxt.config.ts` security headers section for complete CSP implementation with flexible HTTP/HTTPS support.
 
 ### CORS Configuration
 
 Environment-specific CORS settings:
 
-```typescript
-corsHandler: {
-  origin: process.env.NODE_ENV === 'development'
-    ? ['http://localhost:3000', 'http://127.0.0.1:3000']
-    : process.env.CORS_ORIGIN?.split(','),
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  credentials: true
-}
-```
+**Configuration**: See `nuxt.config.ts` corsHandler section for environment-specific CORS settings.
+
+### HTTP/HTTPS Flexible Configuration
+
+The application supports flexible security configuration for both HTTP (staging) and HTTPS (production) environments:
+
+**Key Features:**
+
+- ✅ **Conditional security headers** based on `NUXT_FORCE_HTTPS` environment variable
+- ✅ **HSTS** enabled only for HTTPS deployments
+- ✅ **Cross-Origin policies** adjusted for protocol
+- ✅ **CSP upgrade-insecure-requests** controlled per environment
+
+**Configuration**: See `nuxt.config.ts` security section where headers are conditionally applied.
+
+**Server Configuration**:
+
+- **HTTP**: `.server-config/haproxy.cfg` for development/staging
+- **HTTPS**: `.server-config/haproxy-https.cfg` for production with SSL
 
 ### Additional Security Headers
 
-```typescript
-headers: {
-  strictTransportSecurity: {
-    maxAge: 31536000,
-    includeSubdomains: true
-  },
-  xContentTypeOptions: 'nosniff',
-  xFrameOptions: 'DENY',
-  xXSSProtection: '1; mode=block',
-  referrerPolicy: 'no-referrer'
-}
-```
+**Configuration**: See `nuxt.config.ts` security headers section for HSTS, XSS protection, and content type options.
 
 ## ⏱️ Rate Limiting
 
-Prevents abuse and DoS attacks:
-
-```typescript
-rateLimiter: {
-  tokensPerInterval: 150,      // Max requests
-  interval: 300000,            // 5 minutes
-  throwError: true             // Return 429 when exceeded
-}
-```
+**Configuration**: See `nuxt.config.ts` rateLimiter section for request limiting configuration.
 
 ## 🔒 Input Validation
 
 ### Server-Side Validation
 
-```typescript
-// server/utils/validation.ts
-export const validatePostData = (data: unknown) => {
-  const schema = z.object({
-    title: z.string().min(1).max(100).trim(),
-    content: z.string().min(1).max(2000).trim()
-  })
-
-  return schema.parse(data)
-}
-```
+**Implementation**: See `server/api/` routes for Zod schema validation patterns in API endpoints.
 
 ### Client-Side Validation
 
-```typescript
-// Zod schemas with security considerations
-const loginSchema = z.object({
-  email: z.string().email().max(254), // RFC 5321 limit
-  password: z.string().min(8).max(128) // Reasonable limits
-})
-```
+**Implementation**: See `shared/models/` for Zod schemas with security considerations and validation limits.
 
 ## 🔐 Environment Security
 
 ### Required Environment Variables
 
-```bash
-# Production security requirements
-NUXT_SESSION_PASSWORD="your-32-character-secret-key-here"
-CORS_ORIGIN="https://yourdomain.com,https://www.yourdomain.com"
-NUXT_DATABASE_URL="postgresql://..."
-```
+**Configuration**: See `.env.example` for required security environment variables including session password, CORS origins, and HTTPS configuration.
 
 ### Development vs Production
 
-```typescript
-// Environment-specific configurations
-const isDevelopment = process.env.NODE_ENV === 'development'
-
-security: {
-  headers: {
-    crossOriginEmbedderPolicy: isDevelopment ? 'unsafe-none' : 'require-corp'
-  }
-}
-```
+**Configuration**: See `nuxt.config.ts` security section for environment-specific security header configurations.
 
 ## 🚫 Attack Prevention
 
@@ -254,31 +133,11 @@ security: {
 
 ### Error Handling
 
-```typescript
-// Secure error responses
-export const handleApiError = (error: unknown) => {
-  // Never expose internal errors in production
-  if (process.env.NODE_ENV === 'production') {
-    return { statusCode: 500, message: 'Internal server error' }
-  }
-
-  // Detailed errors only in development
-  return { statusCode: 500, message: error.message }
-}
-```
+**Implementation**: See `server/api/` routes for secure error response patterns that prevent information disclosure.
 
 ### Audit Logging
 
-```typescript
-// Track authentication events
-export const logSecurityEvent = (event: string, userId?: number) => {
-  console.log(`[SECURITY] ${event}`, {
-    timestamp: new Date().toISOString(),
-    userId,
-    ip: getClientIP(event)
-  })
-}
-```
+**Implementation**: See `server/api/auth/` routes for security event logging patterns.
 
 ## ✅ Security Checklist
 

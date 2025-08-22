@@ -4,54 +4,13 @@ Auto-generated documentation via swagger-jsdoc.
 
 ## 🚀 Access
 
-```bash
-npm run dev
-open http://localhost:3000/api/docs/ui
-```
+**Development**: Visit `http://localhost:3000/api/docs/ui` during development for interactive documentation.
 
 **⚠️ Development only** (403 in production)
 
 ## 🔐 Authentication Endpoints
 
-The API includes authentication endpoints for user registration and login:
-
-### POST /api/auth/register
-
-Register a new user account.
-
-**Request Body:**
-
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "SecurePass123",
-  "confirmPassword": "SecurePass123"
-}
-```
-
-**Response:** `201 Created` with user data (excluding password)
-
-### POST /api/auth/login
-
-Authenticate user and create session.
-
-**Request Body:**
-
-```json
-{
-  "email": "john@example.com",
-  "password": "SecurePass123"
-}
-```
-
-**Response:** `200 OK` with user data and session cookie
-
-### POST /api/auth/logout
-
-End user session.
-
-**Response:** `200 OK` with success message
+**Implementation**: See `server/api/auth/` for complete authentication endpoint implementations including registration, login, logout, and password reset.
 
 ## 🛡️ Protected Routes
 
@@ -64,21 +23,7 @@ Authentication is handled automatically by the global auth middleware.
 
 ## 📝 Adding an endpoint
 
-```typescript
-/**
- * @openapi
- * /api/users:
- *   post:
- *     summary: Create user
- *     tags: [Users]
- *     responses:
- *       201:
- *         description: Success
- */
-export default defineEventHandler(async (event) => {
-  // Code here
-})
-```
+**Implementation**: See existing API routes in `server/api/` for OpenAPI comment patterns and endpoint structure examples.
 
 ## ✅ Benefits
 
