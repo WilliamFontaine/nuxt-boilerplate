@@ -108,7 +108,11 @@ export default defineNuxtConfig({
         'server/utils/**',
         'server/types/**'
       ]
-    }
+    },
+    serverAssets: [{
+      baseName: 'templates',
+      dir: './templates'
+    }]
   },
 
   vite: {

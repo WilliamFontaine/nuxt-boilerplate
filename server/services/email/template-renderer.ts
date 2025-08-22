@@ -1,23 +1,46 @@
 import Handlebars from 'handlebars'
-import { readFileSync, existsSync } from 'fs'
-import { resolve } from 'path'
 import type { H3Event } from 'h3'
 
 // Template cache for performance
 const templateCache = new Map<string, HandlebarsTemplateDelegate>()
 
 /**
+ * Load template content from public assets
+ */
+async function loadTemplate(templateName: string): Promise<string> {
+  // Use Nitro's assets storage to access public files
+  const storage = useStorage('assets:templates')
+
+  try {
+    // Load template from public/templates/emails directory
+    const content = await storage.getItem(`emails/${templateName}.hbs`)
+    if (content) {
+      return content as string
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(`Failed to load template ${templateName}:`, error)
+  }
+
+  throw new Error(`Email template not found: ${templateName}`)
+}
+
+/**
  * Get compiled template from cache or compile and cache it
  */
-function getCompiledTemplate(templatePath: string): HandlebarsTemplateDelegate {
-  if (!templateCache.has(templatePath)) {
-    if (!existsSync(templatePath)) {
-      throw new Error(`Email template not found: ${templatePath}`)
+async function getCompiledTemplate(templateName: string): Promise<HandlebarsTemplateDelegate> {
+  const cacheKey = templateName
+
+  if (!templateCache.has(cacheKey)) {
+    const content = await loadTemplate(templateName)
+
+    if (!content) {
+      throw new Error(`Email template not found: ${templateName}`)
     }
-    const content = readFileSync(templatePath, 'utf-8')
-    templateCache.set(templatePath, Handlebars.compile(content))
+
+    templateCache.set(cacheKey, Handlebars.compile(content))
   }
-  return templateCache.get(templatePath)!
+  return templateCache.get(cacheKey)!
 }
 
 /**
@@ -34,13 +57,11 @@ export async function renderEmailTemplate(
     const validLocale = getValidEmailLocale(locale)
 
     // Get compiled templates from cache
-    const basePath = resolve(process.cwd(), 'server/templates/emails/base.hbs')
-    const contentPath = resolve(process.cwd(), `server/templates/emails/${templateType}.hbs`)
-    const footerPath = resolve(process.cwd(), 'server/templates/emails/footer.hbs')
-
-    const baseTemplate = getCompiledTemplate(basePath)
-    const contentTemplate = getCompiledTemplate(contentPath)
-    const footerTemplate = getCompiledTemplate(footerPath)
+    const [baseTemplate, contentTemplate, footerTemplate] = await Promise.all([
+      getCompiledTemplate('base'),
+      getCompiledTemplate(templateType),
+      getCompiledTemplate('footer')
+    ])
 
     // Prepare content data
     const contentData = {
