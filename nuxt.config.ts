@@ -134,7 +134,7 @@ export default defineNuxtConfig({
         'object-src': ['\'none\''],
         'script-src': ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\''],
         'style-src': ['\'self\'', 'https:', '\'unsafe-inline\''],
-        'upgrade-insecure-requests': true
+        'upgrade-insecure-requests': false
       },
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
