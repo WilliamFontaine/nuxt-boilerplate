@@ -27,13 +27,12 @@
  *         description: Unauthorized
  */
 export default defineEventHandler(async (event) => {
-  // User is already authenticated by middleware and available in context
-  const user = event.context.user
+  const session = await requireUserSession(event)
+  const t = await useTranslation(event)
 
-  const postData = await validateBody(event, createPostSchema)
+  const postData = await validateBody(event, createPostSchema(t))
 
-  // Create post using service
-  const post = await createPost(postData, user.id)
+  const newPost = await createPost(postData, session.user.id)
 
-  return createCreatedResponse(post)
+  return createCreatedResponse(newPost)
 })

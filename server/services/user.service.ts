@@ -8,7 +8,7 @@ import prisma from '@@/lib/prisma'
 /**
  * Create a new user with hashed password
  */
-export async function createUser(userData: CreateUserData): Promise<PublicUser> {
+export async function createUser(userData: RegisterData): Promise<PublicUser> {
   // Check if user already exists
   const existingUser = await prisma.user.findUnique({
     where: { email: userData.email }

@@ -1,6 +1,6 @@
 <template>
   <UPageCard
-    class="shadow-sm border-0 bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+    class="shadow-sm border-0 bg-white dark:bg-neutral-900 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
   >
     <template #header>
       <div class="flex items-center gap-3">
@@ -10,10 +10,10 @@
           <UIcon name="i-lucide-settings" class="w-5 h-5 text-primary-600 dark:text-primary-400" />
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 class="text-lg font-semibold text-neutral-900 dark:text-white">
             {{ t('preferences.displayMode.label') }}
           </h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400">
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">
             {{ t('preferences.current') }}
           </p>
         </div>
@@ -22,7 +22,9 @@
 
     <div class="space-y-6">
       <div class="space-y-3">
-        <label class="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+        <label
+          class="text-sm font-medium text-neutral-700 dark:text-neutral-300 flex items-center gap-2"
+        >
           <UIcon name="i-lucide-layout-grid" class="w-4 h-4" />
           {{ t('preferences.displayMode.label') }}
         </label>
@@ -51,7 +53,9 @@
       </div>
 
       <div class="space-y-3">
-        <label class="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+        <label
+          class="text-sm font-medium text-neutral-700 dark:text-neutral-300 flex items-center gap-2"
+        >
           <UIcon name="i-lucide-eye" class="w-4 h-4" />
           {{ t('preferences.detailLevel.label') }}
         </label>
@@ -82,7 +86,9 @@
       <div class="pt-4 border-t border-secondary-200/60 dark:border-secondary-700/60">
         <div class="space-y-3">
           <div class="flex items-center justify-between text-xs">
-            <span class="text-gray-500 dark:text-gray-400">{{ t('preferences.current') }}</span>
+            <span class="text-neutral-500 dark:text-neutral-400">{{
+              t('preferences.current')
+            }}</span>
             <UButton
               variant="ghost"
               color="secondary"
@@ -91,7 +97,7 @@
               class="transition-all duration-200 hover:scale-105"
               @click="resetPreferences"
             >
-              {{ t('actions.reset') }}
+              {{ t('global.actions.reset') }}
             </UButton>
           </div>
           <div class="flex flex-wrap gap-2">

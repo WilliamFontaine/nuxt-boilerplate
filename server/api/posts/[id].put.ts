@@ -37,14 +37,17 @@
  *         description: Post not found
  */
 export default defineEventHandler(async (event) => {
-  // User is already authenticated by middleware and available in context
-  const user = event.context.user
+  const session = await requireUserSession(event)
+  const postId = getRouterParam(event, 'id')
 
-  const { id } = await validateParams(event, idSchema)
-  const postData = await validateBody(event, updatePostSchema)
+  if (!postId) {
+    throw badRequestError(ERROR_CODES.VALIDATION.MISSING_FIELD, 'Post ID is required')
+  }
 
-  // Update post using service (includes ownership check)
-  const post = await updatePost(id, postData, user.id)
+  const t = await useTranslation(event)
+  const updateData = await validateBody(event, updatePostSchema(t))
 
-  return createApiResponse(post, HTTP_STATUS.OK, 'Post updated successfully')
+  const updatedPost = await updatePost(postId, updateData, session.user.id)
+
+  return createApiResponse(updatedPost, HTTP_STATUS.OK, 'Post updated successfully')
 })

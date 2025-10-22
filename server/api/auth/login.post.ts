@@ -28,7 +28,8 @@
  *         description: Too many attempts
  */
 export default defineEventHandler(async (event) => {
-  const { email, password } = await validateBody(event, loginSchema)
+  const t = await useTranslation(event)
+  const { email, password } = await validateBody(event, createLoginSchema(t))
   const ipAddress = getClientIP(event)
 
   // Use auth service for complete login business logic

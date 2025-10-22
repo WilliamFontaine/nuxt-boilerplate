@@ -1,15 +1,15 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
+    class="min-h-screen bg-linear-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
   >
     <div class="w-full max-w-md">
       <!-- Login card -->
-      <UPageCard class="shadow-xl border-0 bg-white dark:bg-gray-900">
+      <UPageCard class="shadow-xl border-0 bg-white dark:bg-neutral-900">
         <!-- Back button -->
         <UButton
           color="primary"
           variant="ghost"
-          :label="t('auth.login.cancel')"
+          :label="t('global.actions.cancel')"
           icon="i-lucide-arrow-left"
           :disabled="isLoading"
           class="w-fit mb-6 cursor-pointer"
@@ -27,9 +27,9 @@
           @submit="handleSubmit"
         >
           <template #description>
-            {{ t('auth.login.noAccount') }}
+            {{ t('auth.login.links.noAccount') }}
             <ULink :to="localePath('/auth/register')" class="text-primary font-medium">
-              {{ t('auth.login.register') }} </ULink
+              {{ t('auth.login.links.register') }} </ULink
             >.
           </template>
 
@@ -39,14 +39,14 @@
               class="text-primary font-medium"
               tabindex="-1"
             >
-              {{ t('auth.login.forgotPassword') }}
+              {{ t('auth.login.links.forgotPassword') }}
             </ULink>
           </template>
 
           <template #footer>
-            {{ t('auth.login.didntReceiveEmail') }}
+            {{ t('auth.login.links.didntReceiveEmail') }}
             <ULink :to="localePath('/auth/resend-verification')" class="text-primary font-medium">
-              {{ t('auth.login.resendVerification') }} </ULink
+              {{ t('auth.login.links.resendVerification') }} </ULink
             >.
           </template>
         </UAuthForm>
@@ -88,8 +88,8 @@ const fields = computed(() => [
   {
     name: 'email',
     type: 'email' as const,
-    label: t('auth.login.email.label'),
-    placeholder: t('auth.login.email.placeholder'),
+    label: t('auth.login.fields.email.label'),
+    placeholder: t('auth.login.fields.email.placeholder'),
     required: true,
     defaultValue: state.email,
     autofocus: true
@@ -97,8 +97,8 @@ const fields = computed(() => [
   {
     name: 'password',
     type: 'password' as const,
-    label: t('auth.login.password.label'),
-    placeholder: t('auth.login.password.placeholder'),
+    label: t('auth.login.fields.password.label'),
+    placeholder: t('auth.login.fields.password.placeholder'),
     required: true,
     defaultValue: state.password
   }
@@ -128,8 +128,8 @@ const handleSubmit = async (event: FormSubmitEvent<LoginData>) => {
 
       // Show success message
       success({
-        title: t('auth.login.success.title'),
-        message: t('auth.login.success.message')
+        title: t('auth.login.messages.success.title'),
+        message: t('auth.login.messages.success.message')
       })
 
       // Redirect to home
@@ -143,8 +143,8 @@ const handleSubmit = async (event: FormSubmitEvent<LoginData>) => {
       case ERROR_CODES.RATE_LIMIT.EXCEEDED:
       case ERROR_CODES.RATE_LIMIT.TOO_MANY_ATTEMPTS:
         error({
-          title: t('auth.login.error.title'),
-          message: t('auth.login.rateLimit.tooManyAttempts', {
+          title: t('auth.login.messages.error.title'),
+          message: t('auth.login.messages.rateLimit.tooManyAttempts', {
             minutes: data.minutes || 0,
             seconds: data.seconds || 0
           })
@@ -153,8 +153,8 @@ const handleSubmit = async (event: FormSubmitEvent<LoginData>) => {
 
       case ERROR_CODES.AUTH.EMAIL_NOT_VERIFIED:
         error({
-          title: t('auth.login.error.title'),
-          message: t('auth.login.error.emailNotVerified')
+          title: t('auth.login.messages.error.title'),
+          message: t('auth.login.messages.error.emailNotVerified')
         })
         break
 
@@ -162,21 +162,21 @@ const handleSubmit = async (event: FormSubmitEvent<LoginData>) => {
         // Check for remaining attempts data
         if (data.remainingAttempts !== undefined) {
           error({
-            title: t('auth.login.error.title'),
-            message: t('auth.login.rateLimit.warning', { count: data.remainingAttempts })
+            title: t('auth.login.messages.error.title'),
+            message: t('auth.login.messages.rateLimit.warning', { count: data.remainingAttempts })
           })
         } else {
           error({
-            title: t('auth.login.error.title'),
-            message: t('auth.login.error.invalidCredentials')
+            title: t('auth.login.messages.error.title'),
+            message: t('auth.login.messages.error.invalidCredentials')
           })
         }
         break
 
       default:
         error({
-          title: t('auth.login.error.title'),
-          message: t('auth.login.error.invalidCredentials')
+          title: t('auth.login.messages.error.title'),
+          message: t('auth.login.messages.error.invalidCredentials')
         })
     }
   } finally {

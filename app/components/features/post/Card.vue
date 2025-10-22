@@ -1,7 +1,7 @@
 <template>
   <UCard
     :class="[
-      'group bg-white dark:bg-gray-900 hover:shadow-lg transition-all duration-300 hover:ring-primary-200/60 dark:hover:ring-primary-700/60 hover:-translate-y-1 border-0 shadow-sm',
+      'group bg-white dark:bg-neutral-900 hover:shadow-lg transition-all duration-300 hover:ring-primary-200/60 dark:hover:ring-primary-700/60 hover:-translate-y-1 border-0 shadow-sm',
       viewMode === 'list' ? 'ring-1 ring-primary-200/30 dark:ring-primary-700/30' : ''
     ]"
   >
@@ -13,11 +13,11 @@
             <span
               class="text-xs font-medium text-primary-600 dark:text-primary-400 uppercase tracking-wider bg-primary-100 dark:bg-primary-900 px-2 py-1 rounded-full"
             >
-              {{ t('posts.type') }}
+              {{ t('articles.list.type') }}
             </span>
           </div>
           <h3
-            class="text-xl font-bold text-gray-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-all duration-300 leading-tight group-hover:scale-105 origin-left"
+            class="text-xl font-bold text-neutral-900 dark:text-white line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-all duration-300 leading-tight group-hover:scale-105 origin-left"
           >
             {{ post.title }}
           </h3>
@@ -37,7 +37,7 @@
       <div class="relative">
         <p
           :class="[
-            'text-gray-600 dark:text-gray-300 leading-relaxed text-base',
+            'text-neutral-600 dark:text-neutral-300 leading-relaxed text-base',
             displayMode === 'compact' ? 'line-clamp-3' : ''
           ]"
         >
@@ -45,7 +45,7 @@
         </p>
         <div
           v-if="displayMode === 'compact'"
-          class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none"
+          class="absolute bottom-0 left-0 right-0 h-8 bg-linear-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none"
         />
       </div>
 
@@ -54,7 +54,7 @@
       >
         <div
           :class="viewMode === 'grid' ? 'flex flex-col gap-2' : 'flex items-center gap-4'"
-          class="text-sm text-gray-500 dark:text-gray-400"
+          class="text-sm text-neutral-500 dark:text-neutral-400"
         >
           <div
             class="flex items-center gap-2 transition-colors duration-300 hover:text-primary-600 dark:hover:text-primary-400"
@@ -113,7 +113,7 @@ const deleteModal = overlay.create(FeaturesPostDeleteModal)
 const dropdownItems = [
   [
     {
-      label: t('actions.edit'),
+      label: t('global.actions.edit'),
       icon: 'i-lucide-pencil',
       async onSelect() {
         const result = await editModal.open({
@@ -127,7 +127,7 @@ const dropdownItems = [
   ],
   [
     {
-      label: t('actions.delete'),
+      label: t('global.actions.delete'),
       icon: 'i-lucide-trash-2',
       async onSelect() {
         const result = await deleteModal.open({

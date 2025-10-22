@@ -1,4 +1,4 @@
-export const formatDate = (dateString: string, locale?: string): string => {
+export const formatDate = (dateString: string | Date | null, locale?: string): string => {
   if (!dateString) return ''
 
   const { locale: currentLocale } = useI18n()
@@ -6,7 +6,7 @@ export const formatDate = (dateString: string, locale?: string): string => {
 
   try {
     const date = new Date(dateString)
-    if (isNaN(date.getTime())) return dateString
+    if (isNaN(date.getTime())) return ''
 
     return date.toLocaleDateString(finalLocale, {
       day: 'numeric',
@@ -14,7 +14,7 @@ export const formatDate = (dateString: string, locale?: string): string => {
       year: 'numeric'
     })
   } catch {
-    return dateString
+    return ''
   }
 }
 

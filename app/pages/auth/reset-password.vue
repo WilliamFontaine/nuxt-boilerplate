@@ -1,15 +1,15 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
+    class="min-h-screen bg-linear-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
   >
     <div class="w-full max-w-md">
       <!-- Reset password card -->
-      <UPageCard class="shadow-xl border-0 bg-white dark:bg-gray-900">
+      <UPageCard class="shadow-xl border-0 bg-white dark:bg-neutral-900">
         <!-- Back button -->
         <UButton
           color="primary"
           variant="ghost"
-          :label="t('auth.resetPassword.cancel')"
+          :label="t('global.actions.cancel')"
           icon="i-lucide-arrow-left"
           :disabled="isLoading"
           class="w-fit mb-6 cursor-pointer"
@@ -27,9 +27,9 @@
           @submit="handleSubmit"
         >
           <template #description>
-            {{ t('auth.resetPassword.remembered') }}
+            {{ t('auth.resetPassword.links.remembered') }}
             <ULink :to="localePath('/auth/login')" class="text-primary font-medium">
-              {{ t('auth.resetPassword.backToLogin') }} </ULink
+              {{ t('auth.resetPassword.links.backToLogin') }} </ULink
             >.
           </template>
 
@@ -91,8 +91,8 @@ const fields = computed(() => [
   {
     name: 'password',
     type: 'password' as const,
-    label: t('auth.resetPassword.password.label'),
-    placeholder: t('auth.resetPassword.password.placeholder'),
+    label: t('auth.resetPassword.fields.password.label'),
+    placeholder: t('auth.resetPassword.fields.password.placeholder'),
     required: true,
     defaultValue: state.password,
     autofocus: true
@@ -100,8 +100,8 @@ const fields = computed(() => [
   {
     name: 'confirmPassword',
     type: 'password' as const,
-    label: t('auth.resetPassword.confirmPassword.label'),
-    placeholder: t('auth.resetPassword.confirmPassword.placeholder'),
+    label: t('auth.resetPassword.fields.confirmPassword.label'),
+    placeholder: t('auth.resetPassword.fields.confirmPassword.placeholder'),
     required: true,
     defaultValue: state.confirmPassword
   }
@@ -131,8 +131,8 @@ const handleSubmit = async (event: FormSubmitEvent<ResetPasswordData>) => {
     if (response.statusCode === 200) {
       // Show success message
       success({
-        title: t('auth.resetPassword.success.title'),
-        message: t('auth.resetPassword.success.message')
+        title: t('auth.resetPassword.messages.success.title'),
+        message: t('auth.resetPassword.messages.success.message')
       })
 
       // Redirect to login
@@ -145,23 +145,23 @@ const handleSubmit = async (event: FormSubmitEvent<ResetPasswordData>) => {
       case ERROR_CODES.AUTH.INVALID_TOKEN:
       case ERROR_CODES.AUTH.TOKEN_EXPIRED:
         error({
-          title: t('auth.resetPassword.error.title'),
-          message: t('auth.resetPassword.error.invalidToken')
+          title: t('auth.resetPassword.messages.error.title'),
+          message: t('auth.resetPassword.messages.error.invalidToken')
         })
         break
 
       case ERROR_CODES.VALIDATION.ERROR:
       case ERROR_CODES.VALIDATION.INVALID_INPUT:
         error({
-          title: t('auth.resetPassword.error.title'),
-          message: t('auth.resetPassword.error.validation')
+          title: t('auth.resetPassword.messages.error.title'),
+          message: t('auth.resetPassword.messages.error.validation')
         })
         break
 
       default:
         error({
-          title: t('auth.resetPassword.error.title'),
-          message: t('auth.resetPassword.error.generic')
+          title: t('auth.resetPassword.messages.error.title'),
+          message: t('auth.resetPassword.messages.error.generic')
         })
     }
   } finally {
