@@ -3,9 +3,9 @@ import { defineVitestConfig } from '@nuxt/test-utils/config'
 export default defineVitestConfig({
   test: {
     environment: 'nuxt',
-    setupFiles: ['./tests/setup/vitest.ts'],
-    include: ['tests/**/*.{test,spec}.ts'],
-    exclude: ['tests/e2e/**'],
+    include: ['test/unit/**/*.{test,spec}.ts'],
+    exclude: ['test/e2e/**'],
+    setupFiles: ['./test/unit/setup.ts'],
     globals: true,
     testTimeout: 10_000,
     hookTimeout: 10_000,
@@ -18,7 +18,7 @@ export default defineVitestConfig({
         'dist/**',
         '**/node_modules/**',
         '**/*.d.ts',
-        'tests/**',
+        'test/**',
         '**/*.config.*',
         '**/.nuxt/**'
       ]

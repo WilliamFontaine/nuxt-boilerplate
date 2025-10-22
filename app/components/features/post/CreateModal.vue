@@ -2,11 +2,9 @@
   <UModal
     v-model:open="open"
     :dismissible="!isLoading"
-    :title="isEditing ? t('articleForm.actions.edit.title') : t('articleForm.actions.create.title')"
+    :title="isEditing ? t('articles.form.edit.title') : t('articles.form.create.title')"
     :description="
-      isEditing
-        ? t('articleForm.actions.edit.description')
-        : t('articleForm.actions.create.description')
+      isEditing ? t('articles.form.edit.description') : t('articles.form.create.description')
     "
     class="backdrop-blur-sm"
   >
@@ -16,29 +14,29 @@
           <UiFormInput
             v-model="state.title"
             name="title"
-            :label="t('articleForm.fields.title.label')"
-            :placeholder="t('articleForm.fields.title.placeholder')"
+            :label="t('articles.form.fields.title.label')"
+            :placeholder="t('articles.form.fields.title.placeholder')"
             required
           />
           <UiFormTextarea
             v-model="state.content"
             name="content"
-            :label="t('articleForm.fields.content.label')"
-            :placeholder="t('articleForm.fields.content.placeholder')"
+            :label="t('articles.form.fields.content.label')"
+            :placeholder="t('articles.form.fields.content.placeholder')"
             :rows="8"
             required
             :maxlength="1000"
           />
 
           <div
-            class="space-y-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+            class="space-y-3 p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700"
           >
             <div class="flex flex-col gap-2">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs">
+                <div class="flex items-center gap-1 text-neutral-500 dark:text-neutral-400 text-xs">
                   <UIcon name="i-lucide-type" class="w-3 h-3" />
                   <span>{{
-                    t('articleForm.analytics.characterCount', { count: state.content.length })
+                    t('articles.form.analytics.characterCount', { count: state.content.length })
                   }}</span>
                 </div>
                 <UBadge
@@ -48,16 +46,16 @@
                   size="sm"
                 />
               </div>
-              <div class="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs">
+              <div class="flex items-center gap-1 text-neutral-500 dark:text-neutral-400 text-xs">
                 <UIcon name="i-lucide-book-open" class="w-3 h-3" />
-                <span>{{ t('articleForm.analytics.wordCount', { count: wordCount }) }}</span>
+                <span>{{ t('articles.form.analytics.wordCount', { count: wordCount }) }}</span>
               </div>
               <div
                 v-if="readingTime > 0"
-                class="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs"
+                class="flex items-center gap-1 text-neutral-500 dark:text-neutral-400 text-xs"
               >
                 <UIcon name="i-lucide-clock" class="w-3 h-3" />
-                <span>{{ t('articleForm.analytics.readingTime', { count: readingTime }) }}</span>
+                <span>{{ t('articles.form.analytics.readingTime', { count: readingTime }) }}</span>
               </div>
             </div>
           </div>
@@ -67,15 +65,15 @@
 
     <template #footer>
       <div
-        class="flex flex-col w-full p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border-t border-gray-200 dark:border-gray-700"
+        class="flex flex-col w-full p-6 bg-neutral-50 dark:bg-neutral-800 rounded-lg border-t border-neutral-200 dark:border-neutral-700"
       >
         <div class="flex items-center gap-2 mb-4">
           <UIcon name="i-lucide-info" class="w-4 h-4 text-primary-600 dark:text-primary-400" />
-          <span class="text-xs text-gray-600 dark:text-gray-300 font-medium">
+          <span class="text-xs text-neutral-600 dark:text-neutral-300 font-medium">
             {{
               isEditing
-                ? t('articleForm.actions.edit.autoSaveInfo')
-                : t('articleForm.actions.create.autoSaveInfo')
+                ? t('articles.form.edit.autoSaveInfo')
+                : t('articles.form.create.autoSaveInfo')
             }}
           </span>
         </div>
@@ -84,11 +82,7 @@
             type="button"
             color="secondary"
             variant="outline"
-            :label="
-              isEditing
-                ? t('articleForm.actions.edit.cancel')
-                : t('articleForm.actions.create.cancel')
-            "
+            :label="t('global.actions.cancel')"
             icon="i-lucide-x"
             :disabled="isLoading"
             class="transition-all duration-300 hover:scale-105"
@@ -97,11 +91,7 @@
           <UButton
             type="submit"
             color="primary"
-            :label="
-              isEditing
-                ? t('articleForm.actions.edit.save')
-                : t('articleForm.actions.create.submit')
-            "
+            :label="isEditing ? t('articles.form.edit.save') : t('articles.form.create.submit')"
             :loading="isLoading"
             :disabled="isLoading || !isValid"
             :icon="isEditing ? 'i-lucide-save' : 'i-lucide-plus'"
@@ -156,9 +146,9 @@ const readingTime = computed(() => {
 
 const getBadgeLabel = () => {
   const length = state.content.length
-  if (length > 500) return t('articleForm.badgeLabels.length.long')
-  if (length > 200) return t('articleForm.badgeLabels.length.medium')
-  return t('articleForm.badgeLabels.length.short')
+  if (length > 500) return t('articles.form.badgeLabels.long')
+  if (length > 200) return t('articles.form.badgeLabels.medium')
+  return t('articles.form.badgeLabels.short')
 }
 
 const getBadgeColor = () => {
@@ -213,8 +203,8 @@ const handleSubmit = async (event: FormSubmitEvent<CreatePostData | UpdatePostDa
         body: event.data
       })
       success({
-        title: t('articleForm.actions.edit.success.title'),
-        message: t('articleForm.actions.edit.success.message')
+        title: t('articles.form.messages.success.update.title'),
+        message: t('articles.form.messages.success.update.message')
       })
     } else {
       await $fetch<ApiResponse<Post>>('/api/posts', {
@@ -222,8 +212,8 @@ const handleSubmit = async (event: FormSubmitEvent<CreatePostData | UpdatePostDa
         body: event.data
       })
       success({
-        title: t('articleForm.actions.create.success.title'),
-        message: t('articleForm.actions.create.success.message')
+        title: t('articles.form.messages.success.create.title'),
+        message: t('articles.form.messages.success.create.message')
       })
       resetState()
     }
@@ -233,14 +223,14 @@ const handleSubmit = async (event: FormSubmitEvent<CreatePostData | UpdatePostDa
     const errorCode = getErrorCode(err)
 
     const errorTitle = isEditing.value
-      ? t('articleForm.actions.edit.error.title')
-      : t('articleForm.actions.create.error.title')
+      ? t('articles.form.messages.error.update.title')
+      : t('articles.form.messages.error.create.title')
 
     switch (errorCode) {
       case ERROR_CODES.AUTH.UNAUTHORIZED:
         error({
           title: errorTitle,
-          message: t('articleForm.error.unauthorized')
+          message: t('articles.form.messages.error.unauthorized')
         })
         break
 
@@ -248,21 +238,21 @@ const handleSubmit = async (event: FormSubmitEvent<CreatePostData | UpdatePostDa
       case ERROR_CODES.VALIDATION.INVALID_INPUT:
         error({
           title: errorTitle,
-          message: t('articleForm.error.validation')
+          message: t('articles.form.messages.error.validation')
         })
         break
 
       case ERROR_CODES.RESOURCE.NOT_FOUND:
         error({
           title: errorTitle,
-          message: t('articleForm.error.notFound')
+          message: t('articles.form.messages.error.notFound')
         })
         break
 
       default: {
         const errorMessage = isEditing.value
-          ? t('articleForm.actions.edit.error.message')
-          : t('articleForm.actions.create.error.message')
+          ? t('articles.form.messages.error.update.message')
+          : t('articles.form.messages.error.create.message')
         error({
           title: errorTitle,
           message: errorMessage

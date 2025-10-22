@@ -3,3 +3,4 @@ tsconfig.json
 .nuxt
 CHANGELOG.md
 .claude/
+pnpm-lock.yaml

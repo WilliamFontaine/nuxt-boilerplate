@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   // ========================================
   // Core Configuration
   // ========================================
-  compatibilityDate: '2025-07-16',
+  compatibilityDate: '2025-10-22',
 
   devtools: {
     enabled: true,
@@ -31,19 +31,14 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
 
     // Database & Backend
-    '@prisma/nuxt',
     'nuxt-auth-utils',
-    'nuxt-nodemailer',
 
     // Security
     'nuxt-security',
 
     // State Management
     '@pinia/nuxt',
-    'pinia-plugin-persistedstate/nuxt',
-
-    // Development Tools
-    'nuxt-mcp'
+    'pinia-plugin-persistedstate/nuxt'
   ],
 
   // ========================================
@@ -96,6 +91,19 @@ export default defineNuxtConfig({
   },
 
   // ========================================
+  // Icon Configuration
+  // ========================================
+  icon: {
+    // Server mode to bundle icons locally (no network requests)
+    serverBundle: {
+      collections: ['lucide', 'simple-icons', 'openmoji']
+    },
+
+    // Disable requests to Iconify API
+    provider: 'server'
+  },
+
+  // ========================================
   // Styling
   // ========================================
   css: ['/assets/css/main.css'],
@@ -107,6 +115,7 @@ export default defineNuxtConfig({
     // Selective auto-imports for better tree-shaking
     dirs: [
       'composables/**', // App composables
+      'constants/**', // App constants
       '../shared/**' // Shared resources
     ],
     imports: [
@@ -118,6 +127,19 @@ export default defineNuxtConfig({
   // Nitro Server Configuration
   // ========================================
   nitro: {
+    experimental: {
+      tasks: true
+    },
+    scheduledTasks: {
+      // Clean up expired tokens every 30 minutes
+      '*/30 * * * *': 'cleanup:tokens',
+
+      // Clean up unverified users once per day at 3 AM
+      '0 3 * * *': 'cleanup:unverified-users',
+
+      // Clean up login attempts every hour
+      '0 * * * *': 'cleanup:login-attempts'
+    },
     imports: {
       dirs: [
         'shared/**', // Shared resources
@@ -217,15 +239,14 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // ====== Server-only Configuration ======
 
-    // Email Configuration - Used by useMailer() utility
-    nodemailer: {
-      host: '', // NUXT_NODEMAILER_HOST
-      port: 587, // NUXT_NODEMAILER_PORT
-      auth: {
-        user: '', // NUXT_NODEMAILER_AUTH_USER
-        pass: '' // NUXT_NODEMAILER_AUTH_PASS
-      },
-      from: '' // NUXT_NODEMAILER_FROM
+    // Email Configuration - Used by nodemailer directly
+    email: {
+      host: '', // NUXT_EMAIL_HOST
+      port: 587, // NUXT_EMAIL_PORT
+      secure: false, // NUXT_EMAIL_SECURE - true for 465, false for other ports
+      user: '', // NUXT_EMAIL_USER
+      pass: '', // NUXT_EMAIL_PASS
+      from: '' // NUXT_EMAIL_FROM
     },
 
     // Rate Limiting Configuration

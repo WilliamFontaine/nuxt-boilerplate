@@ -1,15 +1,15 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
+    class="min-h-screen bg-linear-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
   >
     <div class="w-full max-w-md">
       <!-- Registration card -->
-      <UPageCard class="shadow-xl border-0 bg-white dark:bg-gray-900">
+      <UPageCard class="shadow-xl border-0 bg-white dark:bg-neutral-900">
         <!-- Back button -->
         <UButton
           color="primary"
           variant="ghost"
-          :label="t('auth.register.cancel')"
+          :label="t('global.actions.cancel')"
           icon="i-lucide-arrow-left"
           :disabled="isLoading"
           class="w-fit mb-6 cursor-pointer"
@@ -27,9 +27,9 @@
           @submit="handleSubmit"
         >
           <template #description>
-            {{ t('auth.register.hasAccount') }}
+            {{ t('auth.register.links.hasAccount') }}
             <ULink :to="localePath('/auth/login')" class="text-primary font-medium">
-              {{ t('auth.register.login') }} </ULink
+              {{ t('auth.register.links.login') }} </ULink
             >.
           </template>
 
@@ -81,8 +81,8 @@ const fields = computed(() => [
   {
     name: 'name',
     type: 'text' as const,
-    label: t('auth.register.name.label'),
-    placeholder: t('auth.register.name.placeholder'),
+    label: t('auth.register.fields.name.label'),
+    placeholder: t('auth.register.fields.name.placeholder'),
     required: true,
     defaultValue: state.name,
     autofocus: true
@@ -90,24 +90,24 @@ const fields = computed(() => [
   {
     name: 'email',
     type: 'email' as const,
-    label: t('auth.register.email.label'),
-    placeholder: t('auth.register.email.placeholder'),
+    label: t('auth.register.fields.email.label'),
+    placeholder: t('auth.register.fields.email.placeholder'),
     required: true,
     defaultValue: state.email
   },
   {
     name: 'password',
     type: 'password' as const,
-    label: t('auth.register.password.label'),
-    placeholder: t('auth.register.password.placeholder'),
+    label: t('auth.register.fields.password.label'),
+    placeholder: t('auth.register.fields.password.placeholder'),
     required: true,
     defaultValue: state.password
   },
   {
     name: 'confirmPassword',
     type: 'password' as const,
-    label: t('auth.register.confirmPassword.label'),
-    placeholder: t('auth.register.confirmPassword.placeholder'),
+    label: t('auth.register.fields.confirmPassword.label'),
+    placeholder: t('auth.register.fields.confirmPassword.placeholder'),
     required: true,
     defaultValue: state.confirmPassword
   }
@@ -137,8 +137,8 @@ const handleSubmit = async (event: FormSubmitEvent<RegisterData>) => {
     if (response.statusCode === 201 && response.data) {
       // Show success message with email verification instruction
       success({
-        title: t('auth.register.success.title'),
-        message: t('auth.register.success.emailSent', { email: response.data.email })
+        title: t('auth.register.messages.success.title'),
+        message: t('auth.register.messages.success.emailSent', { email: response.data.email })
       })
 
       // Redirect to login page so user can login after verification
@@ -150,30 +150,30 @@ const handleSubmit = async (event: FormSubmitEvent<RegisterData>) => {
     switch (errorCode) {
       case ERROR_CODES.USER.EMAIL_ALREADY_EXISTS:
         error({
-          title: t('auth.register.error.title'),
-          message: t('auth.register.error.emailExists')
+          title: t('auth.register.messages.error.title'),
+          message: t('auth.register.messages.error.emailExists')
         })
         break
 
       case ERROR_CODES.VALIDATION.ERROR:
       case ERROR_CODES.VALIDATION.INVALID_INPUT:
         error({
-          title: t('auth.register.error.title'),
-          message: t('auth.register.error.validation')
+          title: t('auth.register.messages.error.title'),
+          message: t('auth.register.messages.error.validation')
         })
         break
 
       case ERROR_CODES.VALIDATION.INVALID_FORMAT:
         error({
-          title: t('auth.register.error.title'),
-          message: t('auth.register.error.invalidEmail')
+          title: t('auth.register.messages.error.title'),
+          message: t('auth.register.messages.error.invalidEmail')
         })
         break
 
       default:
         error({
-          title: t('auth.register.error.title'),
-          message: t('auth.register.error.generic')
+          title: t('auth.register.messages.error.title'),
+          message: t('auth.register.messages.error.generic')
         })
     }
   } finally {

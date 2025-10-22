@@ -48,7 +48,7 @@
     <UFooter>
       <template #left>
         <p class="text-sm text-neutral-600 dark:text-neutral-400">
-          {{ t('app.footer') }} • v{{ appVersion }}
+          {{ t('global.app.footer') }} • v{{ appVersion }}
         </p>
       </template>
 
@@ -82,8 +82,8 @@ const handleLogout = async () => {
     await $fetch('/api/auth/logout', { method: 'POST' })
 
     success({
-      title: t('auth.logout.success.title'),
-      message: t('auth.logout.success.message')
+      title: t('auth.logout.messages.success.title'),
+      message: t('auth.logout.messages.success.message')
     })
 
     await navigateTo(localePath('/'))
@@ -96,7 +96,7 @@ const handleLogout = async () => {
 
 // Computed properties
 const appNameParts = computed(() => {
-  const name = t('app.name')
+  const name = t('global.app.name')
   return name.split(' ')
 })
 
@@ -126,9 +126,9 @@ const items = ref<DropdownMenuItem[][]>([
 
 // Head configuration
 useHead({
-  title: t('app.name'),
+  title: t('global.app.name'),
   meta: [
-    { name: 'description', content: t('app.description') },
+    { name: 'description', content: t('global.app.description') },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
   ]
 })

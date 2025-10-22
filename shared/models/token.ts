@@ -5,55 +5,51 @@
  */
 
 import { z } from 'zod'
+import { TEXT_FIELD_LIMITS } from '@@/shared/constants/validation'
 
 // =============================================================================
 // DATABASE ENTITY
 // =============================================================================
 
 /**
- * Token entity (matches database schema)
+ * Token entity and enum - re-exported from Prisma
  */
-export interface Token {
-  id: string
-  userId: string
-  type: TokenType
-  token: string
-  expiresAt: string
-  createdAt: string
-}
+export { TokenType } from '@prisma/client'
+export type { Token } from '@prisma/client'
 
-/**
- * Token types enumeration
- */
-export enum TokenType {
-  EMAIL_VERIFICATION = 'EMAIL_VERIFICATION',
-  PASSWORD_RESET = 'PASSWORD_RESET'
-}
-
+export type { TokenType as TokenTypeEnum } from '@prisma/client'
 // =============================================================================
 // VALIDATION SCHEMAS
 // =============================================================================
 
 /**
- * Schema for email verification
+ * Factory function to create verify email schema with i18n messages
+ * Note: Token comes from URL query parameter, not a form field
  */
-export const verifyEmailSchema = z.object({
-  token: z.string().length(64, 'Invalid token')
-})
+export const createVerifyEmailSchema = (t: (key: string) => string) =>
+  z.object({
+    token: z.string().length(64, t('auth.verifyEmail.fields.token.validation.length'))
+  })
 
 /**
- * Schema for resending verification email
+ * Factory function to create resend verification schema with i18n messages
  */
-export const resendVerificationSchema = z.object({
-  email: z.string().email('Invalid email format').max(TEXT_FIELD_LIMITS.EMAIL.MAX, 'Email too long')
-})
+export const createResendVerificationSchema = (t: (key: string) => string) =>
+  z.object({
+    email: z
+      .email(t('auth.resendVerification.fields.email.validation.invalid'))
+      .max(
+        TEXT_FIELD_LIMITS.EMAIL.MAX,
+        t('auth.resendVerification.fields.email.validation.maxLength')
+      )
+  })
 
 // =============================================================================
 // TYPE EXPORTS
 // =============================================================================
 
-export type VerifyEmailData = z.infer<typeof verifyEmailSchema>
-export type ResendVerificationData = z.infer<typeof resendVerificationSchema>
+export type VerifyEmailData = z.infer<ReturnType<typeof createVerifyEmailSchema>>
+export type ResendVerificationData = z.infer<ReturnType<typeof createResendVerificationSchema>>
 
 // =============================================================================
 // INITIAL STATES

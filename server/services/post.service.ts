@@ -26,9 +26,7 @@ export async function createPost(
 
     return {
       ...post,
-      author: toPublicUser(post.author),
-      createdAt: post.createdAt.toISOString(),
-      updatedAt: post.updatedAt.toISOString()
+      author: toPublicUser(post.author)
     }
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.FOREIGN_KEY_CONSTRAINT_FAILED) {
@@ -51,9 +49,7 @@ export async function getAllPosts(): Promise<PostWithAuthor[]> {
 
   return posts.map((post) => ({
     ...post,
-    author: toPublicUser(post.author),
-    createdAt: post.createdAt.toISOString(),
-    updatedAt: post.updatedAt.toISOString()
+    author: toPublicUser(post.author)
   }))
 }
 
@@ -74,9 +70,7 @@ export async function getPostById(id: string): Promise<PostWithAuthor | null> {
 
   return {
     ...post,
-    author: toPublicUser(post.author),
-    createdAt: post.createdAt.toISOString(),
-    updatedAt: post.updatedAt.toISOString()
+    author: toPublicUser(post.author)
   }
 }
 
@@ -116,9 +110,7 @@ export async function updatePost(
 
     return {
       ...post,
-      author: toPublicUser(post.author),
-      createdAt: post.createdAt.toISOString(),
-      updatedAt: post.updatedAt.toISOString()
+      author: toPublicUser(post.author)
     }
   } catch (error: any) {
     if (error.code === PRISMA_ERRORS.RECORD_NOT_FOUND) {

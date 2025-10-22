@@ -1,246 +1,243 @@
 {
-  "actions": {
-    "continueNow": "Continue now",
-    "delete": "Delete",
-    "edit": "Edit",
-    "loadMore": "Load more",
-    "profile": "Profile",
-    "reset": "Reset",
-    "viewPosts": "View articles"
-  },
-  "app": {
-    "description": "A simple and efficient starting point",
-    "footer": "Created by William Fontaine",
-    "name": "Nuxt Boilerplate"
-  },
-  "articleForm": {
-    "actions": {
+  "articles": {
+    "fieldLimits": {
+      "content": {
+        "maxLength": "Content cannot exceed 1000 characters",
+        "minLength": "Content must contain at least 10 characters",
+        "required": "Content is required"
+      },
+      "title": {
+        "maxLength": "Title cannot exceed 100 characters",
+        "minLength": "Title must contain at least 3 characters",
+        "required": "Title is required"
+      }
+    },
+    "form": {
+      "analytics": {
+        "characterCount": "No characters | {count} character | {count} characters",
+        "readingTime": "{count} minute read | {count} minutes read",
+        "wordCount": "No words | {count} word | {count} words"
+      },
+      "badgeLabels": {
+        "long": "Long",
+        "medium": "Medium",
+        "short": "Short"
+      },
       "create": {
         "autoSaveInfo": "Changes will be saved automatically",
-        "cancel": "Cancel",
         "description": "Fill in the fields below to create an article.",
-        "error": {
-          "message": "An error occurred while creating the article",
-          "title": "Failed to create article"
-        },
-        "loginRequired": "Sign in to create an article",
         "submit": "Create article",
-        "success": {
-          "message": "Your article has been created successfully",
-          "title": "Article created successfully"
-        },
         "title": "Create new article"
       },
       "delete": {
-        "cancel": "Cancel",
         "confirm": "Delete",
         "description": "Are you sure you want to delete this article? This action is irreversible.",
-        "error": {
-          "message": "An error occurred while deleting the article",
-          "title": "Failed to delete article"
-        },
         "info": "This action will permanently delete the article",
-        "success": {
-          "message": "Your article has been deleted successfully",
-          "title": "Post deleted successfully"
-        },
         "title": "Delete article"
       },
       "edit": {
         "autoSaveInfo": "Changes will be saved automatically",
-        "cancel": "Cancel",
         "description": "Edit your article content here.",
-        "error": {
-          "message": "An error occurred while updating the article",
-          "title": "Failed to update article"
-        },
-        "loginRequired": "Sign in to edit a article",
         "save": "Save changes",
-        "success": {
-          "message": "Your article has been updated successfully",
-          "title": "Post updated successfully"
-        },
         "title": "Edit article"
-      }
-    },
-    "analytics": {
-      "characterCount": "No characters | {count} character | {count} characters",
-      "readingTime": "{count} minute read | {count} minutes read",
-      "wordCount": "No words | {count} word | {count} words"
-    },
-    "badgeLabels": {
-      "length": {
-        "long": "Long",
-        "medium": "Medium",
-        "short": "Short"
-      }
-    },
-    "error": {
-      "notFound": "The article could not be found or has been deleted",
-      "unauthorized": "You don't have permission to perform this action"
-    },
-    "fields": {
-      "content": {
-        "label": "Article content",
-        "placeholder": "Write your article content here",
-        "validation": {
-          "maxLength": "Content cannot exceed 1000 characters",
-          "minLength": "Content must contain at least 10 characters",
-          "required": "Content is required"
+      },
+      "fields": {
+        "content": {
+          "label": "Article content",
+          "placeholder": "Write your article content here"
+        },
+        "title": {
+          "label": "Article title",
+          "placeholder": "Enter article title"
         }
       },
-      "createdAt": {
-        "label": "Created on {date} at {time}"
-      },
-      "title": {
-        "label": "Article title",
-        "placeholder": "Enter article title",
-        "validation": {
-          "maxLength": "Title cannot exceed 100 characters",
-          "minLength": "Title must contain at least 3 characters",
-          "required": "Title is required"
+      "messages": {
+        "error": {
+          "create": {
+            "message": "An error occurred while creating the article",
+            "title": "Failed to create article"
+          },
+          "delete": {
+            "message": "An error occurred while deleting the article",
+            "title": "Failed to delete article"
+          },
+          "notFound": "The article could not be found or has been deleted",
+          "unauthorized": "You don't have permission to perform this action",
+          "update": {
+            "message": "An error occurred while updating the article",
+            "title": "Failed to update article"
+          },
+          "validation": "Invalid input data. Please check and try again."
+        },
+        "success": {
+          "create": {
+            "message": "Your article has been created successfully",
+            "title": "Article created successfully"
+          },
+          "delete": {
+            "message": "Your article has been deleted successfully",
+            "title": "Article deleted successfully"
+          },
+          "update": {
+            "message": "Your article has been updated successfully",
+            "title": "Article updated successfully"
+          }
         }
-      },
-      "updatedAt": {
-        "label": "Modified on {date} at {time}"
       }
+    },
+    "list": {
+      "empty": {
+        "subtitle": "Start by creating your first article.",
+        "title": "No articles"
+      },
+      "subtitle": "Discover and manage your article collection",
+      "title": "My articles",
+      "type": "Article"
     }
   },
   "auth": {
     "forgotPassword": {
-      "backToLogin": "Back to login",
-      "cancel": "Cancel",
-      "description": "Reset your password",
-      "email": {
-        "label": "Email address",
-        "placeholder": "Enter your email address",
-        "validation": {
-          "invalid": "Email address is not valid",
-          "maxLength": "Email address cannot exceed 254 characters",
-          "required": "Email address is required"
+      "fields": {
+        "email": {
+          "label": "Email address",
+          "placeholder": "Enter your email address",
+          "validation": {
+            "invalid": "Email address is not valid",
+            "maxLength": "Email address cannot exceed 254 characters",
+            "required": "Email address is required"
+          }
         }
       },
-      "error": {
-        "generic": "Unable to send password reset email",
-        "title": "Error",
-        "tooManyRequests": "Too many requests. Try again in {minutes}min {seconds}s."
+      "links": {
+        "backToLogin": "Back to login",
+        "remembered": "Remember your password?"
       },
-      "remembered": "Remember your password?",
+      "messages": {
+        "error": {
+          "generic": "Unable to send password reset email",
+          "title": "Error",
+          "tooManyRequests": "Too many requests. Try again in {minutes}min {seconds}s."
+        },
+        "success": {
+          "message": "If the email address exists in our system, you will receive a reset link shortly.",
+          "title": "Email sent"
+        }
+      },
       "submit": "Send reset link",
       "subtitle": "Enter your email address to receive a reset link",
-      "success": {
-        "message": "If the email address exists in our system, you will receive a reset link shortly.",
-        "title": "Email sent"
-      },
       "title": "Forgot password"
     },
     "login": {
-      "autoSaveInfo": "Your information will be processed securely",
-      "backToHome": "Back to home",
-      "cancel": "Cancel",
-      "didntReceiveEmail": "Didn't receive the email?",
-      "email": {
-        "label": "Email address",
-        "placeholder": "Enter your email address",
-        "validation": {
-          "invalid": "Email address is not valid",
-          "maxLength": "Email address cannot exceed 254 characters",
-          "required": "Email address is required"
+      "fields": {
+        "email": {
+          "label": "Email address",
+          "placeholder": "Enter your email address",
+          "validation": {
+            "invalid": "Email address is not valid",
+            "maxLength": "Email address cannot exceed 254 characters"
+          }
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password",
+          "validation": {
+            "maxLength": "Password cannot exceed 128 characters",
+            "minLength": "Password must be at least 8 characters long",
+            "required": "Password is required"
+          }
         }
       },
-      "error": {
-        "emailNotVerified": "Your email is not verified. Check your inbox or request a new link.",
-        "invalidCredentials": "Invalid email or password",
-        "title": "Login error"
+      "links": {
+        "didntReceiveEmail": "Didn't receive the email?",
+        "forgotPassword": "Forgot password?",
+        "noAccount": "Don't have an account?",
+        "register": "Sign up",
+        "resendVerification": "Resend verification"
       },
-      "forgotPassword": "Forgot password?",
-      "noAccount": "Don't have an account?",
-      "password": {
-        "label": "Password",
-        "placeholder": "Enter your password",
-        "validation": {
-          "maxLength": "Password cannot exceed 128 characters",
-          "minLength": "Password must be at least 8 characters long",
-          "required": "Password is required"
+      "messages": {
+        "error": {
+          "emailNotVerified": "Your email is not verified. Check your inbox or request a new link.",
+          "invalidCredentials": "Invalid email or password",
+          "title": "Login error"
+        },
+        "rateLimit": {
+          "tooManyAttempts": "Too many failed attempts. Try again in {minutes}min {seconds}s.",
+          "warning": "Last attempt before blocking | {count} attempt remaining | {count} attempts remaining"
+        },
+        "success": {
+          "message": "You are now signed in",
+          "title": "Login successful"
         }
       },
-      "rateLimit": {
-        "tooManyAttempts": "Too many failed attempts. Try again in {minutes}min {seconds}s.",
-        "warning": "Last attempt before blocking | {count} attempt remaining | {count} attempts remaining"
-      },
-      "register": "Sign up",
-      "resendVerification": "Resend verification",
       "submit": "Sign in",
-      "subtitle": "Sign in to your account",
-      "success": {
-        "message": "You are now signed in",
-        "title": "Login successful"
-      },
       "title": "Login"
     },
     "logout": {
-      "success": {
-        "message": "You have been logged out",
-        "title": "Logout successful"
+      "messages": {
+        "success": {
+          "message": "You have been logged out",
+          "title": "Logout successful"
+        }
       },
       "title": "Logout"
     },
     "register": {
-      "autoSaveInfo": "Your information will be processed securely",
-      "backToHome": "Back to home",
-      "cancel": "Cancel",
-      "confirmPassword": {
-        "label": "Confirm password",
-        "placeholder": "Confirm your password",
-        "validation": {
-          "match": "Passwords do not match",
-          "required": "Password confirmation is required"
+      "fields": {
+        "confirmPassword": {
+          "label": "Confirm password",
+          "placeholder": "Confirm your password",
+          "validation": {
+            "match": "Passwords do not match",
+            "required": "Password confirmation is required"
+          }
+        },
+        "email": {
+          "label": "Email address",
+          "placeholder": "Enter your email address",
+          "validation": {
+            "invalid": "Email address is not valid",
+            "maxLength": "Email address cannot exceed 254 characters",
+            "required": "Email address is required"
+          }
+        },
+        "name": {
+          "label": "Full name",
+          "placeholder": "Enter your full name",
+          "validation": {
+            "maxLength": "Name cannot exceed 50 characters",
+            "minLength": "Name must be at least 2 characters long",
+            "required": "Name is required"
+          }
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password",
+          "validation": {
+            "maxLength": "Password cannot exceed 128 characters",
+            "minLength": "Password must be at least 8 characters long",
+            "pattern": "Password must include: 1 uppercase letter, 1 lowercase letter, and 1 number",
+            "required": "Password is required"
+          }
         }
       },
-      "email": {
-        "label": "Email address",
-        "placeholder": "Enter your email address",
-        "validation": {
-          "invalid": "Email address is not valid",
-          "maxLength": "Email address cannot exceed 254 characters",
-          "required": "Email address is required"
-        }
+      "links": {
+        "hasAccount": "Already have an account?",
+        "login": "Sign in"
       },
-      "error": {
-        "emailExists": "This email address is already in use",
-        "generic": "An error occurred during registration",
-        "invalidEmail": "The email address is invalid. Please check and try again.",
-        "title": "Registration error",
-        "validation": "Invalid input data. Please check and try again."
-      },
-      "hasAccount": "Already have an account?",
-      "login": "Sign in",
-      "name": {
-        "label": "Full name",
-        "placeholder": "Enter your full name",
-        "validation": {
-          "maxLength": "Name cannot exceed 50 characters",
-          "minLength": "Name must be at least 2 characters long",
-          "required": "Name is required"
-        }
-      },
-      "password": {
-        "label": "Password",
-        "placeholder": "Enter your password",
-        "validation": {
-          "maxLength": "Password cannot exceed 128 characters",
-          "minLength": "Password must be at least 8 characters long",
-          "pattern": "Password must include: 1 uppercase letter, 1 lowercase letter, and 1 number",
-          "required": "Password is required"
+      "messages": {
+        "error": {
+          "emailExists": "This email address is already in use",
+          "generic": "An error occurred during registration",
+          "invalidEmail": "The email address is invalid. Please check and try again.",
+          "title": "Registration error",
+          "validation": "Invalid input data. Please check and try again."
+        },
+        "success": {
+          "emailSent": "A verification email has been sent to {email}. Check your inbox.",
+          "title": "Registration successful"
         }
       },
       "submit": "Sign up",
-      "subtitle": "Create your account",
-      "success": {
-        "emailSent": "A verification email has been sent to {email}. Check your inbox.",
-        "message": "A verification email has been sent to you. Check your inbox.",
-        "title": "Registration successful"
-      },
       "terms": {
         "and": "and",
         "prefix": "By signing up, you agree to our",
@@ -250,107 +247,130 @@
       "title": "Sign up"
     },
     "resendVerification": {
-      "alreadyVerified": "Already verified?",
-      "backToLogin": "Back to login",
-      "cancel": "Cancel",
-      "email": {
-        "label": "Email address",
-        "placeholder": "Enter your email address",
-        "validation": {
-          "invalid": "Email address is not valid",
-          "maxLength": "Email address cannot exceed 254 characters",
-          "required": "Email address is required"
+      "fields": {
+        "email": {
+          "label": "Email address",
+          "placeholder": "Enter your email address",
+          "validation": {
+            "invalid": "Email address is not valid",
+            "maxLength": "Email address cannot exceed 254 characters"
+          }
         }
       },
-      "error": {
-        "alreadyVerified": "This email address is already verified.",
-        "generic": "Unable to send verification email",
-        "title": "Error",
-        "tooManyRequests": "Too many requests. Try again in {minutes}min {seconds}s.",
-        "userNotFound": "No account found with this email address."
+      "links": {
+        "alreadyVerified": "Already verified?",
+        "backToLogin": "Back to login"
       },
-      "submit": "Resend email",
+      "messages": {
+        "error": {
+          "alreadyVerified": "This email address is already verified.",
+          "generic": "Unable to send verification email",
+          "title": "Error",
+          "tooManyRequests": "Too many requests. Try again in {minutes}min {seconds}s.",
+          "userNotFound": "No account found with this email address."
+        },
+        "success": {
+          "message": "A new verification email has been sent if an account exists with this address.",
+          "title": "Email sent"
+        }
+      },
+      "submit": "Resend",
       "subtitle": "Enter your email address to receive a new verification link",
-      "success": {
-        "message": "A new verification email has been sent if an account exists with this address.",
-        "title": "Email sent"
-      },
       "title": "Resend verification"
     },
     "resetPassword": {
-      "backToLogin": "Back to login",
-      "cancel": "Cancel",
-      "confirmPassword": {
-        "label": "Confirm password",
-        "placeholder": "Confirm your new password",
-        "validation": {
-          "match": "Passwords do not match",
-          "required": "Password confirmation is required"
+      "fields": {
+        "confirmPassword": {
+          "label": "Confirm password",
+          "placeholder": "Confirm your new password",
+          "validation": {
+            "match": "Passwords do not match",
+            "required": "Password confirmation is required"
+          }
+        },
+        "password": {
+          "label": "New password",
+          "placeholder": "Enter your new password",
+          "validation": {
+            "maxLength": "Password cannot exceed 128 characters",
+            "minLength": "Password must be at least 8 characters long",
+            "pattern": "Password must include: 1 uppercase letter, 1 lowercase letter, and 1 number",
+            "required": "Password is required"
+          }
+        },
+        "token": {
+          "validation": {
+            "length": "Token must be exactly 64 characters",
+            "required": "Token is required"
+          }
         }
       },
-      "description": "Choose a new password",
-      "error": {
-        "generic": "Unable to reset password",
-        "invalidToken": "This reset link is invalid or has expired.",
-        "title": "Error"
+      "links": {
+        "backToLogin": "Back to login",
+        "remembered": "Remember your password?"
       },
-      "password": {
-        "label": "New password",
-        "placeholder": "Enter your new password",
-        "validation": {
-          "maxLength": "Password cannot exceed 128 characters",
-          "minLength": "Password must be at least 8 characters long",
-          "pattern": "Password must include: 1 uppercase letter, 1 lowercase letter, and 1 number",
-          "required": "Password is required"
+      "messages": {
+        "error": {
+          "generic": "Unable to reset password",
+          "invalidToken": "This reset link is invalid or has expired.",
+          "title": "Error",
+          "validation": "Invalid input data. Please check and try again."
+        },
+        "success": {
+          "message": "Your password has been reset successfully. You can now sign in.",
+          "title": "Password reset"
         }
       },
-      "remembered": "Remember your password?",
       "submit": "Reset password",
       "subtitle": "Enter your new password",
-      "success": {
-        "loginButton": "Sign in",
-        "message": "Your password has been reset successfully. You can now sign in.",
-        "title": "Password reset"
-      },
-      "title": "Reset password",
-      "token": {
-        "validation": {
-          "required": "Token is required"
-        }
-      }
+      "title": "Reset password"
     },
     "verifyEmail": {
       "cancel": "Back to home",
-      "error": {
-        "generic": "An unexpected error occurred. Please try again.",
-        "invalidToken": "The verification link is invalid or corrupted.",
-        "resendLink": "Request new link",
-        "retry": "Try again",
-        "title": "Verification failed",
-        "tokenExpired": "This verification link has expired. Please request a new one.",
-        "tokenNotFound": "This verification link doesn't exist or has already been used.",
-        "validationError": "The verification data is invalid. Please request a new link."
+      "fields": {
+        "token": {
+          "validation": {
+            "length": "Invalid verification token"
+          }
+        }
       },
       "loading": {
         "subtitle": "Please wait while we verify your email address...",
         "title": "Verifying your email"
+      },
+      "messages": {
+        "error": {
+          "generic": "An unexpected error occurred. Please try again.",
+          "invalidToken": "The verification link is invalid or corrupted.",
+          "resendLink": "Request new link",
+          "retry": "Try again",
+          "title": "Verification failed",
+          "tokenExpired": "This verification link has expired. Please request a new one.",
+          "validationError": "The verification data is invalid. Please request a new link."
+        },
+        "success": {
+          "message": "Your email address has been verified and you are now signed in.",
+          "redirecting": "Automatically redirecting in {seconds} seconds...",
+          "subtitle": "Congratulations! Your email address has been confirmed and your account is now active.",
+          "title": "Email verified successfully!"
+        }
       },
       "noToken": {
         "backButton": "Back to login",
         "resendButton": "Request new link",
         "subtitle": "You need to access this page via the link received in your verification email.",
         "title": "Verification link missing"
-      },
-      "success": {
-        "message": "Your email address has been verified and you are now signed in.",
-        "redirecting": "Automatically redirecting in {seconds} seconds...",
-        "subtitle": "Congratulations! Your email address has been confirmed and your account is now active.",
-        "title": "Email verified successfully!"
-      },
-      "title": "Email verification"
+      }
     }
   },
-  "error": {
+  "email": {
+    "common": {
+      "legalText": "This email was sent to you because you created an account on our platform.",
+      "securityTitle": "Security Notice",
+      "unsubscribeText": "You can unsubscribe from these emails at any time."
+    }
+  },
+  "errors": {
     "404": {
       "message": "The page you are looking for does not exist.",
       "title": "Page not found"
@@ -364,19 +384,49 @@
       "title": "An error occurred"
     }
   },
-  "hero": {
-    "modernInterface": "Modern and intuitive interface",
-    "subtitle": "A simple and efficient starting point",
-    "title": "Nuxt Boilerplate"
-  },
-  "posts": {
-    "empty": {
-      "subtitle": "Start by creating your first article.",
-      "title": "No articles"
+  "global": {
+    "actions": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "continueNow": "Continue now",
+      "delete": "Delete",
+      "edit": "Edit",
+      "home": "Home",
+      "reset": "Reset",
+      "save": "Save changes",
+      "submit": "Submit",
+      "viewPosts": "View articles"
     },
-    "subtitle": "Discover and manage your article collection",
-    "title": "My articles",
-    "type": "Article"
+    "app": {
+      "description": "A simple and efficient starting point",
+      "footer": "Created by William Fontaine",
+      "name": "Nuxt Boilerplate"
+    },
+    "status": {
+      "error": "Error",
+      "loading": "Loading...",
+      "success": "Successful",
+      "warning": "Warning"
+    }
+  },
+  "pages": {
+    "dashboard": {
+      "empty": {
+        "subtitle": "Start by creating your first article.",
+        "title": "No articles"
+      },
+      "stats": {
+        "title": "Statistics",
+        "totalPosts": "Total articles"
+      },
+      "subtitle": "Discover and manage your article collection",
+      "title": "My articles"
+    },
+    "hero": {
+      "feature": "Modern and intuitive interface",
+      "subtitle": "A simple and efficient starting point",
+      "title": "Nuxt Boilerplate"
+    }
   },
   "preferences": {
     "current": "Current configuration",
@@ -390,9 +440,5 @@
       "label": "Display mode",
       "list": "List"
     }
-  },
-  "stats": {
-    "title": "Statistics",
-    "totalPosts": "Total articles"
   }
 }

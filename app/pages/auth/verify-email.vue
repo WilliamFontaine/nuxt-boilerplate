@@ -1,10 +1,10 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
+    class="min-h-screen bg-linear-to-br from-primary-50 via-secondary-50/50 to-primary-100/50 dark:from-primary-950 dark:via-secondary-950/50 dark:to-primary-900/50 flex items-center justify-center p-6"
   >
     <div class="w-full max-w-md">
       <!-- Verification Status Card -->
-      <UPageCard class="shadow-xl border-0 bg-white dark:bg-gray-900">
+      <UPageCard class="shadow-xl border-0 bg-white dark:bg-neutral-900">
         <!-- Back button (only show if not loading or successful) -->
         <UButton
           v-if="verificationState !== 'loading' && verificationState !== 'success'"
@@ -24,10 +24,10 @@
               class="h-16 w-16 text-primary-500 animate-spin mx-auto"
             />
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+          <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-3">
             {{ t('auth.verifyEmail.loading.title') }}
           </h2>
-          <p class="text-gray-600 dark:text-gray-400">
+          <p class="text-neutral-600 dark:text-neutral-400">
             {{ t('auth.verifyEmail.loading.subtitle') }}
           </p>
         </div>
@@ -37,26 +37,28 @@
           <div class="mb-6">
             <UIcon
               name="i-lucide-check-circle"
-              class="h-16 w-16 text-green-500 mx-auto animate-bounce"
+              class="h-16 w-16 text-success-500 mx-auto animate-bounce"
             />
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-            {{ t('auth.verifyEmail.success.title') }}
+          <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-3">
+            {{ t('auth.verifyEmail.messages.success.title') }}
           </h2>
-          <p class="text-gray-600 dark:text-gray-400 mb-6">
-            {{ t('auth.verifyEmail.success.subtitle') }}
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6">
+            {{ t('auth.verifyEmail.messages.success.subtitle') }}
           </p>
 
           <!-- Countdown and redirect -->
           <div class="text-center">
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
-              {{ t('auth.verifyEmail.success.redirecting', { seconds: redirectCountdown }) }}
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+              {{
+                t('auth.verifyEmail.messages.success.redirecting', { seconds: redirectCountdown })
+              }}
             </p>
             <UProgress :value="((5 - redirectCountdown) / 5) * 100" class="mb-4" />
 
             <UButton
               color="primary"
-              :label="t('actions.continueNow')"
+              :label="t('global.actions.continueNow')"
               icon="i-lucide-arrow-right"
               size="lg"
               class="w-full justify-center"
@@ -68,19 +70,22 @@
         <!-- Error State -->
         <div v-else-if="verificationState === 'error'" class="text-center py-8">
           <div class="mb-6">
-            <UIcon name="i-lucide-x-circle" class="h-16 w-16 text-red-500 mx-auto animate-pulse" />
+            <UIcon
+              name="i-lucide-x-circle"
+              class="h-16 w-16 text-error-500 mx-auto animate-pulse"
+            />
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-            {{ t('auth.verifyEmail.error.title') }}
+          <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-3">
+            {{ t('auth.verifyEmail.messages.error.title') }}
           </h2>
-          <p class="text-gray-600 dark:text-gray-400 mb-6">
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6">
             {{ errorMessage }}
           </p>
 
           <div class="space-y-3">
             <UButton
               color="primary"
-              :label="t('auth.verifyEmail.error.retry')"
+              :label="t('auth.verifyEmail.messages.error.retry')"
               icon="i-lucide-refresh-cw"
               size="lg"
               class="w-full justify-center"
@@ -90,7 +95,7 @@
             <UButton
               color="neutral"
               variant="outline"
-              :label="t('auth.verifyEmail.error.resendLink')"
+              :label="t('auth.verifyEmail.messages.error.resendLink')"
               icon="i-lucide-mail"
               size="lg"
               class="w-full justify-center"
@@ -102,12 +107,12 @@
         <!-- No Token State -->
         <div v-else class="text-center py-8">
           <div class="mb-6">
-            <UIcon name="i-lucide-mail-x" class="h-16 w-16 text-gray-400 mx-auto" />
+            <UIcon name="i-lucide-mail-x" class="h-16 w-16 text-neutral-400 mx-auto" />
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+          <h2 class="text-2xl font-bold text-neutral-900 dark:text-white mb-3">
             {{ t('auth.verifyEmail.noToken.title') }}
           </h2>
-          <p class="text-gray-600 dark:text-gray-400 mb-6">
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6">
             {{ t('auth.verifyEmail.noToken.subtitle') }}
           </p>
 
@@ -200,8 +205,8 @@ const performVerification = async (token: string) => {
 
       // Show success notification
       success({
-        title: t('auth.verifyEmail.success.title'),
-        message: t('auth.verifyEmail.success.message')
+        title: t('auth.verifyEmail.messages.success.title'),
+        message: t('auth.verifyEmail.messages.success.message')
       })
 
       // Auto-redirect after 3 seconds
@@ -214,19 +219,19 @@ const performVerification = async (token: string) => {
 
     switch (errorCode) {
       case ERROR_CODES.AUTH.INVALID_TOKEN:
-        errorMessage.value = t('auth.verifyEmail.error.invalidToken')
+        errorMessage.value = t('auth.verifyEmail.messages.error.invalidToken')
         break
 
       case ERROR_CODES.AUTH.TOKEN_EXPIRED:
-        errorMessage.value = t('auth.verifyEmail.error.tokenExpired')
+        errorMessage.value = t('auth.verifyEmail.messages.error.tokenExpired')
         break
 
       case ERROR_CODES.VALIDATION.ERROR:
-        errorMessage.value = t('auth.verifyEmail.error.validationError')
+        errorMessage.value = t('auth.verifyEmail.messages.error.validationError')
         break
 
       default:
-        errorMessage.value = t('auth.verifyEmail.error.generic')
+        errorMessage.value = t('auth.verifyEmail.messages.error.generic')
     }
   }
 }

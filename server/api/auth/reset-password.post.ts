@@ -29,7 +29,8 @@
  *         description: Invalid token or validation error
  */
 export default defineEventHandler(async (event) => {
-  const { token, password } = await validateBody(event, resetPasswordSchema)
+  const t = await useTranslation(event)
+  const { token, password } = await validateBody(event, createResetPasswordSchema(t))
 
   // Use auth service for business logic
   const result = await resetUserPassword(token, password)

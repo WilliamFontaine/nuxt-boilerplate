@@ -19,7 +19,7 @@
     </UInput>
 
     <template #error="{ error }">
-      <span class="text-red-400 text-sm">{{ error }}</span>
+      <span class="text-error-400 text-sm">{{ error }}</span>
     </template>
   </UFormField>
 </template>

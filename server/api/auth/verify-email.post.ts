@@ -22,7 +22,8 @@
  *         description: Invalid or expired token
  */
 export default defineEventHandler(async (event) => {
-  const { token } = await validateBody(event, verifyEmailSchema)
+  const t = await useTranslation(event)
+  const { token } = await validateBody(event, createVerifyEmailSchema(t))
 
   // Use auth service for business logic
   const verifiedUser = await verifyUserEmail(token)

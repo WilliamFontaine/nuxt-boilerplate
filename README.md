@@ -23,7 +23,7 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, authentication
 ### Prerequisites
 
 - Node.js ≥ 22.0.0
-- npm ≥ 10.0.0
+- pnpm ≥ 9.0.0
 - Docker (for PostgreSQL)
 
 ### Setup
@@ -33,20 +33,22 @@ A modern **Nuxt 4** production-ready boilerplate with TypeScript, authentication
    ```bash
    git clone <repository-url> my-project
    cd my-project
-   npm install
+   pnpm install
    cp .env.example .env
    ```
 
 2. **Start database**
 
    ```bash
-   docker compose up -d          # Start PostgreSQL
-   npx prisma migrate dev        # Run database migrations
+   docker compose up -d          # Start PostgreSQL + Adminer
+   pnpm prisma migrate dev       # Run database migrations
    ```
+
+   Access Adminer (database UI) at **http://localhost:8080** with your database credentials.
 
 3. **Run development server**
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
 Visit **http://localhost:3000** to see your app with authentication system and example Posts.
@@ -54,12 +56,12 @@ Visit **http://localhost:3000** to see your app with authentication system and e
 ## 🛠️ Key Commands
 
 ```bash
-npm run dev            # start dev server
-npm run build          # build for production
-npm run lint           # run ESLint + Prettier
-npm test               # run unit + E2E tests
-docker compose up -d   # start PostgreSQL
-npx prisma migrate dev # run DB migrations
+pnpm run dev           # start dev server
+pnpm run build         # build for production
+pnpm run lint          # run ESLint + Prettier
+pnpm test              # run unit + E2E tests
+docker compose up -d   # start PostgreSQL + Adminer (localhost:8080)
+pnpm prisma migrate dev # run DB migrations
 ```
 
 ## 📁 Project Structure
@@ -79,7 +81,7 @@ npx prisma migrate dev # run DB migrations
 │   ├── services/             # Business logic services
 │   └── middleware/           # Server middleware
 ├── prisma/                   # Database schema and migrations
-└── tests/                    # Unit and E2E tests
+└── test/                     # Unit and E2E tests
 ```
 
 ## 🔧 Tech Stack
@@ -113,7 +115,6 @@ Detailed implementation guides in `/docs/`:
 
 ### 🚀 Operations
 
-- **[Deployment Guide](./docs/deployment-guide.md)** - Production deployment strategies
 - **[API Documentation](./docs/api.md)** - Auto-generated API documentation
 
 ## 🎛️ Environment Configuration
@@ -128,11 +129,11 @@ NUXT_DATABASE_URL="postgresql://postgres:P@ssw0rd@localhost:5432/database"
 NUXT_SESSION_PASSWORD="your-32-character-secret-key-here"
 
 # Email System (required for email verification/password reset)
-NUXT_NODEMAILER_HOST="smtp.gmail.com"
-NUXT_NODEMAILER_PORT="587"
-NUXT_NODEMAILER_AUTH_USER="your-email@gmail.com"
-NUXT_NODEMAILER_AUTH_PASS="your-app-password"
-NUXT_NODEMAILER_FROM="your-app-name@gmail.com"
+NUXT_EMAIL_HOST="smtp.gmail.com"
+NUXT_EMAIL_PORT="587"
+NUXT_EMAIL_USER="your-email@gmail.com"
+NUXT_EMAIL_PASS="your-app-password"
+NUXT_EMAIL_FROM="noreply@yourdomain.com"
 
 # Production Configuration
 NUXT_PUBLIC_SITE_URL="https://yourdomain.com"
@@ -151,8 +152,8 @@ NUXT_PUBLIC_SITE_URL="https://yourdomain.com"
 ## 🤝 Contributing
 
 1. Follow conventional commit format
-2. Run tests before submitting: `npm test`
-3. Ensure code quality: `npm run lint`
+2. Run tests before submitting: `pnpm test`
+3. Ensure code quality: `pnpm run lint`
 
 ---
 

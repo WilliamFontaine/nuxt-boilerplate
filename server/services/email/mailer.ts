@@ -21,14 +21,14 @@ export async function sendEmailTemplate(
     const config = useRuntimeConfig()
     const html = await renderEmailTemplate(templateType, locale, data, event)
 
-    // Get mail transporter with runtime config
-    const mail = useNodeMailer()
+    // Get singleton transporter
+    const transporter = getEmailTransporter()
 
     // Validate email content for spam triggers
     validateEmailContent(subject, html)
 
     // Enhanced email options to avoid spam
-    const fromEmail = config.nodemailer.from
+    const fromEmail = config.email.from
     const fromDomain = fromEmail.split('@')[1]
     const plainText = htmlToPlainText(html)
 
@@ -52,7 +52,7 @@ export async function sendEmailTemplate(
       encoding: 'utf8'
     }
 
-    await mail.sendMail(mailOptions)
+    await transporter.sendMail(mailOptions)
   } catch (error: any) {
     // eslint-disable-next-line no-console
     console.error('Email send failed:', error.message)

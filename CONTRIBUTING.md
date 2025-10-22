@@ -12,10 +12,10 @@
 ```bash
 git clone <your-fork>
 cd nuxt-boilerplate
-npm install
-docker compose up -d          # Start PostgreSQL
-npx prisma migrate dev        # Run migrations
-npm run dev                   # Start development server
+pnpm install
+docker compose up -d          # Start PostgreSQL + Adminer (localhost:8080)
+pnpm prisma migrate dev       # Run migrations
+pnpm run dev                  # Start development server
 ```
 
 ## Code Standards
@@ -29,9 +29,9 @@ npm run dev                   # Start development server
 ### Testing
 
 ```bash
-npm run lint    # ESLint + Prettier
-npm test        # Unit + E2E tests
-npm run build   # Type checking
+pnpm run lint   # ESLint + Prettier
+pnpm test       # Unit + E2E tests
+pnpm run build  # Type checking
 ```
 
 ### Project Structure

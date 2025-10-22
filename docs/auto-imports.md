@@ -109,9 +109,35 @@ This document describes the optimized auto-imports configuration for better perf
 
 #### Server Utilities
 
+**Response Helpers:**
+
+- `createApiResponse()` - Create standard API responses
+- `createApiError()` - Create typed API errors
+- `createCreatedResponse()` - Create 201 Created responses
+- `createNoContentResponse()` - Create 204 No Content responses
+- `createDeletedResponse()` - Create deletion confirmation responses
+- `badRequestError()` - 400 Bad Request errors
+- `unauthorizedError()` - 401 Unauthorized errors
+- `forbiddenError()` - 403 Forbidden errors
+- `notFoundError()` - 404 Not Found errors
+- `conflictError()` - 409 Conflict errors
+- `validationError()` - Validation error formatting
 - `rateLimitError()` - Rate limit error formatting
-- `serverError()` - Standardized server error responses
-- `validateRequestBody()` - Request validation utilities
+- `serverError()` - 500 Internal Server errors
+
+**Validation Helpers:**
+
+- `validateBody()` - Validate request body with Zod schema
+- `validateParams()` - Validate route parameters with Zod schema
+- `validateQuery()` - Validate query parameters with Zod schema
+
+**Email Helpers:**
+
+- `getEmailTransporter()` - Get configured Nodemailer transporter
+
+**Logging:**
+
+- `logger` - Application logger instance
 
 #### Server Types
 
@@ -163,7 +189,7 @@ To verify the configuration is working:
 
 ```bash
 # Rebuild to regenerate auto-imports
-npm run build
+pnpm run build
 
 # Check generated auto-imports
 cat .nuxt/imports.d.ts | grep -E "(useLoginForm|ERROR_CODES|createUser)"

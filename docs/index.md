@@ -2,7 +2,7 @@
 
 Detailed implementation patterns and advanced usage for experienced developers.
 
-> For project setup and basic commands, see [README.md](../README.md) and [CLAUDE.md](../CLAUDE.md)
+> For project setup and basic commands, see [README.md](../README.md)
 
 ## 📚 Advanced Topics
 
@@ -22,10 +22,6 @@ Detailed implementation patterns and advanced usage for experienced developers.
 - **[🌍 Internationalization](./internationalization.md)** - Multi-language support with automatic locale detection
 - **[🔍 SEO Patterns](./seo-patterns.md)** - SEO optimization with i18n integration and social media support
 - **[🔄 Auto-imports](./auto-imports.md)** - Optimized auto-imports configuration and tree-shaking
-
-### Operations & Deployment
-
-- **[🚀 Deployment Guide](./deployment-guide.md)** - Production deployment, CI/CD, and monitoring
 
 ### API Reference
 

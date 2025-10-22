@@ -76,10 +76,7 @@ The application supports flexible security configuration for both HTTP (staging)
 
 **Configuration**: See `nuxt.config.ts` security section where headers are conditionally applied.
 
-**Server Configuration**:
-
-- **HTTP**: `.server-config/haproxy.cfg` for development/staging
-- **HTTPS**: `.server-config/haproxy-https.cfg` for production with SSL
+**Production Deployment**: Use a reverse proxy (nginx, haproxy, Caddy) to handle HTTPS termination and SSL certificates in production environments.
 
 ### Additional Security Headers
 

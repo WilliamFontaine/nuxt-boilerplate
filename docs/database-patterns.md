@@ -44,7 +44,7 @@ shared/
 
 ### Development Environment
 
-**Setup**: Use `docker compose up -d` to start PostgreSQL. Database accessible at localhost:5432, Prisma Studio at localhost:5555.
+**Setup**: Use `docker compose up -d` to start PostgreSQL. Database accessible at localhost:5432, Adminer UI at localhost:8080.
 
 ### Environment Variables
 
@@ -55,30 +55,33 @@ shared/
 ### Development Workflow
 
 1. Modify schema in `prisma/schema.prisma`
-2. Generate and apply migration: `npx prisma migrate dev --name describe_your_changes`
-3. Generate Prisma client: `npm run db:generate`
+2. Generate and apply migration: `pnpm prisma migrate dev --name describe_your_changes`
+3. Generate Prisma client: `pnpm run db:generate`
 4. Update TypeScript models in `shared/models/` if needed
 
 ### Production Deployment
 
-1. Apply pending migrations: `npx prisma migrate deploy`
-2. Generate client: `npx prisma generate`
+1. Apply pending migrations: `pnpm prisma migrate deploy`
+2. Generate client: `pnpm prisma generate`
 
 ## 🛠️ Available Commands
 
 ### Database Operations
 
-- `npm run db:generate` - Generate Prisma client
-- `npm run db:push` - Push schema to database (prototyping)
-- `npm run db:studio` - Open Prisma Studio UI
-- `npx prisma migrate dev` - Create and apply migration
-- `npx prisma migrate reset` - Reset database (⚠️ data loss)
+- `pnpm run db:generate` - Generate Prisma client
+- `pnpm run db:push` - Push schema to database (prototyping)
+- `pnpm prisma migrate dev` - Create and apply migration
+- `pnpm prisma migrate reset` - Reset database (⚠️ data loss)
+
+### Database UI
+
+Access Adminer (database management UI) at `http://localhost:8080` when running `docker compose up -d`. Login with credentials from your `.env` file.
 
 ### Schema Management
 
-- `npx prisma db pull` - Pull schema from existing database
-- `npx prisma format` - Format schema file
-- `npx prisma validate` - Validate schema syntax
+- `pnpm prisma db pull` - Pull schema from existing database
+- `pnpm prisma format` - Format schema file
+- `pnpm prisma validate` - Validate schema syntax
 
 ## 🚀 API Integration
 

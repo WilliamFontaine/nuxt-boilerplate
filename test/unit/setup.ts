@@ -7,8 +7,11 @@ import { mockNuxtImport } from '@nuxt/test-utils/runtime'
 const originalWarn = console.warn
 // eslint-disable-next-line no-console
 console.warn = (message: string, ...args: any[]) => {
-  // Suppress Nuxt UI injection context warnings
-  if (message.includes('injection "Symbol(nuxt-ui.') || message.includes('Symbol(nuxt-ui.')) {
+  if (
+    message.includes('injection "Symbol(nuxt-ui.') ||
+    message.includes('Symbol(nuxt-ui.') ||
+    message.includes('Missing required prop:')
+  ) {
     return
   }
   originalWarn(message, ...args)
