@@ -10,7 +10,7 @@
  *         application/json:
  *           schema:
  *             type: object
- *             required: [email, password, confirmPassword, name]
+ *             required: [email, password, confirmPassword, name, termsAccepted, termsOfSaleAccepted, privacyAccepted]
  *             properties:
  *               email:
  *                 type: string
@@ -22,6 +22,12 @@
  *                 type: string
  *               name:
  *                 type: string
+ *               termsAccepted:
+ *                 type: boolean
+ *               termsOfSaleAccepted:
+ *                 type: boolean
+ *               privacyAccepted:
+ *                 type: boolean
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -31,24 +37,11 @@
  *         description: User already exists
  */
 export default defineEventHandler(async (event) => {
-  const userData = await validateBody(event, registerSchema)
+  const t = await useTranslation(event)
+  const userData = await validateBody(event, createRegisterSchema(t))
 
-  // Transform to CreateUserData (remove confirmPassword)
-  const { confirmPassword, ...createUserData } = userData
+  // Use auth service for business logic
+  const result = await registerUser(userData, event)
 
-  // Create user using service (user will have emailVerified: false by default)
-  const user = await createUser(createUserData)
-
-  // Create email verification token
-  const { token } = await createToken(user.id, TokenType.EMAIL_VERIFICATION)
-
-  // Send verification email
-  const locale = getCookie(event, 'i18n_redirected') || 'fr'
-  await sendVerificationEmail(event, user.email, user.name, token, locale)
-
-  // Return success without auto-login
-  return createCreatedResponse({
-    message: 'Account created successfully. Please check your email to verify your account.',
-    email: user.email
-  })
+  return createCreatedResponse(result)
 })

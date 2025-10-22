@@ -12,17 +12,7 @@ export const useForgotPasswordForm = () => {
     Object.assign(state, { ...initialForgotPasswordState })
   }
 
-  const schema = computed(() =>
-    z.object({
-      email: z
-        .string()
-        .min(1, t('auth.forgotPassword.email.validation.required'))
-        .refine((val) => VALIDATION_PATTERNS.EMAIL.test(val), {
-          message: t('auth.forgotPassword.email.validation.invalid')
-        })
-        .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.forgotPassword.email.validation.maxLength'))
-    })
-  )
+  const schema = computed(() => createForgotPasswordSchema(t))
 
   const isValid = computed(() => {
     const result = schema.value.safeParse(state)

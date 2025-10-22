@@ -8,31 +8,15 @@ const seedUsers = [
   {
     email: 'admin@example.com',
     password:
-      '$scrypt$n=16384,r=8,p=1$Nn8nVuIj5KB9Dlj/1DjECg$Nw69xt0a86YX3PWYf8bB3GCKijyvwyoiSRXKnCapI6qp7IxxE5xZEhfGbkZMzFKf9U4GPF6xFY/yfwaV1Emmtg', // admin123
+      '$scrypt$n=16384,r=8,p=1$InqZJYQ714zfbFY4fs81nA$EiUh6dwE+WfBNWkdoMgFYV4b4xVworZ/loCtEFeLlYokZT1dPl2gGdcnV5/9RmJhLGzaKoxUZoT4CiqwmiBigg', // Admin123!
     name: 'Admin User',
-    emailVerified: true,
-    emailVerifiedAt: new Date()
-  },
-  {
-    email: 'author@example.com',
-    password:
-      '$scrypt$n=16384,r=8,p=1$P45lRBd44V/Ldl1xbS3QGQ$31lj2goYjRRwpniWfAEkC0ALpPVcu+C8rJLmforCMlm97E/I7ORkI2NWHT3qLVr/jaaOG1OP0uvuXugdirsnwQ', // author123
-    name: 'Content Author',
-    emailVerified: true,
-    emailVerifiedAt: new Date()
-  },
-  {
-    email: 'editor@example.com',
-    password:
-      '$scrypt$n=16384,r=8,p=1$SdRqhJlpopJJDIBR3Vq9aw$l3NIJ/EYWphnGB9uuAGn0ve9AF4N8ChpFC4dTvAleX+zkbSy68Ge27rx/Li8QvdgMCm3+lkahSgkgofVb6CWfw', // editor123
-    name: 'Content Editor',
     emailVerified: true,
     emailVerifiedAt: new Date()
   },
   {
     email: 'demo@example.com',
     password:
-      '$scrypt$n=16384,r=8,p=1$zW1Nt12sSTXq6PeflXZHlw$2vNZNORH2MHQBTq+zswcqeWj/Sc+hsaOlQ8taKgxA3KBoKmlXcaxRS/DVYGCgksh+qjH3iKvg7veP6wsZkFjeQ', // demo123
+      '$scrypt$n=16384,r=8,p=1$J1715Bk7oV9rbFwFCPtSpA$y61smy4tql8Il9ybDfpOikdxkkcBVm6T5bJFlL1BDnDrURseVB25keJDYwdlgVVJYIhaP5flZvdT3OMKN7YQkw', // Demo123!
     name: 'Demo User',
     emailVerified: true,
     emailVerifiedAt: new Date()

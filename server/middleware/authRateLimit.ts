@@ -20,8 +20,7 @@ export default defineEventHandler(async (event: H3Event) => {
   try {
     rateLimitInfo = await checkLoginAttempt(email, ipAddress)
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Rate limit check failed:', error)
+    logger.error('Rate limit check failed in middleware', { email, ipAddress, error })
     return
   }
 

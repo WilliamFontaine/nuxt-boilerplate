@@ -10,19 +10,24 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
 
-      - run: |
-          npm install -g git-cliff
+      - name: Install and run git-cliff
+        run: |
+          pnpm add -g git-cliff
           git-cliff --current --strip all > release_notes.md
 
-      - uses: softprops/action-gh-release@v2
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
           body_path: release_notes.md
         env:

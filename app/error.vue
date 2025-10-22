@@ -3,20 +3,20 @@
     <UContainer class="text-center space-y-6 px-4">
       <UIcon
         name="i-lucide:triangle-alert"
-        class="w-16 h-16 text-red-500 dark:text-red-400 mx-auto"
+        class="w-16 h-16 text-error-500 dark:text-error-400 mx-auto"
       />
-      <h1 class="text-4xl font-bold text-red-500 dark:text-red-400">
-        {{ error?.statusCode === 404 ? t('error.404.title') : t('error.generic.title') }}
+      <h1 class="text-4xl font-bold text-error-500 dark:text-error-400">
+        {{ error?.statusCode === 404 ? t('errors.404.title') : t('errors.generic.title') }}
       </h1>
       <p class="text-neutral-600 dark:text-neutral-400 max-w-md mx-auto">
-        {{ error?.statusCode === 404 ? t('error.404.message') : t('error.generic.message') }}
+        {{ error?.statusCode === 404 ? t('errors.404.message') : t('errors.generic.message') }}
       </p>
       <div class="flex gap-4 justify-center">
         <UButton color="neutral" variant="soft" icon="i-lucide:arrow-left" @click="goBack">
-          {{ t('error.actions.back') }}
+          {{ t('errors.actions.back') }}
         </UButton>
         <UButton color="primary" icon="i-lucide:home" @click="goHome">
-          {{ t('error.actions.home') }}
+          {{ t('errors.actions.home') }}
         </UButton>
       </div>
     </UContainer>

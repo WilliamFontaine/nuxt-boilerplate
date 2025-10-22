@@ -4,6 +4,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]
+  output          = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -58,10 +59,10 @@ model Token {
   token     String    @unique
   expiresAt DateTime
   createdAt DateTime  @default(now())
-  
+
   // Relations
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([token])
   @@index([expiresAt])
   @@index([userId, type])

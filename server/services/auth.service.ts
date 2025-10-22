@@ -7,6 +7,29 @@ import prisma from '@@/lib/prisma'
  */
 
 /**
+ * Register a new user with email verification
+ */
+export async function registerUser(
+  userData: RegisterData,
+  event: H3Event
+): Promise<{ message: string; email: string }> {
+  // Create user (user will have isVerified: false by default)
+  const user = await createUser(userData)
+
+  // Create email verification token
+  const { token } = await createToken(user.id, TokenType.EMAIL_VERIFICATION)
+
+  // Send verification email via queue
+  const locale = getCookie(event, 'i18n_redirected') || 'fr'
+  await sendVerificationEmail(event, user.email, user.name, token, locale)
+
+  return {
+    message: 'Account created successfully. Please check your email to verify your account.',
+    email: user.email
+  }
+}
+
+/**
  * Handle email verification process
  */
 export async function verifyUserEmail(token: string): Promise<PublicUser> {
@@ -32,12 +55,7 @@ export async function verifyUserEmail(token: string): Promise<PublicUser> {
       }
     })
 
-    return {
-      ...verifiedUser,
-      emailVerifiedAt: verifiedUser.emailVerifiedAt?.toISOString() || null,
-      createdAt: verifiedUser.createdAt.toISOString(),
-      updatedAt: verifiedUser.updatedAt.toISOString()
-    }
+    return verifiedUser
   } catch (error: unknown) {
     // Re-throw business errors (with statusCode)
     if (error && typeof error === 'object' && 'statusCode' in error) throw error

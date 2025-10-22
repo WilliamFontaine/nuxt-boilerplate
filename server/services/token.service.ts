@@ -17,7 +17,7 @@ function generateToken(): string {
  */
 export async function createToken(
   userId: string,
-  type: TokenType
+  type: TokenTypeEnum
 ): Promise<{ token: string; expiresAt: Date }> {
   try {
     // Delete any existing tokens of the same type for this user
@@ -57,7 +57,7 @@ export async function createToken(
  */
 export async function validateToken(
   token: string,
-  type: TokenType,
+  type: TokenTypeEnum,
   deleteAfterValidation = false
 ): Promise<User> {
   try {
@@ -97,10 +97,7 @@ export async function validateToken(
     const { password, ...rest } = tokenRecord.user
     return {
       ...rest,
-      password: tokenRecord.user.password,
-      emailVerifiedAt: rest.emailVerifiedAt?.toISOString() || null,
-      createdAt: rest.createdAt.toISOString(),
-      updatedAt: rest.updatedAt.toISOString()
+      password: tokenRecord.user.password
     }
   } catch (error: any) {
     // Re-throw business errors (with statusCode)
@@ -115,7 +112,7 @@ export async function validateToken(
  * Validate a token and return the associated user
  * The token is deleted immediately after validation
  */
-export async function validateAndDeleteToken(token: string, type: TokenType): Promise<User> {
+export async function validateAndDeleteToken(token: string, type: TokenTypeEnum): Promise<User> {
   return validateToken(token, type, true)
 }
 
@@ -135,7 +132,7 @@ export async function deleteUserTokens(userId: string): Promise<void> {
 /**
  * Check if a user has a valid token of a specific type
  */
-export async function hasValidToken(userId: string, type: TokenType): Promise<boolean> {
+export async function hasValidToken(userId: string, type: TokenTypeEnum): Promise<boolean> {
   try {
     const token = await prisma.token.findFirst({
       where: {

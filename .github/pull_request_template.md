@@ -12,8 +12,8 @@ Brief description of what this PR does.
 
 ## Testing
 
-- [ ] Tests pass (`npm test`)
-- [ ] Linting passes (`npm run lint`)
+- [ ] Tests pass (`pnpm test`)
+- [ ] Linting passes (`pnpm run lint`)
 - [ ] Manual testing completed
 
 ## Checklist

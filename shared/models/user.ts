@@ -5,101 +5,116 @@
  */
 
 import { z } from 'zod'
+import { TEXT_FIELD_LIMITS, VALIDATION_PATTERNS } from '@@/shared/constants/validation'
 
 // =============================================================================
 // DATABASE ENTITY
 // =============================================================================
 
 /**
- * Public User entity (without sensitive fields)
+ * User entity - re-exported from Prisma with serialized dates
  */
-export interface PublicUser {
-  id: string
-  email: string
-  name: string
-  emailVerified: boolean
-  emailVerifiedAt: string | null
-  createdAt: string
-  updatedAt: string
-}
+import type { User } from '@prisma/client'
+export type { User } from '@prisma/client'
 
 /**
- * Complete User entity (matches database schema)
+ * Public User entity (without sensitive fields)
  */
-export interface User extends PublicUser {
-  password: string // Sensitive field, not included in PublicUser
-}
+export type PublicUser = Omit<User, 'password' | 'stripeCustomerId'>
 
 // =============================================================================
 // VALIDATION SCHEMAS
 // =============================================================================
 
 /**
- * Login validation schema
+ * Factory function to create login schema with i18n messages
  */
-export const loginSchema = z.object({
-  email: z.email('Invalid email format').max(TEXT_FIELD_LIMITS.EMAIL.MAX),
-  password: z.string().min(1, 'Password is required')
-})
-
-/**
- * Registration validation schema
- */
-export const registerSchema = z
-  .object({
-    email: z.email('Invalid email format').max(TEXT_FIELD_LIMITS.EMAIL.MAX),
-    password: z
-      .string()
-      .min(TEXT_FIELD_LIMITS.PASSWORD.MIN)
-      .max(TEXT_FIELD_LIMITS.PASSWORD.MAX)
-      .regex(VALIDATION_PATTERNS.PASSWORD, 'Password must contain lowercase, uppercase and number'),
-    confirmPassword: z.string(),
-    name: z.string().min(TEXT_FIELD_LIMITS.NAME.MIN).max(TEXT_FIELD_LIMITS.NAME.MAX).trim()
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword']
+export const createLoginSchema = (t: (key: string) => string) =>
+  z.object({
+    email: z
+      .email(t('auth.login.fields.email.validation.invalid'))
+      .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.login.fields.email.validation.maxLength')),
+    password: z.string().min(1, t('auth.login.fields.password.validation.required'))
   })
 
 /**
- * Create user schema (server-side, no confirmPassword)
+ * Factory function to create registration schema with i18n messages
  */
-export const createUserSchema = registerSchema.omit({ confirmPassword: true })
+export const createRegisterSchema = (t: (key: string) => string) =>
+  z
+    .object({
+      email: z
+        .email(t('auth.register.fields.email.validation.invalid'))
+        .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.register.fields.email.validation.maxLength')),
+      password: z
+        .string()
+        .min(
+          TEXT_FIELD_LIMITS.PASSWORD.MIN,
+          t('auth.register.fields.password.validation.minLength')
+        )
+        .max(
+          TEXT_FIELD_LIMITS.PASSWORD.MAX,
+          t('auth.register.fields.password.validation.maxLength')
+        )
+        .regex(VALIDATION_PATTERNS.PASSWORD, t('auth.register.fields.password.validation.pattern')),
+      confirmPassword: z.string(),
+      name: z
+        .string()
+        .min(TEXT_FIELD_LIMITS.NAME.MIN, t('auth.register.fields.name.validation.minLength'))
+        .max(TEXT_FIELD_LIMITS.NAME.MAX, t('auth.register.fields.name.validation.maxLength'))
+        .trim()
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('auth.register.fields.confirmPassword.validation.match'),
+      path: ['confirmPassword']
+    })
 
 /**
- * Forgot password schema
+ * Factory function to create forgot password schema with i18n messages
  */
-export const forgotPasswordSchema = z.object({
-  email: z.email('Invalid email format')
-})
+export const createForgotPasswordSchema = (t: (key: string) => string) =>
+  z.object({
+    email: z
+      .email(t('auth.forgotPassword.fields.email.validation.invalid'))
+      .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.forgotPassword.fields.email.validation.maxLength'))
+  })
 
 /**
- * Reset password schema
+ * Factory function to create reset password schema with i18n messages
  */
-export const resetPasswordSchema = z
-  .object({
-    token: z.string().length(64),
-    password: z
-      .string()
-      .min(TEXT_FIELD_LIMITS.PASSWORD.MIN)
-      .max(TEXT_FIELD_LIMITS.PASSWORD.MAX)
-      .regex(VALIDATION_PATTERNS.PASSWORD),
-    confirmPassword: z.string()
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword']
-  })
+export const createResetPasswordSchema = (t: (key: string) => string) =>
+  z
+    .object({
+      token: z.string().length(64, t('auth.resetPassword.fields.token.validation.length')),
+      password: z
+        .string()
+        .min(
+          TEXT_FIELD_LIMITS.PASSWORD.MIN,
+          t('auth.resetPassword.fields.password.validation.minLength')
+        )
+        .max(
+          TEXT_FIELD_LIMITS.PASSWORD.MAX,
+          t('auth.resetPassword.fields.password.validation.maxLength')
+        )
+        .regex(
+          VALIDATION_PATTERNS.PASSWORD,
+          t('auth.resetPassword.fields.password.validation.pattern')
+        ),
+      confirmPassword: z.string()
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('auth.resetPassword.fields.confirmPassword.validation.match'),
+      path: ['confirmPassword']
+    })
 
 // =============================================================================
 // TYPE EXPORTS
 // =============================================================================
 
-export type LoginData = z.infer<typeof loginSchema>
-export type RegisterData = z.infer<typeof registerSchema>
-export type CreateUserData = z.infer<typeof createUserSchema>
-export type ForgotPasswordData = z.infer<typeof forgotPasswordSchema>
-export type ResetPasswordData = z.infer<typeof resetPasswordSchema>
+export type LoginData = z.infer<ReturnType<typeof createLoginSchema>>
+export type RegisterData = z.infer<ReturnType<typeof createRegisterSchema>>
+export type ForgotPasswordData = z.infer<ReturnType<typeof createForgotPasswordSchema>>
+export type ResetPasswordData = z.infer<ReturnType<typeof createResetPasswordSchema>>
 
 // =============================================================================
 // INITIAL STATES
@@ -141,10 +156,5 @@ export function toPublicUser(user: {
   updatedAt: Date
 }): PublicUser {
   const { password, ...rest } = user
-  return {
-    ...rest,
-    emailVerifiedAt: rest.emailVerifiedAt?.toISOString() || null,
-    createdAt: rest.createdAt.toISOString(),
-    updatedAt: rest.updatedAt.toISOString()
-  }
+  return rest
 }

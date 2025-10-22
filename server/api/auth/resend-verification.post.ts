@@ -26,7 +26,8 @@
  *         description: Too many requests
  */
 export default defineEventHandler(async (event) => {
-  const { email } = await validateBody(event, resendVerificationSchema)
+  const t = await useTranslation(event)
+  const { email } = await validateBody(event, createResendVerificationSchema(t))
   const locale = getCookie(event, 'i18n_redirected') || 'fr'
 
   // Use auth service for business logic

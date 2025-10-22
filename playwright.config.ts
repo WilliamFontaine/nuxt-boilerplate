@@ -1,44 +1,63 @@
 import { defineConfig, devices } from '@playwright/test'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const TEST_DATABASE_URL =
-  process.env.TEST_DATABASE_URL || 'postgresql://postgres:P@ssw0rd@localhost:5432/test_database'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const authFile = path.join(__dirname, 'playwright/.auth/user.json')
+
+const isCI = !!process.env.CI
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './test/e2e',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 3 : undefined,
-  reporter: process.env.CI ? 'github' : 'html',
+  forbidOnly: isCI,
+  retries: isCI ? 1 : 0,
+  workers: isCI ? 2 : undefined,
+  reporter: isCI ? [['github'], ['html']] : 'html',
+
   use: {
     baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure'
   },
-  globalSetup: './tests/setup/playwright.ts',
+
+  globalSetup: './test/e2e/db.setup.ts',
+
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      name: 'setup',
+      testMatch: '**/auth.setup.ts',
+      retries: 2,
+      timeout: 60_000
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      name: 'auth',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/auth/*.spec.ts'
     },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
+      name: 'app',
+      use: { ...devices['Desktop Chrome'], storageState: authFile },
+      dependencies: ['setup'],
+      testIgnore: '**/auth/*.spec.ts'
     }
   ],
+
   webServer: {
-    command: 'npm run dev',
+    command: 'pnpm dev',
     port: 3000,
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+    reuseExistingServer: !isCI,
     env: {
-      NUXT_DATABASE_URL: TEST_DATABASE_URL,
+      NUXT_DATABASE_URL:
+        process.env.TEST_DATABASE_URL ||
+        'postgresql://postgres:P@ssw0rd@localhost:5432/test_database',
+      CI: process.env.CI || 'true',
       NODE_ENV: 'test'
-    }
+    },
+    stdout: 'pipe',
+    stderr: 'pipe'
   }
 })

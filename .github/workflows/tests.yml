@@ -13,50 +13,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+        with:
+          fetch-depth: 1
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: 'pnpm'
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - run: npm install --prefer-offline --no-audit
-      - run: npm run lint
+      - name: Run linting
+        run: pnpm run lint
 
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+        with:
+          fetch-depth: 1
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: 'pnpm'
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - run: npm install --prefer-offline --no-audit
-      - run: npm run test:unit:coverage
-      - uses: actions/upload-artifact@v4
-        if: always()
+      - name: Run unit tests with coverage
+        run: pnpm run test:unit:coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: failure()
         with:
           name: coverage-report
-          path: |
-            coverage/
-            test-results/
-          retention-days: 7
+          path: coverage/
+          retention-days: 1
 
   e2e-tests:
     name: E2E Tests
@@ -77,37 +77,48 @@ jobs:
           - 5432:5432
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+        with:
+          fetch-depth: 1
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: 'pnpm'
 
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-
-      - run: npm install --prefer-offline --no-audit
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
+        id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-playwright-
 
-      - run: npx playwright install --with-deps
-      - run: npx playwright test
+      - name: Install Playwright browsers and dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Run E2E tests
+        run: pnpm run test:e2e
         env:
+          CI: true
           TEST_DATABASE_URL: postgresql://postgres:P@ssw0rd@localhost:5432/test_database
 
-      - uses: actions/upload-artifact@v4
-        if: always()
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
         with:
           name: playwright-report
-          path: playwright-report/
-          retention-days: 7
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 1

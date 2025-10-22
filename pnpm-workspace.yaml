@@ -1,0 +1,14 @@
+ignoredBuiltDependencies:
+  - '@parcel/watcher'
+  - '@tailwindcss/oxide'
+  - esbuild
+  - msgpackr-extract
+  - unrs-resolver
+  - vue-demi
+
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - better-sqlite3
+  - prisma
+  - sharp

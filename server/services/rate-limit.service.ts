@@ -16,7 +16,7 @@ function getRateLimitConfig() {
 /**
  * Check if user has hit token rate limit (simple version using existing tokens)
  */
-export async function checkTokenRateLimit(userId: string, tokenType: TokenType): Promise<void> {
+export async function checkTokenRateLimit(userId: string, tokenType: TokenTypeEnum): Promise<void> {
   const recentToken = await prisma.token.findFirst({
     where: { userId, type: tokenType },
     orderBy: { createdAt: 'desc' }

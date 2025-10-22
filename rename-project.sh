@@ -121,18 +121,18 @@ else
     echo "ℹ️  .env.example not found"
 fi
 
-# 6. Clean up other package manager files and use npm
-echo "📦 Cleaning up package manager files and installing with npm..."
-if [ -f "pnpm-lock.yaml" ]; then
-    echo "🗑️  Removing pnpm-lock.yaml..."
-    rm pnpm-lock.yaml
+# 6. Clean up other package manager files and use pnpm
+echo "📦 Cleaning up package manager files and installing with pnpm..."
+if [ -f "package-lock.json" ]; then
+    echo "🗑️  Removing package-lock.json..."
+    rm package-lock.json
 fi
 if [ -f "yarn.lock" ]; then
     echo "🗑️  Removing yarn.lock..."
     rm yarn.lock
 fi
-echo "🔧 Installing with npm..."
-npm install
+echo "🔧 Installing with pnpm..."
+pnpm install
 
 # 7. Clean up the script itself
 echo "🧹 Cleaning up..."
@@ -151,9 +151,8 @@ echo "📂 Your project is now called: $NEW_PROJECT_NAME"
 echo ""
 echo "📋 Next recommended steps:"
 echo "   1. Copy environment variables: cp .env.example .env"
-echo "   2. Test that everything works: npm run dev"
+echo "   2. Test that everything works: pnpm run dev"
 echo "   3. Commit the changes: git add . && git commit -m 'Rename project to $NEW_PROJECT_NAME'"
 echo "   4. Update YOUR_USERNAME in package.json URLs with your actual GitHub username"
 echo "   5. Update the remote repository URL if needed"
-echo "   6. Update any deployment configurations"
 echo ""

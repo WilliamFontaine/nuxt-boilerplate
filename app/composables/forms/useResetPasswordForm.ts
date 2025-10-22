@@ -12,31 +12,7 @@ export const useResetPasswordForm = () => {
     Object.assign(state, { ...initialResetPasswordState })
   }
 
-  const schema = computed(() =>
-    z
-      .object({
-        token: z.string().min(1, t('auth.resetPassword.token.validation.required')),
-        password: z
-          .string()
-          .min(1, t('auth.resetPassword.password.validation.required'))
-          .min(
-            TEXT_FIELD_LIMITS.PASSWORD.MIN,
-            t('auth.resetPassword.password.validation.minLength')
-          )
-          .max(
-            TEXT_FIELD_LIMITS.PASSWORD.MAX,
-            t('auth.resetPassword.password.validation.maxLength')
-          )
-          .regex(VALIDATION_PATTERNS.PASSWORD, t('auth.resetPassword.password.validation.pattern')),
-        confirmPassword: z
-          .string()
-          .min(1, t('auth.resetPassword.confirmPassword.validation.required'))
-      })
-      .refine((data) => data.password === data.confirmPassword, {
-        message: t('auth.resetPassword.confirmPassword.validation.match'),
-        path: ['confirmPassword']
-      })
-  )
+  const schema = computed(() => createResetPasswordSchema(t))
 
   const isValid = computed(() => {
     const result = schema.value.safeParse(state)

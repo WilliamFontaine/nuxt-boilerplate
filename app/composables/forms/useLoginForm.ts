@@ -12,22 +12,7 @@ export const useLoginForm = () => {
     Object.assign(state, { ...initialLoginState })
   }
 
-  const schema = computed(() =>
-    z.object({
-      email: z
-        .string()
-        .min(1, t('auth.login.email.validation.required'))
-        .refine((val) => VALIDATION_PATTERNS.EMAIL.test(val), {
-          message: t('auth.login.email.validation.invalid')
-        })
-        .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.login.email.validation.maxLength')),
-      password: z
-        .string()
-        .min(1, t('auth.login.password.validation.required'))
-        .min(TEXT_FIELD_LIMITS.PASSWORD.MIN, t('auth.login.password.validation.minLength'))
-        .max(TEXT_FIELD_LIMITS.PASSWORD.MAX, t('auth.login.password.validation.maxLength'))
-    })
-  )
+  const schema = computed(() => createLoginSchema(t))
 
   const isValid = computed(() => {
     const result = schema.value.safeParse(state)

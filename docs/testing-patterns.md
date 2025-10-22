@@ -5,29 +5,30 @@ Comprehensive testing strategy using Vitest for unit tests and Playwright for E2
 ## 🏗️ Testing Structure
 
 ```
-tests/
-├── setup/
-│   ├── vitest.ts           # Vitest configuration
-│   └── playwright.ts       # Playwright configuration
+test/
 ├── unit/
-│   ├── components/         # Component tests
-│   ├── composables/        # Composable tests
-│   └── stores/             # Store tests
+│   ├── setup.ts            # Vitest configuration
+│   └── components/         # Component tests
+│       └── ui/
+│           └── form/       # Form component tests
 └── e2e/
-    ├── auth.spec.ts        # Authentication flows
-    ├── home.spec.ts        # Home page functionality
-    └── posts.spec.ts       # Post management
+    ├── auth.setup.ts       # Playwright authentication setup
+    ├── db.setup.ts         # Database setup for E2E tests
+    ├── app/
+    │   └── home.spec.ts    # Home page functionality
+    └── swagger/
+        └── swagger-protection.spec.ts  # API documentation protection
 ```
 
 ## 🔧 Vitest Configuration
 
 ### Test Setup
 
-**Implementation**: See `tests/setup/vitest.ts` for Vitest configuration and Nuxt composable mocking.
+**Implementation**: See `test/unit/setup.ts` for Vitest configuration and Nuxt composable mocking.
 
 ### Component Testing
 
-**Implementation**: See `tests/unit/components/` for Vue component testing patterns with Vue Test Utils.
+**Implementation**: See `test/unit/components/` for Vue component testing patterns with Vue Test Utils.
 
 ### Composable Testing
 
