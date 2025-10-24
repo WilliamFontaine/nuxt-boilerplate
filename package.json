@@ -67,7 +67,7 @@
     "@types/node": "^24.3.0",
     "@types/nodemailer": "^7.0.2",
     "@types/swagger-jsdoc": "^6.0.4",
-    "@vitest/coverage-v8": "4.0.1",
+    "@vitest/coverage-v8": "4.0.3",
     "@vue/test-utils": "2.4.6",
     "eslint": "^9.33.0",
     "happy-dom": "20.0.8",
@@ -78,7 +78,7 @@
     "swagger-jsdoc": "^6.2.8",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2",
-    "vitest": "4.0.1"
+    "vitest": "4.0.3"
   },
   "packageManager": "pnpm@10.19.0"
 }
