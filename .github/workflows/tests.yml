@@ -51,7 +51,7 @@ jobs:
         run: pnpm run test:unit:coverage
 
       - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: coverage-report
@@ -114,7 +114,7 @@ jobs:
           TEST_DATABASE_URL: postgresql://postgres:P@ssw0rd@localhost:5432/test_database
 
       - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: playwright-report
