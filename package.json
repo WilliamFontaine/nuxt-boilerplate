@@ -2,7 +2,7 @@
   "name": "nuxt-boilerplate",
   "private": true,
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "William Fontaine",
   "description": "A Nuxt 4 boilerplate with TypeScript, Pinia, Prisma, i18n, ESLint, Prettier, Vitest, Playwright and more.",
   "license": "MIT",
