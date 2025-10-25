@@ -1,8 +1,9 @@
-import { defineVitestConfig } from '@nuxt/test-utils/config'
+import { defineConfig } from 'vitest/config'
+import { fileURLToPath } from 'node:url'
 
-export default defineVitestConfig({
+export default defineConfig({
   test: {
-    environment: 'nuxt',
+    environment: 'happy-dom',
     include: ['test/unit/**/*.{test,spec}.ts'],
     exclude: ['test/e2e/**'],
     setupFiles: ['./test/unit/setup.ts'],
@@ -22,6 +23,23 @@ export default defineVitestConfig({
         '**/*.config.*',
         '**/.nuxt/**'
       ]
+    }
+  },
+  resolve: {
+    alias: {
+      // Nuxt aliases - app directory
+      '~': fileURLToPath(new URL('./app', import.meta.url)),
+      '@': fileURLToPath(new URL('./app', import.meta.url)),
+      // Nuxt aliases - project root
+      '~~': fileURLToPath(new URL('.', import.meta.url)),
+      '@@': fileURLToPath(new URL('.', import.meta.url)),
+      // Assets aliases
+      assets: fileURLToPath(new URL('./app/assets', import.meta.url)),
+      public: fileURLToPath(new URL('./public', import.meta.url)),
+      // Nuxt auto-imports for shared directory
+      '#shared': fileURLToPath(new URL('./shared', import.meta.url)),
+      // Nuxt auto-imports (mock it)
+      '#app': fileURLToPath(new URL('./test/unit/mocks/nuxt-app.ts', import.meta.url))
     }
   }
 })

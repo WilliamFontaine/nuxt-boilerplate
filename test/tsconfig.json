@@ -1,0 +1,27 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "@nuxt/test-utils", "@playwright/test"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "~/*": ["../app/*"],
+      "@/*": ["../app/*"],
+      "~~/*": ["../*"],
+      "@@/*": ["../*"],
+      "#shared/*": ["../shared/*"],
+      "#app": ["../test/unit/mocks/nuxt-app"],
+      "#app/*": ["../test/unit/mocks/nuxt-app/*"],
+      "#imports": ["../test/unit/mocks/nuxt-imports"],
+      "#build/*": ["../.nuxt/*"],
+      "#components": ["../.nuxt/components"]
+    }
+  },
+  "include": [
+    "../test/**/*",
+    "../app/**/*",
+    "../server/**/*",
+    "../shared/**/*",
+    "../.nuxt/**/*"
+  ]
+}
