@@ -1,5 +1,5 @@
 x-defaults: &defaults
-  restart: unless-stopped
+  restart: no
   networks:
     - nuxt-boilerplate
 

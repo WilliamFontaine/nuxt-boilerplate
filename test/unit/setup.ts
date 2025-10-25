@@ -1,6 +1,5 @@
 import { vi } from 'vitest'
 import { ref, reactive } from 'vue'
-import { mockNuxtImport } from '@nuxt/test-utils/runtime'
 
 // Mock console.warn to suppress Vue warnings during tests
 // eslint-disable-next-line no-console
@@ -17,8 +16,54 @@ console.warn = (message: string, ...args: any[]) => {
   originalWarn(message, ...args)
 }
 
-// Global mocks for all tests
-mockNuxtImport('useI18n', () => () => ({
+// Global mocks for all tests using standard vi.mock
+vi.mock('#app', () => ({
+  useI18n: () => ({
+    t: (key: string) => key,
+    locale: ref('fr'),
+    locales: ref([
+      { code: 'fr', name: 'Français' },
+      { code: 'en', name: 'English' }
+    ]),
+    setLocale: vi.fn(),
+    switchLocalePath: vi.fn((path: string) => path)
+  }),
+  useColorMode: () => ({
+    value: 'light',
+    preference: 'light',
+    system: 'light',
+    unknown: false
+  }),
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    beforeEach: vi.fn(),
+    afterEach: vi.fn(),
+    beforeResolve: vi.fn(),
+    onError: vi.fn(),
+    isReady: vi.fn(() => Promise.resolve()),
+    currentRoute: ref({
+      path: '/',
+      name: 'index',
+      params: {},
+      query: {},
+      meta: {}
+    })
+  }),
+  useRoute: () =>
+    reactive({
+      path: '/',
+      name: 'index',
+      params: {},
+      query: {},
+      meta: {}
+    })
+}))
+
+// Mock Nuxt auto-imports as globals
+global.useI18n = () => ({
   t: (key: string) => key,
   locale: ref('fr'),
   locales: ref([
@@ -27,16 +72,16 @@ mockNuxtImport('useI18n', () => () => ({
   ]),
   setLocale: vi.fn(),
   switchLocalePath: vi.fn((path: string) => path)
-}))
+})
 
-mockNuxtImport('useColorMode', () => () => ({
+global.useColorMode = () => ({
   value: 'light',
   preference: 'light',
   system: 'light',
   unknown: false
-}))
+})
 
-mockNuxtImport('useRouter', () => () => ({
+global.useRouter = () => ({
   push: vi.fn(),
   replace: vi.fn(),
   back: vi.fn(),
@@ -53,22 +98,13 @@ mockNuxtImport('useRouter', () => () => ({
     query: {},
     meta: {}
   })
-}))
+})
 
-mockNuxtImport(
-  'useRoute',
-  () => () =>
-    reactive({
-      path: '/',
-      name: 'index',
-      params: {},
-      query: {},
-      meta: {}
-    })
-)
-
-mockNuxtImport('useNotifications', () => () => ({
-  addNotification: vi.fn(),
-  removeNotification: vi.fn(),
-  notifications: ref([])
-}))
+global.useRoute = () =>
+  reactive({
+    path: '/',
+    name: 'index',
+    params: {},
+    query: {},
+    meta: {}
+  })
