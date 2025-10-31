@@ -14,6 +14,7 @@ export default withNuxt({
 
     // TypeScript rules
     '@typescript-eslint/no-unused-vars': ['error'],
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/unified-signatures': 'off'
   }
 })
