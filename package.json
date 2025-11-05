@@ -40,7 +40,7 @@
     "release:major": "pnpm version major && git push --follow-tags"
   },
   "dependencies": {
-    "@nuxt/image": "1.11.0",
+    "@nuxt/image": "2.0.0",
     "@nuxt/ui": "4.1.0",
     "@nuxtjs/i18n": "^10.0.6",
     "@nuxtjs/seo": "^3.1.0",
