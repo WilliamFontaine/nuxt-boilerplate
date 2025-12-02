@@ -47,7 +47,7 @@
     "@pinia/nuxt": "^0.11.2",
     "@prisma/client": "6.19.0",
     "handlebars": "^4.7.8",
-    "nodemailer": "^7.0.10",
+    "nodemailer": "^7.0.11",
     "nuxt": "4.2.1",
     "nuxt-auth-utils": "^0.5.23",
     "nuxt-security": "^2.4.0",
