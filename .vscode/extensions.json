@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "vue.volar",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "lokalise.i18n-ally",
+    "antfu.iconify"
+  ]
+}

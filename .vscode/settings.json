@@ -1,0 +1,86 @@
+{
+  // Tailwind CSS v4 directives (@source, @theme)
+  "css.lint.unknownAtRules": "ignore",
+
+  // Nuxt UI specific class attributes
+  "tailwindCSS.classAttributes": ["active-class", "inactive-class", "ui"],
+  "tailwindCSS.experimental.classRegex": [
+    ["ui:\\s*{([^)]*)\\}", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["/\\*ui\\*/\\s*{([^;]*)}", ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+
+  // Use workspace TypeScript version
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Use Nuxt aliases instead of relative paths for imports
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+
+  // Use single quotes for imports
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single",
+
+  // TypeScript inlay hints
+  "typescript.inlayHints.parameterNames.enabled": "literals",
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+
+  // Format & linting on save
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+
+  // Enable Tailwind autocomplete in strings
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  // File associations & exclusions
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "files.exclude": {
+    "**/.nuxt": true,
+    "**/node_modules": true,
+    "**/.output": true,
+    "**/dist": true,
+    "**/.data": true,
+    "**/coverage": true,
+    "**/test-results": true,
+    "**/playwright-report": true
+  },
+
+  // Faster search
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.nuxt": true,
+    "**/.output": true,
+    "**/dist": true,
+    "**/coverage": true,
+    "**/pnpm-lock.yaml": true,
+    "**/test-results": true,
+    "**/playwright-report": true
+  },
+
+  // File nesting (group related files)
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.spec.ts, ${capture}.test.ts, ${capture}.d.ts",
+    "*.vue": "${capture}.spec.ts, ${capture}.test.ts",
+    "package.json": "pnpm-lock.yaml, .npmrc, tsconfig.json",
+    "nuxt.config.ts": "app.config.ts, i18n.config.ts",
+    ".env": ".env.*, .env.example",
+    ".gitignore": ".gitattributes, .editorconfig, .prettierrc, .prettierignore"
+  },
+
+  // i18n
+  "i18n-ally.keystyle": "nested",
+
+  // Prisma
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
+}
