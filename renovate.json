@@ -21,43 +21,53 @@
     },
     {
       "description": "Group Nuxt ecosystem updates",
-      "matchPackagePatterns": ["^@nuxt/", "^nuxt", "^@nuxtjs/"],
-      "groupName": "Nuxt ecosystem"
+      "groupName": "Nuxt ecosystem",
+      "matchPackageNames": ["/^@nuxt//", "/^nuxt/", "/^@nuxtjs//"]
     },
     {
       "description": "Group Pinia packages",
-      "matchPackagePatterns": ["^@pinia/", "^pinia"],
-      "groupName": "Pinia"
+      "groupName": "Pinia",
+      "matchPackageNames": ["/^@pinia//", "/^pinia/"]
     },
     {
       "description": "Group Prisma packages",
-      "matchPackagePatterns": ["^@prisma/", "^prisma$"],
-      "groupName": "Prisma"
+      "groupName": "Prisma",
+      "matchPackageNames": ["/^@prisma//", "/^prisma$/"]
     },
     {
       "description": "Group icon packages",
-      "matchPackagePatterns": ["^@iconify-json/"],
       "groupName": "Iconify icons",
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": ["/^@iconify-json//"]
     },
     {
       "description": "Group testing tools",
-      "matchPackagePatterns": ["^@playwright/", "^playwright", "^vitest$", "^@vitest/"],
-      "matchPackageNames": ["@nuxt/test-utils", "@vue/test-utils", "happy-dom"],
+      "matchPackageNames": [
+        "@nuxt/test-utils",
+        "@vue/test-utils",
+        "happy-dom",
+        "/^@playwright//",
+        "/^playwright/",
+        "/^vitest$/",
+        "/^@vitest//"
+      ],
       "groupName": "Testing tools"
     },
     {
       "description": "Group linting and formatting tools",
-      "matchPackagePatterns": ["^eslint", "^prettier", "^@commitlint/"],
-      "matchPackageNames": ["husky"],
+      "matchPackageNames": [
+        "husky",
+        "/^eslint/",
+        "/^prettier/",
+        "/^@commitlint//"
+      ],
       "groupName": "Linting and formatting",
       "automerge": true,
       "minimumReleaseAge": "3 days"
     },
     {
       "description": "Group TypeScript packages",
-      "matchPackagePatterns": ["^typescript$", "^@types/"],
-      "matchPackageNames": ["tsx"],
+      "matchPackageNames": ["tsx", "/^typescript$/", "/^@types//"],
       "groupName": "TypeScript"
     },
     {
