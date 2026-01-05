@@ -22,7 +22,6 @@
           icon="i-lucide-user-plus"
           :fields="fields"
           :schema="schema"
-          :state="state"
           :submit="submitConfig"
           @submit="handleSubmit"
         >
@@ -73,43 +72,46 @@ useSeo('register')
 // =============================================================================
 // FORM CONFIGURATION
 // =============================================================================
-const { state, schema } = useRegisterForm()
+const schema = computed(() => createRegisterSchema(t))
 const isLoading = ref(false)
 
 // Fields configuration
 const fields = computed(() => [
   {
+    id: 'name',
     name: 'name',
     type: 'text' as const,
     label: t('auth.register.fields.name.label'),
     placeholder: t('auth.register.fields.name.placeholder'),
     required: true,
-    defaultValue: state.name,
-    autofocus: true
+    defaultValue: ''
   },
   {
+    id: 'email',
     name: 'email',
     type: 'email' as const,
     label: t('auth.register.fields.email.label'),
     placeholder: t('auth.register.fields.email.placeholder'),
     required: true,
-    defaultValue: state.email
+    defaultValue: ''
   },
   {
+    id: 'password',
     name: 'password',
     type: 'password' as const,
     label: t('auth.register.fields.password.label'),
     placeholder: t('auth.register.fields.password.placeholder'),
     required: true,
-    defaultValue: state.password
+    defaultValue: ''
   },
   {
+    id: 'confirmPassword',
     name: 'confirmPassword',
     type: 'password' as const,
     label: t('auth.register.fields.confirmPassword.label'),
     placeholder: t('auth.register.fields.confirmPassword.placeholder'),
     required: true,
-    defaultValue: state.confirmPassword
+    defaultValue: ''
   }
 ])
 

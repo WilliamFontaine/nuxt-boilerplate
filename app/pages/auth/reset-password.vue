@@ -22,7 +22,6 @@
           icon="i-lucide-lock"
           :fields="fields"
           :schema="schema"
-          :state="state"
           :submit="submitConfig"
           @submit="handleSubmit"
         >
@@ -67,15 +66,13 @@ useSeo('resetPassword')
 // =============================================================================
 // FORM CONFIGURATION
 // =============================================================================
-const { state, schema } = useResetPasswordForm()
+const schema = computed(() => createResetPasswordSchema(t))
 const isLoading = ref(false)
 
 // Auto-fill token from URL query parameter
 onMounted(() => {
   const token = route.query.token as string
-  if (token) {
-    state.token = token
-  } else {
+  if (!token) {
     // Redirect to forgot password if no token
     navigateTo(localePath('/auth/forgot-password'))
   }
@@ -84,26 +81,28 @@ onMounted(() => {
 // Fields configuration
 const fields = computed(() => [
   {
+    id: 'token',
     name: 'token',
     type: 'hidden' as const,
     defaultValue: (route.query.token as string) || ''
   },
   {
+    id: 'password',
     name: 'password',
     type: 'password' as const,
     label: t('auth.resetPassword.fields.password.label'),
     placeholder: t('auth.resetPassword.fields.password.placeholder'),
     required: true,
-    defaultValue: state.password,
-    autofocus: true
+    defaultValue: ''
   },
   {
+    id: 'confirmPassword',
     name: 'confirmPassword',
     type: 'password' as const,
     label: t('auth.resetPassword.fields.confirmPassword.label'),
     placeholder: t('auth.resetPassword.fields.confirmPassword.placeholder'),
     required: true,
-    defaultValue: state.confirmPassword
+    defaultValue: ''
   }
 ])
 

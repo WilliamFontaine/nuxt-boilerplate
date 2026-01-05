@@ -22,7 +22,6 @@
           icon="i-lucide-mail"
           :fields="fields"
           :schema="schema"
-          :state="state"
           :submit="submitConfig"
           @submit="handleSubmit"
         >
@@ -66,19 +65,19 @@ useSeo('resendVerification')
 // =============================================================================
 // FORM CONFIGURATION
 // =============================================================================
-const { state, schema } = useForgotPasswordForm() // Reuse the same form (just email field)
+const schema = computed(() => createForgotPasswordSchema(t)) // Reuse forgot password schema (just email field)
 const isLoading = ref(false)
 
 // Fields configuration
 const fields = computed(() => [
   {
+    id: 'email',
     name: 'email',
     type: 'email' as const,
     label: t('auth.resendVerification.fields.email.label'),
     placeholder: t('auth.resendVerification.fields.email.placeholder'),
     required: true,
-    defaultValue: state.email,
-    autofocus: true
+    defaultValue: ''
   }
 ])
 

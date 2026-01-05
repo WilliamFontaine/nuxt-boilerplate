@@ -22,7 +22,6 @@
           icon="i-lucide-lock-keyhole"
           :fields="fields"
           :schema="schema"
-          :state="state"
           :submit="submitConfig"
           @submit="handleSubmit"
         >
@@ -80,27 +79,28 @@ useSeo('login')
 // =============================================================================
 // FORM CONFIGURATION
 // =============================================================================
-const { state, schema } = useLoginForm()
+const schema = computed(() => createLoginSchema(t))
 const isLoading = ref(false)
 
 // Fields configuration
 const fields = computed(() => [
   {
+    id: 'email',
     name: 'email',
     type: 'email' as const,
     label: t('auth.login.fields.email.label'),
     placeholder: t('auth.login.fields.email.placeholder'),
     required: true,
-    defaultValue: state.email,
-    autofocus: true
+    defaultValue: ''
   },
   {
+    id: 'password',
     name: 'password',
     type: 'password' as const,
     label: t('auth.login.fields.password.label'),
     placeholder: t('auth.login.fields.password.placeholder'),
     required: true,
-    defaultValue: state.password
+    defaultValue: ''
   }
 ])
 

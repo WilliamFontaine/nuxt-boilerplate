@@ -22,7 +22,6 @@
           icon="i-lucide-key"
           :fields="fields"
           :schema="schema"
-          :state="state"
           :submit="submitConfig"
           @submit="handleSubmit"
         >
@@ -66,19 +65,19 @@ useSeo('forgotPassword')
 // =============================================================================
 // FORM CONFIGURATION
 // =============================================================================
-const { state, schema } = useForgotPasswordForm()
+const schema = computed(() => createForgotPasswordSchema(t))
 const isLoading = ref(false)
 
 // Fields configuration
 const fields = computed(() => [
   {
+    id: 'email',
     name: 'email',
     type: 'email' as const,
     label: t('auth.forgotPassword.fields.email.label'),
     placeholder: t('auth.forgotPassword.fields.email.placeholder'),
     required: true,
-    defaultValue: state.email,
-    autofocus: true
+    defaultValue: ''
   }
 ])
 
