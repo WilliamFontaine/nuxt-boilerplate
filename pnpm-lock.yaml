@@ -65,7 +65,7 @@ importers:
         version: 1.2.17
       '@iconify-json/simple-icons':
         specifier: ^1.2.54
-        version: 1.2.58
+        version: 1.2.65
       '@nuxt/eslint':
         specifier: 1.10.0
         version: 1.10.0(@typescript-eslint/utils@8.46.2(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.23)(eslint@9.39.1(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(vite@7.2.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
@@ -797,8 +797,8 @@ packages:
   '@iconify-json/openmoji@1.2.17':
     resolution: {integrity: sha512-e0NibzGUuMgLNHaInRZouzx4a2RBR4sXiSgNYhQZnhpUQlFbNSQ4VMIS02RtAyYvkyjlRYDzuhLOHSboVo/JzQ==}
 
-  '@iconify-json/simple-icons@1.2.58':
-    resolution: {integrity: sha512-XtXEoRALqztdNc9ujYBj2tTCPKdIPKJBdLNDebFF46VV1aOAwTbAYMgNsK5GMCpTJupLCmpBWDn+gX5SpECorQ==}
+  '@iconify-json/simple-icons@1.2.65':
+    resolution: {integrity: sha512-v/O0UeqrDz6ASuRVE5g2Puo5aWyej4M/CxX6WYDBARgswwxK0mp3VQbGgPFEAAUU9QN02IjTgjMuO021gpWf2w==}
 
   '@iconify/collections@1.0.613':
     resolution: {integrity: sha512-7jqZqr7oGiDF7pxZgFtQIsyLTNNrO85zinaj8oDG7Cejp2SgmjAd5x50b8fvaMkPUzr6LDRbcn+U2odNqmdc4A==}
@@ -6358,6 +6358,7 @@ packages:
   vue-i18n@11.1.12:
     resolution: {integrity: sha512-BnstPj3KLHLrsqbVU2UOrPmr0+Mv11bsUZG0PyCOzsawCivk8W00GMXHeVUWIDOgNaScCuZah47CZFE+Wnl8mw==}
     engines: {node: '>= 16'}
+    deprecated: This version is NOT deprecated. Previous deprecation was a mistake.
     peerDependencies:
       vue: ^3.0.0
 
@@ -7508,7 +7509,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.58':
+  '@iconify-json/simple-icons@1.2.65':
     dependencies:
       '@iconify/types': 2.0.0
 
