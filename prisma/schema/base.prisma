@@ -1,0 +1,13 @@
+// Prisma base configuration
+// Generator and datasource settings
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../../generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [uuid_ossp(map: "uuid-ossp")]
+}

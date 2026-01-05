@@ -1,0 +1,18 @@
+// User domain models
+
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  password        String
+  name            String
+  emailVerified   Boolean   @default(false)
+  emailVerifiedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  posts  Post[]
+  tokens Token[]
+
+  @@index([emailVerified])
+}

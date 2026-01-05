@@ -1,7 +1,11 @@
 /* eslint-disable no-console */
-import { PrismaClient, type User } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
+import { PrismaClient, type User } from '../generated/prisma/client'
 
-const prisma = new PrismaClient()
+const pool = new Pool({ connectionString: process.env.NUXT_DATABASE_URL })
+const adapter = new PrismaPg(pool)
+const prisma = new PrismaClient({ adapter })
 
 // Test users with pre-hashed passwords (compatible with nuxt-auth-utils)
 const seedUsers = [
@@ -128,9 +132,11 @@ async function main() {
 main()
   .then(async () => {
     await prisma.$disconnect()
+    await pool.end()
   })
   .catch(async (e) => {
     console.error('❌ Error during seeding:', e)
     await prisma.$disconnect()
+    await pool.end()
     process.exit(1)
   })

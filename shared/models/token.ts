@@ -14,10 +14,10 @@ import { TEXT_FIELD_LIMITS } from '@@/shared/constants/validation'
 /**
  * Token entity and enum - re-exported from Prisma
  */
-export { TokenType } from '@prisma/client'
-export type { Token } from '@prisma/client'
+export { TokenType } from '@@/generated/prisma/client'
+export type { Token } from '@@/generated/prisma/client'
 
-export type { TokenType as TokenTypeEnum } from '@prisma/client'
+export type { TokenType as TokenTypeEnum } from '@@/generated/prisma/client'
 // =============================================================================
 // VALIDATION SCHEMAS
 // =============================================================================

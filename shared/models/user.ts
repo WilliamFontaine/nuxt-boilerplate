@@ -14,8 +14,8 @@ import { TEXT_FIELD_LIMITS, VALIDATION_PATTERNS } from '@@/shared/constants/vali
 /**
  * User entity - re-exported from Prisma with serialized dates
  */
-import type { User } from '@prisma/client'
-export type { User } from '@prisma/client'
+import type { User } from '@@/generated/prisma/client'
+export type { User } from '@@/generated/prisma/client'
 
 /**
  * Public User entity (without sensitive fields)
@@ -32,6 +32,7 @@ export type PublicUser = Omit<User, 'password' | 'stripeCustomerId'>
 export const createLoginSchema = (t: (key: string) => string) =>
   z.object({
     email: z
+      .string()
       .email(t('auth.login.fields.email.validation.invalid'))
       .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.login.fields.email.validation.maxLength')),
     password: z.string().min(1, t('auth.login.fields.password.validation.required'))
@@ -44,6 +45,7 @@ export const createRegisterSchema = (t: (key: string) => string) =>
   z
     .object({
       email: z
+        .string()
         .email(t('auth.register.fields.email.validation.invalid'))
         .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.register.fields.email.validation.maxLength')),
       password: z
@@ -75,6 +77,7 @@ export const createRegisterSchema = (t: (key: string) => string) =>
 export const createForgotPasswordSchema = (t: (key: string) => string) =>
   z.object({
     email: z
+      .string()
       .email(t('auth.forgotPassword.fields.email.validation.invalid'))
       .max(TEXT_FIELD_LIMITS.EMAIL.MAX, t('auth.forgotPassword.fields.email.validation.maxLength'))
   })
@@ -117,30 +120,8 @@ export type ForgotPasswordData = z.infer<ReturnType<typeof createForgotPasswordS
 export type ResetPasswordData = z.infer<ReturnType<typeof createResetPasswordSchema>>
 
 // =============================================================================
-// INITIAL STATES
+// HELPER FUNCTIONS
 // =============================================================================
-
-export const initialLoginState: LoginData = {
-  email: '',
-  password: ''
-}
-
-export const initialRegisterState: RegisterData = {
-  email: '',
-  password: '',
-  confirmPassword: '',
-  name: ''
-}
-
-export const initialForgotPasswordState: ForgotPasswordData = {
-  email: ''
-}
-
-export const initialResetPasswordState: ResetPasswordData = {
-  token: '',
-  password: '',
-  confirmPassword: ''
-}
 
 /**
  * Helper function to convert Prisma User to PublicUser

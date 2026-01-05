@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { toPublicUser, initialLoginState, initialRegisterState } from '@@/shared/models/user'
+import { toPublicUser } from '@@/shared/models/user'
 
 describe('User Model', () => {
   describe('toPublicUser', () => {
@@ -42,24 +42,6 @@ describe('User Model', () => {
       expect(publicUser.emailVerifiedAt).toBe(null)
       expect(publicUser.createdAt).toBe(now)
       expect(publicUser.updatedAt).toBe(now)
-    })
-  })
-
-  describe('Initial States', () => {
-    it('should have correct initial login state', () => {
-      expect(initialLoginState).toEqual({
-        email: '',
-        password: ''
-      })
-    })
-
-    it('should have correct initial register state', () => {
-      expect(initialRegisterState).toEqual({
-        email: '',
-        password: '',
-        confirmPassword: '',
-        name: ''
-      })
     })
   })
 })

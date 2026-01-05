@@ -6,14 +6,14 @@
 
 import { z } from 'zod'
 
-import type { Post } from '@prisma/client'
+import type { Post } from '@@/generated/prisma/client'
 import type { PublicUser } from '@@/shared/models/user'
 import { TEXT_FIELD_LIMITS } from '@@/shared/constants/validation'
 
 // =============================================================================
 // DATABASE ENTITY
 // =============================================================================
-export type { Post } from '@prisma/client'
+export type { Post } from '@@/generated/prisma/client'
 
 /**
  * Post entity with author information (for display)
