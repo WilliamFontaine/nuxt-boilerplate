@@ -21,6 +21,7 @@ lerna-debug.log*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -49,6 +50,9 @@ test-results
 # Build
 dist
 build
+
+# Prisma generated client
+generated/prisma
 
 # Docker
 volumes/

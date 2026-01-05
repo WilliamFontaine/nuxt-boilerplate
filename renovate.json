@@ -1,14 +1,91 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "lockFileMaintenance": {
-    "enabled": true
-  },
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":preserveSemverRanges"
+  ],
+  "schedule": ["before 6am on Monday"],
+  "timezone": "UTC",
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {
+      "description": "Disable resolutions",
       "matchDepTypes": ["resolutions"],
       "enabled": false
+    },
+    {
+      "description": "Group Nuxt ecosystem updates",
+      "matchPackagePatterns": ["^@nuxt/", "^nuxt", "^@nuxtjs/"],
+      "groupName": "Nuxt ecosystem"
+    },
+    {
+      "description": "Group Pinia packages",
+      "matchPackagePatterns": ["^@pinia/", "^pinia"],
+      "groupName": "Pinia"
+    },
+    {
+      "description": "Group Prisma packages",
+      "matchPackagePatterns": ["^@prisma/", "^prisma$"],
+      "groupName": "Prisma"
+    },
+    {
+      "description": "Group icon packages",
+      "matchPackagePatterns": ["^@iconify-json/"],
+      "groupName": "Iconify icons",
+      "automerge": true
+    },
+    {
+      "description": "Group testing tools",
+      "matchPackagePatterns": ["^@playwright/", "^playwright", "^vitest$", "^@vitest/"],
+      "matchPackageNames": ["@nuxt/test-utils", "@vue/test-utils", "happy-dom"],
+      "groupName": "Testing tools"
+    },
+    {
+      "description": "Group linting and formatting tools",
+      "matchPackagePatterns": ["^eslint", "^prettier", "^@commitlint/"],
+      "matchPackageNames": ["husky"],
+      "groupName": "Linting and formatting",
+      "automerge": true,
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Group TypeScript packages",
+      "matchPackagePatterns": ["^typescript$", "^@types/"],
+      "matchPackageNames": ["tsx"],
+      "groupName": "TypeScript"
+    },
+    {
+      "description": "Auto-merge patch and minor updates for stable dependencies",
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true,
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Hold back major updates for manual review",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Auto-merge dev dependency patches",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
     }
   ],
-  "postUpdateOptions": ["pnpmDedupe"]
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
+    "schedule": ["at any time"]
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"]
+  }
 }
