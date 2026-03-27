@@ -48,7 +48,7 @@
     "@pinia/nuxt": "^0.11.3",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
-    "handlebars": "^4.7.8",
+    "handlebars": "^4.7.9",
     "nodemailer": "^7.0.12",
     "nuxt": "4.4.2",
     "nuxt-auth-utils": "^0.5.26",
