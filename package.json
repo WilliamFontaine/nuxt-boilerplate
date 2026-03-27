@@ -59,8 +59,8 @@
     "zod": "^4.2.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "20.4.4",
-    "@commitlint/config-conventional": "20.4.4",
+    "@commitlint/cli": "20.5.0",
+    "@commitlint/config-conventional": "20.5.0",
     "@iconify-json/lucide": "^1.2.82",
     "@iconify-json/openmoji": "^1.2.19",
     "@iconify-json/simple-icons": "^1.2.65",
