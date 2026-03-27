@@ -49,7 +49,7 @@
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "handlebars": "^4.7.8",
-    "nodemailer": "^7.0.12",
+    "nodemailer": "^8.0.4",
     "nuxt": "4.4.2",
     "nuxt-auth-utils": "^0.5.26",
     "nuxt-security": "^2.5.0",
