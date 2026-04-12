@@ -71,7 +71,7 @@
     "@types/nodemailer": "^7.0.4",
     "@types/pg": "^8.16.0",
     "@types/swagger-jsdoc": "^6.0.4",
-    "@vitest/coverage-v8": "4.1.0",
+    "@vitest/coverage-v8": "4.1.4",
     "@vue/test-utils": "2.4.6",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
@@ -84,7 +84,7 @@
     "swagger-jsdoc": "^6.2.8",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "vitest": "4.1.0"
+    "vitest": "4.1.4"
   },
   "lint-staged": {
     "*.{js,ts,vue}": [
