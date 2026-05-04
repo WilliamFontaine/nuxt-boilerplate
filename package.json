@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@nuxt/image": "2.0.0",
-    "@nuxt/ui": "4.6.1",
+    "@nuxt/ui": "4.7.1",
     "@nuxtjs/i18n": "^10.2.1",
     "@nuxtjs/seo": "^3.3.0",
     "@pinia/nuxt": "^0.11.3",
@@ -50,7 +50,7 @@
     "@prisma/client": "^7.2.0",
     "handlebars": "^4.7.8",
     "nodemailer": "^7.0.12",
-    "nuxt": "4.4.2",
+    "nuxt": "4.4.4",
     "nuxt-auth-utils": "^0.5.26",
     "nuxt-security": "^2.5.0",
     "pg": "^8.16.3",
