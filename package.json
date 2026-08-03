@@ -41,7 +41,7 @@
     "release:major": "pnpm version major && git push --follow-tags"
   },
   "dependencies": {
-    "@nuxt/image": "2.0.0",
+    "@nuxt/image": "2.1.0",
     "@nuxt/ui": "4.10.0",
     "@nuxtjs/i18n": "^10.2.1",
     "@nuxtjs/seo": "^3.3.0",
@@ -50,7 +50,7 @@
     "@prisma/client": "^7.2.0",
     "handlebars": "^4.7.8",
     "nodemailer": "^7.0.12",
-    "nuxt": "4.5.0",
+    "nuxt": "4.5.1",
     "nuxt-auth-utils": "^0.5.26",
     "nuxt-security": "^2.5.0",
     "pg": "^8.16.3",
