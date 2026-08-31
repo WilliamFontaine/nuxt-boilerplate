@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@nuxt/image": "2.1.0",
-    "@nuxt/ui": "4.10.0",
+    "@nuxt/ui": "4.11.0",
     "@nuxtjs/i18n": "^10.2.1",
     "@nuxtjs/seo": "^3.3.0",
     "@pinia/nuxt": "^0.11.3",
