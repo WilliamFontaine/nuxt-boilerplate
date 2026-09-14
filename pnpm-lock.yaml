@@ -12,8 +12,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(@types/node@25.0.3)(magic-string@1.2.3)(magicast@0.5.4)(oxc-parser@0.95.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rolldown@1.2.3)(unplugin@3.3.0(esbuild@0.28.0)(rolldown@1.2.3)(rollup@4.60.2)(vite@8.2.1(@types/node@25.0.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.9.0)))(unstorage@1.17.5(db0@0.3.4(@electric-sql/pglite@0.3.2)(mysql2@3.15.3))(ioredis@5.10.1))
       '@nuxt/ui':
-        specifier: 4.11.0
-        version: 4.11.0(8262938b08e930ad1f2dca770f84ad85)
+        specifier: 4.11.1
+        version: 4.11.1(8262938b08e930ad1f2dca770f84ad85)
       '@nuxtjs/i18n':
         specifier: ^10.2.1
         version: 10.2.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@vue/compiler-dom@3.5.40)(db0@0.3.4(@electric-sql/pglite@0.3.2)(mysql2@3.15.3))(eslint@9.39.2(jiti@2.7.0))(ioredis@5.10.1)(magicast@0.5.4)(rolldown@1.2.3)(rollup@4.60.2)(vue@3.5.40(typescript@5.9.3))
@@ -1701,8 +1701,8 @@ packages:
       vitest:
         optional: true
 
-  '@nuxt/ui@4.11.0':
-    resolution: {integrity: sha512-gDs67/fWk3kipcEV4Pc5h1VnZD1glfWfINmJU7s3qpkxxRTkfkPxnUszXG664whNWcoqucS1WgZ/rNjZa3pTMw==}
+  '@nuxt/ui@4.11.1':
+    resolution: {integrity: sha512-6/xTMQNO4bcVesaaiIorH65cZ3eu0xenH+gC2L/b9pfmeVc0aMGXDKpW2JxoVUlrlcHo/beoUTI0B164HcwweQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -5732,8 +5732,8 @@ packages:
   motion-utils@13.0.0:
     resolution: {integrity: sha512-7DnN7TmbLcYXcG4RVadXIihWlyuM9afoUww8Y5Agg431kGKiuL2/OMyP4mJ5wLz+pvN3t5ySClLOaVXJ+wekRQ==}
 
-  motion-v@2.4.0:
-    resolution: {integrity: sha512-kRDGMAZk3nvdjEO36Wo6pezSEIStGXGhVFiwo1QkUDsUg8mB5igjYPXyece8wtu2DrHhmFfA6Y1nOz07+5QH4A==}
+  motion-v@2.4.2:
+    resolution: {integrity: sha512-I3+pa3s1iCtk1hS7En7+ZYH1E165FQHAC4ZRjv6wsQPkd7wqyE+ooOPqal3FXQOCCYesmUs5BS6KLx4Fz83m+A==}
     peerDependencies:
       '@vueuse/core': '>=10.0.0'
       vue: '>=3.0.0'
@@ -6576,8 +6576,8 @@ packages:
     resolution: {integrity: sha512-NgRBy2Nx/bE+9F27nVHnqcN5HjyLmecqsqx2PJHu3/IEtADD4WuxuXIVExD5PoSDFVrl78dOonfcOe5O+5nbzQ==}
     hasBin: true
 
-  reka-ui@2.10.3:
-    resolution: {integrity: sha512-nJGZbwcha8AcP2wbnjodfzsciTKBqp1mIzepC9Pi2xDI/YK3++ej3vpJOSPyxqrkq1Oorj4K+BdJkbVCV6x6ag==}
+  reka-ui@2.10.4:
+    resolution: {integrity: sha512-kbS5GAbkHkYj0EVKAg5ZPEPndhBjeUFSa1Aq5m5ftQwyHnB1v5tw8X6fcwfKH/ry3StPXblMWM1DW82MVS71cw==}
     peerDependencies:
       vue: '>= 3.4.0'
 
@@ -9956,7 +9956,7 @@ snapshots:
       - magicast
       - typescript
 
-  '@nuxt/ui@4.11.0(8262938b08e930ad1f2dca770f84ad85)':
+  '@nuxt/ui@4.11.1(8262938b08e930ad1f2dca770f84ad85)':
     dependencies:
       '@floating-ui/dom': 1.8.0
       '@iconify/vue': 5.0.1(vue@3.5.40(typescript@5.9.3))
@@ -10006,10 +10006,10 @@ snapshots:
       knitwork: 1.3.0
       magic-string: 1.2.3
       mlly: 1.8.2
-      motion-v: 2.4.0(@vueuse/core@14.4.0(vue@3.5.40(typescript@5.9.3)))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vue@3.5.40(typescript@5.9.3))
+      motion-v: 2.4.2(@vueuse/core@14.4.0(vue@3.5.40(typescript@5.9.3)))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vue@3.5.40(typescript@5.9.3))
       ohash: 2.0.12
       pathe: 2.0.3
-      reka-ui: 2.10.3(vue@3.5.40(typescript@5.9.3))
+      reka-ui: 2.10.4(vue@3.5.40(typescript@5.9.3))
       scule: 1.3.0
       tailwind-merge: 3.6.0
       tailwind-variants: 3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.3)
@@ -10020,7 +10020,7 @@ snapshots:
       unplugin: 3.3.0(esbuild@0.28.0)(rolldown@1.2.3)(rollup@4.60.2)(vite@8.2.1(@types/node@25.0.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.9.0))
       unplugin-auto-import: 21.1.0(@nuxt/kit@4.5.2(magic-string@1.2.3)(magicast@0.5.4)(oxc-parser@0.95.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rolldown@1.2.3)(unplugin@3.3.0(esbuild@0.28.0)(rolldown@1.2.3)(rollup@4.60.2)(vite@8.2.1(@types/node@25.0.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.9.0))))(@vueuse/core@14.4.0(vue@3.5.40(typescript@5.9.3)))(esbuild@0.28.0)(oxc-parser@0.95.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rolldown@1.2.3)(rollup@4.60.2)(vite@8.2.1(@types/node@25.0.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.9.0))
       unplugin-vue-components: 32.1.0(@nuxt/kit@4.5.2(magic-string@1.2.3)(magicast@0.5.4)(oxc-parser@0.95.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2))(rolldown@1.2.3)(unplugin@3.3.0(esbuild@0.28.0)(rolldown@1.2.3)(rollup@4.60.2)(vite@8.2.1(@types/node@25.0.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.9.0))))(esbuild@0.28.0)(rolldown@1.2.3)(rollup@4.60.2)(vite@8.2.1(@types/node@25.0.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.44.1)(tsx@4.21.0)(yaml@2.9.0))(vue@3.5.40(typescript@5.9.3))
-      vaul-vue: 0.4.1(reka-ui@2.10.3(vue@3.5.40(typescript@5.9.3)))(vue@3.5.40(typescript@5.9.3))
+      vaul-vue: 0.4.1(reka-ui@2.10.4(vue@3.5.40(typescript@5.9.3)))(vue@3.5.40(typescript@5.9.3))
       vue-component-type-helpers: 3.3.11
     optionalDependencies:
       '@internationalized/date': 3.12.0
@@ -14189,7 +14189,7 @@ snapshots:
 
   motion-utils@13.0.0: {}
 
-  motion-v@2.4.0(@vueuse/core@14.4.0(vue@3.5.40(typescript@5.9.3)))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vue@3.5.40(typescript@5.9.3)):
+  motion-v@2.4.2(@vueuse/core@14.4.0(vue@3.5.40(typescript@5.9.3)))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vue@3.5.40(typescript@5.9.3)):
     dependencies:
       '@vueuse/core': 14.4.0(vue@3.5.40(typescript@5.9.3))
       framer-motion: 13.1.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -15478,7 +15478,7 @@ snapshots:
     dependencies:
       jsesc: 3.1.0
 
-  reka-ui@2.10.3(vue@3.5.40(typescript@5.9.3)):
+  reka-ui@2.10.4(vue@3.5.40(typescript@5.9.3)):
     dependencies:
       '@floating-ui/dom': 1.8.0
       '@floating-ui/vue': 1.1.9(vue@3.5.40(typescript@5.9.3))
@@ -16366,10 +16366,10 @@ snapshots:
 
   validator@13.15.26: {}
 
-  vaul-vue@0.4.1(reka-ui@2.10.3(vue@3.5.40(typescript@5.9.3)))(vue@3.5.40(typescript@5.9.3)):
+  vaul-vue@0.4.1(reka-ui@2.10.4(vue@3.5.40(typescript@5.9.3)))(vue@3.5.40(typescript@5.9.3)):
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.5.40(typescript@5.9.3))
-      reka-ui: 2.10.3(vue@3.5.40(typescript@5.9.3))
+      reka-ui: 2.10.4(vue@3.5.40(typescript@5.9.3))
       vue: 3.5.40(typescript@5.9.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
