@@ -72,7 +72,7 @@
     "@types/pg": "^8.16.0",
     "@types/swagger-jsdoc": "^6.0.4",
     "@vitest/coverage-v8": "4.1.12",
-    "@vue/test-utils": "2.5.1",
+    "@vue/test-utils": "2.6.0",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
     "happy-dom": "20.14.6",
